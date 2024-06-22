@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   ft_close_fd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chsassi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/16 23:53:11 by chsassi           #+#    #+#             */
-/*   Updated: 2024/06/18 14:33:10 by mgalmari         ###   ########.fr       */
+/*   Created: 2024/02/21 18:03:46 by lotrapan          #+#    #+#             */
+/*   Updated: 2024/02/21 18:14:00 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "ft_printf.h"
 
-void	ft_putchar(char c, int *length)
+#include "libft.h"
+
+void	ft_close_fd(int fd)
 {
-	write (1, &c, 1);
-	(*length)++;
+	while (fd < 256)
+	{
+		close(fd);
+		fd++;
+	}
 }
+/*Parameters
+	fd: The file descriptor to close.*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chsassi <chsassi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:42:47 by chsassi           #+#    #+#             */
-/*   Updated: 2024/06/18 14:33:54 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/06/22 16:55:30 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@
 # include "gnl.h"
 # include <stdio.h>
 # include <unistd.h>
-# include <string.h>
 # include <stdlib.h>
 # include <stddef.h>
 # include <stdbool.h>
 # include <fcntl.h>
 # include <strings.h>
+# include <limits.h>
+# include <stdint.h>
+
+# define FD_MAX 4096
 
 typedef struct s_list
 {
@@ -81,7 +84,7 @@ int		ft_isprint(int c);
  * @param c the character to be output.
  * @param fd the file descriptor.
  */
-void	ft_putchar_fd(char c, int fd);
+int		ft_putchar_fd(char c, int fd);
 
 /**
  * @brief Outputs a string followed by a newline character to the specified file descriptor.
@@ -139,7 +142,7 @@ char	*ft_itoa(int nb);
  * @param n the integer to be output.
  * @param fd the file descriptor.
  */
-void	ft_putnbr_fd(int n, int fd);
+int		ft_putnbr_fd(int n, int fd);
 
 /* LIST HANDLING */
 
@@ -382,7 +385,7 @@ int		ft_isint(char *str);
  * @param s a pointer to the string to be output.
  * @param fd the file descriptor.
  */
-void	ft_putstr_fd(char *s, int fd);
+int		ft_putstr_fd(char *s, int fd);
 
 /**
  * @brief Splits a string into an array of substrings based on a delimiter character.
@@ -496,5 +499,13 @@ char	*ft_strtrim(char const *s1, char const *set);
  * @return a pointer to the extracted substring. NULL if the allocation failed.
  */
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+
+int		ft_putnbrbase_wrapper_fd(uintptr_t nbr, char *base, int fd);
+
+int		ft_putunsigned_fd(unsigned int n, int fd);
+
+int		ft_puthex_fd(unsigned int num, char format, int fd);
+
+int		ft_putptr_fd(uintptr_t ptr, int fd);
 
 #endif

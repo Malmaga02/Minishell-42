@@ -3,51 +3,62 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chsassi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/16 17:36:24 by chsassi           #+#    #+#             */
-/*   Updated: 2024/06/18 14:33:10 by mgalmari         ###   ########.fr       */
+/*   Created: 2023/12/11 13:06:24 by lotrapan          #+#    #+#             */
+/*   Updated: 2024/02/21 18:14:40 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_printf(const char *str, ...)
+static int	ft_formats(va_list args, const char format, int fd)
 {
-	size_t	i;
-	va_list	ap;
-	int		length;
+	int	print_length;
 
-	i = 0;
-	va_start(ap, str);
-	if (!str)
-		return (0);
-	length = 0;
-	while (str[i])
-	{
-		if (str[i] != '%')
-			ft_putchar(str[i++], &length);
-		else if (str[i++] == '%')
-		{
-			ft_specifiers(str[i], ap, &length);
-			i++;
-		}
-	}
-	va_end(ap);
-	return (length);
+	print_length = 0;
+	if (format == 'c')
+		print_length += ft_putchar_fd(va_arg(args, int), fd);
+	else if (format == 's')
+		print_length += ft_putstr_fd(va_arg(args, char *), fd);
+	else if (format == 'd' || format == 'i')
+		print_length += ft_putnbr_fd(va_arg(args, int), fd);
+	else if (format == 'u')
+		print_length += ft_putunsigned_fd(va_arg(args, unsigned int), fd);
+	else if (format == 'x' || format == 'X')
+		print_length += ft_puthex_fd(va_arg(args, unsigned int), format, fd);
+	else if (format == 'p')
+		print_length += ft_putptr_fd(va_arg(args, uintptr_t), fd);
+	else if (format == '%')
+		print_length += ft_putchar_fd('%', fd);
+	return (print_length);
 }
 
-/* int main ()
+int	ft_printf(int fd, const char *str, ...)
 {
-	int c = 47648349;
-	void *ptr;
+	int		i;
+	va_list	args;
+	int		print_length;
 
-	ptr = NULL;
-	size_t i, j;
-
-	i = ft_printf("%X , %X , %X , %X , %X , 
-	%X , %X , %X", c, c, c, c ,c ,c ,c ,c);
-	j = ft_printf("%d\n, c");
-
-	printf("i :%zu j: %zu", i, j);
-} */
+	i = 0;
+	print_length = 0;
+	if (!(fd == -1) && !(fd >= FD_MAX))
+	{
+		if (!str)
+			return (-1);
+		va_start(args, str);
+		while (str && str[i])
+		{
+			if (str[i] == '%')
+			{
+				print_length += ft_formats(args, str[i + 1], fd);
+				i++;
+			}
+			else
+				print_length += ft_putchar_fd(str[i], fd);
+			i++;
+		}
+		va_end(args);
+	}
+	return (print_length);
+}

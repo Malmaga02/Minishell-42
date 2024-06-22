@@ -21,6 +21,7 @@ SRC =	./src/main.c \
 		./src/builtins/export.c \
 		./src/builtins/pwd.c \
 		./src/builtins/unset.c \
+		./src/builtins/cd.c \
 		./src/free_exit_handling/free_parsing.c \
 		./src/lst_input_handling/dll_input_addback.c \
 		./src/lst_input_handling/dll_input_addfront.c \
@@ -41,7 +42,10 @@ SRC =	./src/main.c \
 		./src/parsing/handlers/handling_char.c \
 		./src/parsing/handlers/handling_merge_flag.c \
 		./src/parsing/handlers/handling_token.c \
-		./src/parsing/handlers/trim_quotes.c
+		./src/parsing/handlers/trim_quotes.c \
+		./src/executor/exec.c \
+        ./src/executor/utils.c \
+		./src/executor/free.c \
 
 all: $(NAME)
 
@@ -65,3 +69,4 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
+.SILENT:

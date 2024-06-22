@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chsassi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:37:09 by chsassi           #+#    #+#             */
-/*   Updated: 2024/06/18 14:33:10 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/06/22 16:47:31 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_atoi_base(char *str, char *base)
 
 	n = 0;
 	r = 0;
-	j = strlen(str);
+	j = ft_strlen(str);
 	while (str[r] != '\0')
 	{
 		q = 0;

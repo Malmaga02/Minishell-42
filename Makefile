@@ -14,13 +14,14 @@ BLUE=\033[0;34m
 YELLOW=\033[0;33m
 RESET=\033[0m
 
-SRC =	./src/main.c \
+SRC =	./main.c \
 		./src/builtins/echo.c \
 		./src/builtins/env.c \
 		./src/builtins/exit.c \
 		./src/builtins/export.c \
 		./src/builtins/pwd.c \
 		./src/builtins/unset.c \
+		./src/builtins/cd.c \
 		./src/free_exit_handling/free_parsing.c \
 		./src/lst_input_handling/dll_input_addback.c \
 		./src/lst_input_handling/dll_input_addfront.c \
@@ -33,15 +34,20 @@ SRC =	./src/main.c \
 		./src/parsing/expansion/get_env.c \
 		./src/parsing/expansion/handling_env.c \
 		./src/parsing/get_info/get_all_info.c \
+		./src/parsing/get_info/get_args_mtx.c \
 		./src/parsing/get_info/get_arr_token.c \
-		./src/parsing/get_info/get_final_cmd_line.c \
 		./src/parsing/get_info/get_input_complete.c \
-		./src/parsing/get_info/get_merged_cmdline.c \
+		./src/parsing/get_info/get_merged_line.c \
 		./src/parsing/get_info/get_mtx_input.c \
 		./src/parsing/handlers/handling_char.c \
 		./src/parsing/handlers/handling_merge_flag.c \
+		./src/parsing/handlers/handling_mtx_and_lists.c \
+		./src/parsing/handlers/handling_quotes_as_word_token.c \
 		./src/parsing/handlers/handling_token.c \
-		./src/parsing/handlers/trim_quotes.c
+		./src/parsing/handlers/trim_quotes.c \
+		./src/executor/exec.c \
+        ./src/executor/utils.c \
+		./src/executor/free.c
 
 all: $(NAME)
 
@@ -65,3 +71,4 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
+.SILENT:

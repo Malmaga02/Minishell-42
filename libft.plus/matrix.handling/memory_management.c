@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_management.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chsassi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:05:40 by chsassi           #+#    #+#             */
-/*   Updated: 2024/06/18 14:33:10 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/06/22 16:55:51 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ char	**mtx_alloc(int rows, int cols)
 	i = 0;
 	mtx = ft_calloc(rows, sizeof(char *));
 	if (!mtx)
-		ft_printf("Error during row allocation.\n");
+		ft_printf(2, "Error during row allocation.\n");
 	while (i < rows)
 	{
 		mtx[i] = ft_calloc(cols, sizeof(char));
 		if (!mtx[i])
-			ft_printf("Error during col allocation.\n");
+			ft_printf(2, "Error during col allocation.\n");
 		i++;
 	}
 	return (mtx);

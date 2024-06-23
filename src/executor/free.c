@@ -1,20 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/11 13:03:11 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/05/29 13:59:14 by lotrapan         ###   ########.fr       */
+/*   Created: 2024/06/12 16:38:02 by lotrapan          #+#    #+#             */
+/*   Updated: 2024/06/17 18:58:26 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "minishell.h"
 
-# include "libft.h"
+static void	clear_list(t_list *envp)
+{
+	t_list	*tmp;
 
-int		ft_printf(int fd, const char *format, ...);
+	tmp = envp;
+	if (!tmp->content)
+	{
+		printf("aaaaaaa\n");
+		return ;
+	}
+	while (tmp)
+	{
+		free(tmp->content);
+		tmp = tmp->next;
+	}
+}
 
-#endif
+void	cleanup(t_all *shell)
+{
+	clear_list(shell->envp);
+}

@@ -33,19 +33,16 @@ SRC = ./char.handling/ft_isalnum.c \
 	./conversions/ft_atoi_base.c \
 	./conversions/ft_atol.c \
 	./conversions/ft_itoa.c \
-	./conversions/ft_putnbr_fd.c \
+	./ft_fd/ft_putchar_fd.c \
+    ./ft_fd/ft_putendl_fd.c \
+	./ft_fd/ft_putnbr_fd.c \
+	./ft_fd/ft_putstr_fd.c \
+	./ft_fd/ft_close_fd.c \
+	./ft_fd/ft_puthex_fd.c \
+    ./ft_fd/ft_putnbrbase_fd.c \
+    ./ft_fd/ft_putunsigned_fd.c \
+    ./ft_fd/ft_putptr_fd.c \
 	./ft_printf/ft_printf.c \
-	./ft_printf/ft_putaddr.c \
-	./ft_printf/ft_putchar.c \
-	./ft_printf/ft_putchar_fd.c \
-	./ft_printf/ft_putendl_fd.c \
-	./ft_printf/ft_putnbr_base.c \
-	./ft_printf/ft_putnbr_base_unsigned.c \
-	./ft_printf/ft_putnbr_base_unsigned_long.c \
-	./ft_printf/ft_putstr.c \
-	./ft_printf/ft_putstr_fd.c \
-	./ft_printf/ft_specifiers.c \
-	./ft_printf/ft_strlen.c \
 	./get_next_line/gnl.c \
 	./get_next_line/gnl_utils.c \
 	./list.handling/dll/dll_add_back.c \

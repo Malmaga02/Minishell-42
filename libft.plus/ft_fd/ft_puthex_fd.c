@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_puthex_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/11 13:03:11 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/05/29 13:59:14 by lotrapan         ###   ########.fr       */
+/*   Created: 2023/12/11 13:05:33 by lotrapan          #+#    #+#             */
+/*   Updated: 2024/02/21 18:14:40 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "libft.h"
 
-# include "libft.h"
+int	ft_puthex_fd(unsigned int num, char format, int fd)
+{
+	char	*base;
+	int		print_length;
 
-int		ft_printf(int fd, const char *format, ...);
-
-#endif
+	print_length = 0;
+	if (format == 'X')
+		base = "0123456789ABCDEF";
+	else
+		base = "0123456789abcdef";
+	if (num == 0)
+		print_length += ft_putchar_fd('0', fd);
+	else
+		print_length += ft_putnbrbase_wrapper_fd(num, base, fd);
+	return (print_length);
+}

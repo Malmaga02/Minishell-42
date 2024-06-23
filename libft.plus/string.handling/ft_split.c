@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chsassi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 16:45:01 by chsassi           #+#    #+#             */
-/*   Updated: 2024/06/18 14:33:10 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/06/23 20:52:53 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	free_matrix(char **mtx)
 	mtx = NULL;
 }
 
-char	**new_string(char **mtx, const char *s, char c)
+static char	**new_string(char **mtx, const char *s, char c)
 {
 	size_t	i;
 	size_t	len;

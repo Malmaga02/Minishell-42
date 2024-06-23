@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-/* int	main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
 	t_all		all_info;
 	char		*line;
@@ -19,6 +19,7 @@
 			continue ;
 		}
 		all_info = get_input_complete(all_info, line, envp);
+		print_mtx(all_info.cmd_line->args);
 		//gestione errori durante la get_input_complete da fare
 		if (!all_info.cmd_line)
 			continue ;
@@ -26,7 +27,7 @@
 		set_clear_all(&all_info);
 	}
 	return (0);
-} */
+}
 
 
 /* 

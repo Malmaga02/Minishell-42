@@ -22,7 +22,7 @@ int	main(int ac, char **av, char **envp)
 		//gestione errori durante la get_input_complete da fare
 		if (!all_info.cmd_line)
 			continue ;
-		// esecuzione
+		exec_main(all_info);
 		set_clear_all(&all_info);
 	}
 	return (0);

@@ -26,21 +26,23 @@ static int	unset_syntax(char *str)
 	return (1);
 }
 
-static void	del_env_variable(t_list *envp, char *word)
+static void	del_env_variable(t_list **envp, char *word)
 {
 	char	*str;
 	t_list	*tmp;
 
 	str = NULL;
-	tmp = envp;
+	tmp = *envp;
 	while (tmp)
 	{
 		str = (char *)tmp->content;
 		if (ft_strcmp(str, word) == 0)
 		{
-			ft_lstdelone(tmp, free);
-			tmp = tmp->next;
+			*envp = tmp->next;
+			free(tmp);
 		}
+		else
+			tmp = *envp;
 		tmp = tmp->next;
 	}
 	return ;
@@ -81,7 +83,7 @@ int	builtin_unset(t_input *cmd, t_list *envp)
 	cmd = cmd->next;
 	while (cmd && cmd->token == ARG)
 	{
-		del_env_variable(envp, cmd->content);
+		del_env_variable(&envp, cmd->content);
 		cmd = cmd->next;
 	}
 	return (0);

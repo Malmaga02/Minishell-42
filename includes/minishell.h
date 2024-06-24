@@ -52,7 +52,6 @@ typedef struct	s_all
 {
 	t_list		*envp;
 	t_input		*cmd_line;
-	int			exit_code;
 }	t_all;
 
 // --- Execution --- //

@@ -19,6 +19,7 @@
 			continue ;
 		}
 		all_info = get_input_complete(all_info, line, envp);
+		print_mtx(all_info.cmd_line->args);
 		//gestione errori durante la get_input_complete da fare
 		if (!all_info.cmd_line)
 			continue ;

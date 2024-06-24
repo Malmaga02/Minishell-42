@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:02:57 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/18 19:59:13 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/23 16:18:49 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	builtin_echo(t_input *cmd_line)
 			break ;
 		tmp = tmp->next;
 	}
-	print_mtx(tmp->args);
+	print_echo(tmp);
 	if (!flag)
 		ft_printf(1, "\n");
 	return ;

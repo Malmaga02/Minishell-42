@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:05 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/22 16:58:09 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:26:55 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,28 @@ static int syntax_check(char **av)
 	while (av[j])
 	{
 		if ((ft_isdigit(av[j][0])) || (!unset_syntax(av[j])))
-			return (print_err(av[j]),0);
+			return (print_err(av[j]), 0);
 		while (av[j] && av[j][i])
 		{
 			if (!ft_isalnum(av[j][i]) && av[j][i] != '_')
-				return (print_err(av[j]),0);
+				return (print_err(av[j]), 0);
 			i++;
 		}
 	}
 	return (1);
 
 }
-void	builtin_unset(t_all *shell, t_input *cmd)
+int	builtin_unset(t_input *cmd, t_list *envp)
 {
 	if ((cmd->next && cmd->next->token != ARG) || (!cmd->next))
-		return ;
-	if (!syntax_check(cmd->args))
-		return ;
+		return (0);
+	if (! syntax_check(cmd->args))
+		return (1);
 	cmd = cmd->next;
 	while (cmd->token == ARG)
 	{
-		del_word_in_env(shell->envp, cmd->content);
+		del_word_in_env(envp, cmd->content);
 		cmd = cmd->next;
 	}
-	return ;
+	return (0);
 }

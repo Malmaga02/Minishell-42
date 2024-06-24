@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/18 19:20:07 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:28:14 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,10 @@ void	exec_builtin(t_all *shell)
 		builtin_pwd();
 	if (ft_strncmp(shell->cmd_line->content, "cd", 2) == 0)
 		builtin_cd(shell, shell->cmd_line);
+	if (ft_strncmp(shell->cmd_line->content, "unset", 5) == 0)
+		builtin_unset(shell->cmd_line, shell->envp);
+	if (ft_strncmp(shell->cmd_line->content, "export", 6) == 0)
+		builtin_export(shell->cmd_line, shell->envp);
 }
 
 bool	is_builtin(t_all *shell)
@@ -82,6 +86,10 @@ bool	is_builtin(t_all *shell)
 	if (ft_strncmp(shell->cmd_line->content, "pwd", 3) == 0)
 		return (true);
 	if (ft_strncmp(shell->cmd_line->content, "cd", 2) == 0)
+		return (true);
+	if (ft_strncmp(shell->cmd_line->content, "unset", 5) == 0)
+		return (true);
+	if (ft_strncmp(shell->cmd_line->content, "export", 6) == 0)
 		return (true);
 	return (false);
 }

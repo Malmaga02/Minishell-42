@@ -84,7 +84,7 @@ t_all	get_all_info(t_all all_info, char *line, char **envp)
 	if (!parsing.size)
 		return (free_parsing(&parsing), (t_all){0});
 	all_info.cmd_line = create_list_from_input(parsing);
-	if (envp)
+	if (!all_info.envp)
 		all_info.envp = create_list_from_envp(envp);
 	if (!all_info.cmd_line || !all_info.envp)
 		return ((t_all){0});

@@ -7,7 +7,7 @@ t_all	assign_quote_as_words_token(t_all all_info)
 	tmp = all_info.cmd_line;
 	while (tmp)
 	{
-		if (tmp->token == D_QUOTE)
+		if (tmp->token == D_QUOTE || tmp->token == S_QUOTE)
 		{
 			if (!tmp->prev)
 				tmp->token = get_word_token(0);

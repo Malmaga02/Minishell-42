@@ -23,7 +23,7 @@ t_parsing	parse_input(t_parsing parsing)
 	parsing.arr_token = get_arr_token(parsing.mtx_from_input, parsing.size);
 	if (!parsing.arr_token)
 		return ((t_parsing){0});
-	return (parsing); 
+	return (parsing);
 }
 
 t_input	*create_list_from_input(t_parsing parsing)

@@ -54,7 +54,7 @@ int	first_token_check(int *arr_token, int size)
 	i = 0;
 	if (!arr_token || !arr_token[i])
 		return (0);
-	else if (arr_token[i] == PIPE)
+	else if (i < size && arr_token[i] == PIPE)
 		return (0);
 	while (i < size && arr_token[i])
 	{
@@ -65,7 +65,8 @@ int	first_token_check(int *arr_token, int size)
 		arr_token[i] == R_OUTPUT || arr_token[i] == D_RED_INPUT
 		|| arr_token[i] == D_RED_OUTPUT))
 		{
-			if (i++ > size || arr_token[i++] != WORDS)
+			if (i + 1 >= size || 
+			(i + 1 < size && !check_if_word_after_operator(arr_token[i + 1])))
 				return (0);
 		}
 		i++;

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
+/* int	main(int ac, char **av, char **envp)
 {
 	t_all		all_info;
 	char		*line;
@@ -26,10 +26,10 @@ int	main(int ac, char **av, char **envp)
 		set_clear_all(&all_info);
 	}
 	return (0);
-}
+} */
 
 
-/* 
+
 // testing parsing
 char *enum_to_str(int enume)
 {
@@ -86,13 +86,9 @@ int	main(int ac, char **av, char **envp)
 		{
 			printf("[%s] is a %s\n", all_info.cmd_line->content, enum_to_str(all_info.cmd_line->token));
 			i = 0;
-			while (all_info.cmd_line->args && all_info.cmd_line->args[i])
-			{
-				printf("arg[%d]: %s\n", i, all_info.cmd_line->args[i]);
-				i++;
-			}
+			print_mtx(all_info.cmd_line->args);
 			all_info.cmd_line = all_info.cmd_line->next;
 		}
 	}
 	return (0);
-} */
+}

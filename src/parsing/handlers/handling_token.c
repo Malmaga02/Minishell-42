@@ -32,7 +32,14 @@ int	count_rows_args(char **mtx_cmdline, int *arr_token)
 	i = 0;
 	res = 1;
 	size = count_rows(mtx_cmdline);
-	while (i++ < size && arr_token[i] == ARG)
+	while (i++ < size - 1 && arr_token[i] == ARG)
 		res++;
 	return (res);
+}
+
+int	check_if_word_after_operator(int token)
+{
+	if (token == WORDS || token == D_QUOTE || token == S_QUOTE)
+		return (1);
+	return (0);
 }

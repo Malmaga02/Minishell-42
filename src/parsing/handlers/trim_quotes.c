@@ -15,16 +15,20 @@
 char	*trim_quotes(char *content)
 {
 	char	*new_content;
-	char	to_trim;
+	char	*to_trim;
 	int		len;
 
 	len = ft_strlen(content) - 2;
-	if (len < 0)
+	if (len < 0 || !content)
 		return (NULL);
 	else if (len == 0)
 		return (ft_strdup(""));
-	to_trim = content[0];
-	new_content = ft_strtrim(content, &to_trim);
+	to_trim = ft_calloc(2, sizeof(char));
+	if (!to_trim)
+		return (NULL);
+	to_trim[0] = content[0];
+	new_content = ft_strtrim(content, to_trim);
+	free(to_trim);
 	return (new_content);
 }
 

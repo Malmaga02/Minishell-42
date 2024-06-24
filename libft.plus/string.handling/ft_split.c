@@ -58,7 +58,7 @@ static void	free_matrix(char **mtx)
 	mtx = NULL;
 }
 
-char	**new_string(char **mtx, const char *s, char c)
+static char	**new_string(char **mtx, const char *s, char c)
 {
 	size_t	i;
 	size_t	len;

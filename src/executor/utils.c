@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 21:51:31 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/22 16:59:56 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:32:47 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**lst_to_mtx(void *lst, bool is_input) // cambiare fun che accetta sia t_in
 }
 
 
-static size_t	ft_strlcpy_skip(char *dst, const char *src, size_t size, int skip)
+/* static size_t	ft_strlcpy_skip(char *dst, const char *src, size_t size, int skip)
 {
 	size_t	i;
 
@@ -71,27 +71,30 @@ static size_t	ft_strlcpy_skip(char *dst, const char *src, size_t size, int skip)
 	}
 	dst[i] = '\0';
 	return ((size_t)ft_strlen(src));
-}
+} */
 
-void	change_env_variable(t_list *envp, char *var, char *new)
+t_list	*change_env_variable(t_list *envp, char *var, char *new)
 {
 	t_list	*tmp;
-	int		len;
+	int		len_var;
+	int		len_new;
 
 	tmp = envp;
-	len = ft_strlen(var);
-	if (!new)
-		return ;
+	len_var = ft_strlen(var);
+	len_new = ft_strlen(new);
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->content, var, len) == 0)
+		if (ft_strncmp(tmp->content, var, len_var) == 0)
 		{
-			ft_strlcpy_skip(tmp->content, new, ft_strlen(new) + 1, len + 1);
-			return ;
+			free(tmp->content);
+			tmp->content = malloc(sizeof(char) * (len_var + len_new + 1));
+			ft_strlcpy(tmp->content, var, len_var + 1);
+			ft_strlcpy(tmp->content + len_var, new, len_new + 1);
+			return (envp);
 		}
 		tmp = tmp->next;
 	}
-	return ;
+	return (envp);
 }
 
 void	print_mtx(char **mtx)
@@ -104,4 +107,20 @@ void	print_mtx(char **mtx)
 		printf("%s\n", mtx[i]);
 		i++;
 	}
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t	i;
+
+	i = 0;
+	if (!s1 || !s2)
+		return (1);
+	while ((s1 && s2) && (s1[i] && s2[i]))
+	{
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		i++;
+	}
+	return (s1[i] - s2[i]);
 }

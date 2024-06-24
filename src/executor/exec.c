@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/23 17:28:14 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:38:41 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,37 +59,37 @@ char	*get_path(t_all *shell, char *cmd)
 
 void	exec_builtin(t_all *shell)
 {
-	if (ft_strncmp(shell->cmd_line->content, "exit", 4) == 0)
+	if (ft_strcmp(shell->cmd_line->content, "exit") == 0)
 		builtin_exit(shell, shell->cmd_line);
-	if (ft_strncmp(shell->cmd_line->content, "echo", 4) == 0)
+	if (ft_strcmp(shell->cmd_line->content, "echo") == 0)
 		builtin_echo(shell->cmd_line);
-	if (ft_strncmp(shell->cmd_line->content, "env", 3) == 0)
-		builtin_env(shell->cmd_line, shell->envp);
-	if (ft_strncmp(shell->cmd_line->content, "pwd", 3) == 0)
+	if (ft_strcmp(shell->cmd_line->content, "env") == 0)
+		builtin_env(shell);
+	if (ft_strcmp(shell->cmd_line->content, "pwd") == 0)
 		builtin_pwd();
-	if (ft_strncmp(shell->cmd_line->content, "cd", 2) == 0)
+	if (ft_strcmp(shell->cmd_line->content, "cd") == 0)
 		builtin_cd(shell, shell->cmd_line);
-	if (ft_strncmp(shell->cmd_line->content, "unset", 5) == 0)
+	if (ft_strcmp(shell->cmd_line->content, "unset") == 0)
 		builtin_unset(shell->cmd_line, shell->envp);
-	if (ft_strncmp(shell->cmd_line->content, "export", 6) == 0)
+	if (ft_strcmp(shell->cmd_line->content, "export") == 0)
 		builtin_export(shell->cmd_line, shell->envp);
 }
 
 bool	is_builtin(t_all *shell)
 {
-	if (ft_strncmp(shell->cmd_line->content, "exit", 4) == 0)
+	if (ft_strcmp(shell->cmd_line->content, "exit") == 0)
 		return (true);
-	if (ft_strncmp(shell->cmd_line->content, "echo", 4) == 0)
+	if (ft_strcmp(shell->cmd_line->content, "echo") == 0)
 		return (true);
-	if (ft_strncmp(shell->cmd_line->content, "env", 3) == 0)
+	if (ft_strcmp(shell->cmd_line->content, "env") == 0)
 		return (true);
-	if (ft_strncmp(shell->cmd_line->content, "pwd", 3) == 0)
+	if (ft_strcmp(shell->cmd_line->content, "pwd") == 0)
 		return (true);
-	if (ft_strncmp(shell->cmd_line->content, "cd", 2) == 0)
+	if (ft_strcmp(shell->cmd_line->content, "cd") == 0)
 		return (true);
-	if (ft_strncmp(shell->cmd_line->content, "unset", 5) == 0)
+	if (ft_strcmp(shell->cmd_line->content, "unset") == 0)
 		return (true);
-	if (ft_strncmp(shell->cmd_line->content, "export", 6) == 0)
+	if (ft_strcmp(shell->cmd_line->content, "export") == 0)
 		return (true);
 	return (false);
 }
@@ -104,7 +104,7 @@ void	exec_command(t_all *shell, t_input *cmd_line)
 	pid = fork();
 	if (pid == 0)
 	{
-		cmd = lst_to_mtx(cmd_line, true); //da gestire in futuro(pipe, redirect, ...)
+		cmd = cmd_line->args;
 		envp = lst_to_mtx(shell->envp, false);
 		path = get_path(shell, cmd[0]);
 		if (execve(path, cmd, envp) == -1)
@@ -120,7 +120,9 @@ void	exec_command(t_all *shell, t_input *cmd_line)
 int	exec_main(t_all *shell)
 {
 	if (is_builtin(shell) /*&& no pipe*/)
+	{
 		exec_builtin(shell);
+	}
 	else if (!is_builtin(shell))
 		exec_command(shell, shell->cmd_line);
 	return (1);

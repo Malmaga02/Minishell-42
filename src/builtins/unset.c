@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:05 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/23 17:26:55 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/24 18:24:10 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,22 @@ static int	unset_syntax(char *str)
 	return (1);
 }
 
-static void	del_word_in_env(t_list *envp, char *word)
+static void	del_env_variable(t_list *envp, char *word)
 {
-	char *str;
+	char	*str;
+	t_list	*tmp;
 
-	while (envp)
+	str = NULL;
+	tmp = envp;
+	while (tmp)
 	{
-		str = (char *)envp->content;
-		if (ft_strncmp(str, word, ft_strlen(word)) == 0)
-			ft_lstdelone(envp, free);
-		else
-			envp = envp->next;
+		str = (char *)tmp->content;
+		if (ft_strcmp(str, word) == 0)
+		{
+			ft_lstdelone(tmp, free);
+			tmp = tmp->next;
+		}
+		tmp = tmp->next;
 	}
 	return ;
 }
@@ -62,6 +67,7 @@ static int syntax_check(char **av)
 				return (print_err(av[j]), 0);
 			i++;
 		}
+		j++;
 	}
 	return (1);
 
@@ -70,12 +76,12 @@ int	builtin_unset(t_input *cmd, t_list *envp)
 {
 	if ((cmd->next && cmd->next->token != ARG) || (!cmd->next))
 		return (0);
-	if (! syntax_check(cmd->args))
+	if (!syntax_check(cmd->args))
 		return (1);
 	cmd = cmd->next;
-	while (cmd->token == ARG)
+	while (cmd && cmd->token == ARG)
 	{
-		del_word_in_env(envp, cmd->content);
+		del_env_variable(envp, cmd->content);
 		cmd = cmd->next;
 	}
 	return (0);

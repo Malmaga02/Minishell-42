@@ -19,5 +19,6 @@ char    **parsing_list_in_mtx(t_input *cmd_line)
         i++;
         cmd_line = cmd_line->next;
     }
+    mtx_input[i] = NULL;
     return (mtx_input);
 }

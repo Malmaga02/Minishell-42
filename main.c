@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-/* int	main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
 	t_all		all_info;
 	char		*line;
@@ -24,14 +24,14 @@
 		if (!all_info.cmd_line)
 			continue ;
 		// esecuzione
-		set_clear_all(&all_info);
+		close_all(&all_info);	
 	}
 	return (0);
-} */
+}
 
 
 
-// testing parsing
+/* // testing parsing
 char *enum_to_str(int enume)
 {
 	if (enume == CMD)
@@ -92,4 +92,4 @@ int	main(int ac, char **av, char **envp)
 		}
 	}
 	return (0);
-}
+} */

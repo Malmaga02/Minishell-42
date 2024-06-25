@@ -2,26 +2,57 @@
 
 void	free_parsing(t_parsing *parsing)
 {
-	free(parsing->arr_token);
-	free_mtx(parsing->mtx_from_input);
+	if (parsing && parsing->arr_token)
+	{
+		free(parsing->arr_token);
+		parsing->arr_token = NULL;
+	}
+	if (parsing && parsing->mtx_from_input)
+	{
+		free_mtx(parsing->mtx_from_input);
+		parsing->mtx_from_input = NULL;
+	}
+	if (parsing && parsing->input)
+	{
+		free(parsing->input);
+		parsing->input = NULL;
+	}
+	if (parsing)
+	{
+		free(parsing);
+		parsing = NULL;
+	}
 }
-
-//free per t_builtin da definire
 
 void	set_clear_all(t_all *all)
 {
-	dll_input_clear(&(all->cmd_line));
+	if (all && all->cmd_line)
+	{
+		dll_input_clear(&(all->cmd_line));
+		all->cmd_line = NULL;
+	}
 }
 
 void	free_all(t_all *all)
 {
-	ft_lstclear(&(all->envp), free);
-	dll_input_clear(&(all->cmd_line));
-	//free_builtin(all->ptr);
+	if (all && all->envp)
+	{
+		ft_lstclear(&(all->envp), free);
+		all->envp = NULL;
+	}
+	if (all && all->cmd_line)
+	{
+		dll_input_clear(&(all->cmd_line));
+		all->cmd_line = NULL;
+	}
 }
 
 void	close_all(t_all *all)
 {
-	free_all(all);
+	if (all)
+	{
+		free_all(all);
+		all = NULL;
+	}
 	exit(0);
 }

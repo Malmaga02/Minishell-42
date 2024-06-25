@@ -40,6 +40,7 @@ typedef struct	s_parsing
 	char	**mtx_from_input;
 	int		*arr_token;
 	int		size;
+	int		need_free;
 }	t_parsing;
 
 // --- Parsing --- //
@@ -66,8 +67,8 @@ char		*find_expansion_env(t_list *envp, char *name_env);
 
 // -Get_info- //
 // Get_all_info
-t_parsing	parse_input(t_parsing parsing);
-t_input		*create_list_from_input(t_parsing parsing);
+t_parsing	*parse_input(t_parsing *parsing);
+t_input		*create_list_from_input(t_parsing *parsing);
 t_list		*create_list_from_envp(char **envp);
 t_all		get_all_info(t_all all_info, char *line, char **envp);
 
@@ -98,7 +99,7 @@ char		*get_merged_line(t_input *cmd_line, int *merge_arr);
 int			count_words(char *s);
 int			word_len(char *s);
 char		**new_string(char **mtx, char *s);
-char		**get_mtx_from_input(t_parsing parsing);
+char		**get_mtx_from_input(t_parsing *parsing);
 
 // -Handlers- //
 // Handling_char
@@ -116,7 +117,7 @@ int			find_merge_flag_dollar_sign(char *input, int i);
 int			find_which_merge_flag(char *input, int i, int token);
 t_input		*switch_merge_flag(t_input *cmd_line, int token_nbr, int which_merge);
 t_input		*handle_merge_flag(char *input, t_input *cmd_line, int token_nbr, int i);
-t_input		*check_if_need_merge(t_parsing parsing, t_input *cmd_line);
+t_input		*check_if_need_merge(t_parsing *parsing, t_input *cmd_line);
 
 // Handling_mtx_and_lists
 char    	**parsing_list_in_mtx(t_input *cmd_line);
@@ -127,7 +128,7 @@ t_all		assign_quote_as_words_token(t_all all_info);
 // Handling_token
 int			check_if_operator(int token);
 int			count_rows_args(char **mtx_cmdline, int *arr_token);
-int	check_if_word_after_operator(int token);
+int			check_if_word_after_operator(int token);
 
 // Trim_quotes
 char		*trim_quotes(char *content);

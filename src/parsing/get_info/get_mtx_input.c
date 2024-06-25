@@ -84,17 +84,17 @@ char	**new_string(char **mtx, char *s)
 	return (mtx);
 }
 
-char	**get_mtx_from_input(t_parsing parsing)
+char	**get_mtx_from_input(t_parsing *parsing)
 {
 	char	**res;
 	int		words;
 
-	words = count_words(parsing.input);
+	words = count_words(parsing->input);
 	if (words == -1)
 		return (NULL);
 	res = ft_calloc((words + 1), sizeof(char *));
-	if (!res || !parsing.input)
+	if (!res || !parsing->input)
 		return (NULL);
-	res = new_string (res, parsing.input);
+	res = new_string (res, parsing->input);
 	return (res);
 }

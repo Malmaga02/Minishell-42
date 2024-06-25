@@ -61,7 +61,7 @@ $(NAME): libft $(SRC)
 RM = rm -f
 
 valgrind: $(NAME)
-	valgrind --leak-check=full --show-reachable=yes --suppressions=readline.supp ./$(NAME)
+	valgrind --leak-check=full -s --show-reachable=yes --suppressions=readline.supp ./$(NAME)
 
 clean:
 	make clean -C $(LIBFT_DIR)

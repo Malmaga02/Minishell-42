@@ -12,21 +12,24 @@
 
 #include "minishell.h"
 
-t_parsing	parse_input(t_parsing parsing)
+t_parsing	*parse_input(t_parsing *parsing)
 {
 	int		i;
+
 	i = 0;
-	parsing.mtx_from_input = get_mtx_from_input(parsing);
-	if (!parsing.mtx_from_input)
-		return ((t_parsing){0});
-	parsing.size = count_rows(parsing. mtx_from_input);
-	parsing.arr_token = get_arr_token(parsing.mtx_from_input, parsing.size);
-	if (!parsing.arr_token)
-		return ((t_parsing){0});
+	if (!parsing)
+		return (NULL);
+	parsing->mtx_from_input = get_mtx_from_input(parsing);
+	if (!parsing->mtx_from_input)
+		return (NULL);
+	parsing->size = count_rows(parsing->mtx_from_input);
+	parsing->arr_token = get_arr_token(parsing->mtx_from_input, parsing->size);
+	if (!parsing->arr_token)
+		return (NULL);
 	return (parsing);
 }
 
-t_input	*create_list_from_input(t_parsing parsing)
+t_input	*create_list_from_input(t_parsing *parsing)
 {
 	t_input	*cmd_line;
 	t_input	*node;
@@ -34,15 +37,15 @@ t_input	*create_list_from_input(t_parsing parsing)
 	int		i;
 
 	i = 0;
-	size = parsing.size;
+	size = parsing->size;
 	cmd_line = NULL;
 	node = NULL;
 	while (i < size)
 	{
-		node = dll_input_new(parsing.mtx_from_input[i]);
+		node = dll_input_new(ft_strdup(parsing->mtx_from_input[i]));
 		if (!node)
 			return (dll_input_clear(&cmd_line), NULL);
-		node->token = parsing.arr_token[i];
+		node->token = parsing->arr_token[i];
 		dll_input_addback(&cmd_line, node);
 		i++;
 	}
@@ -76,17 +79,24 @@ t_list	*create_list_from_envp(char **envp)
 
 t_all	get_all_info(t_all all_info, char *line, char **envp)
 {
-	t_parsing	parsing;
+	t_parsing	*parsing;
 
-	parsing = (t_parsing){0};
-	parsing.input = line;
+	if (!line)
+		return ((t_all){0});
+	parsing = (t_parsing *)malloc(sizeof(t_parsing));
+	if (!parsing)
+		return ((t_all){0});
+	*parsing = (t_parsing){0};
+	parsing->input = ft_strdup(line);
+	if (!parsing->input)
+		return (free_parsing(parsing), (t_all){0});
 	parsing = parse_input(parsing);
-	if (!parsing.size)
-		return (free_parsing(&parsing), (t_all){0});
+	if (!parsing)
+		return (free_parsing(parsing), (t_all){0});
 	all_info.cmd_line = create_list_from_input(parsing);
 	if (!all_info.envp)
 		all_info.envp = create_list_from_envp(envp);
 	if (!all_info.cmd_line || !all_info.envp)
-		return ((t_all){0});
-	return (all_info);
+		return (free_parsing(parsing), (t_all){0});
+	return (free_parsing(parsing), all_info);
 }

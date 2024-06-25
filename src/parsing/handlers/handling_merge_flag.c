@@ -111,7 +111,7 @@ t_input	*handle_merge_flag(char *input, t_input *cmd_line, int token_nbr, int i)
 	return (cmd_line);
 }
 
-t_input	*check_if_need_merge(t_parsing parsing, t_input *cmd_line)
+t_input	*check_if_need_merge(t_parsing *parsing, t_input *cmd_line)
 {
 	char	*input;
 	int		i;
@@ -119,7 +119,7 @@ t_input	*check_if_need_merge(t_parsing parsing, t_input *cmd_line)
 
 	i = 0;
 	token_nbr = 0;
-	input = parsing.input;
+	input = parsing->input;
 	while (input && input[i])
 	{
 		if (check_spaces(input[i]) == D_QUOTE || check_spaces(input[i]) == S_QUOTE

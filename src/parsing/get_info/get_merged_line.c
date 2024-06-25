@@ -63,19 +63,22 @@ char	*handle_merge_next(char	**mtx_cmdline, int *merge_arr, int *index)
 	int		i;
 	int		size;
 	char	*content;
+	char	*quote;
 
 	i = *index;
 	size = count_rows(mtx_cmdline); 
 	content = NULL;
+	quote = NULL;
 	while (mtx_cmdline && mtx_cmdline[i])
 	{
+		quote = ft_strdup("\"");
 		if (i == *index)
-			content = ft_strjoin("\"", mtx_cmdline[i]);
+			content = strjoin_gnl(&quote, mtx_cmdline[i]);
 		if (mtx_cmdline[i + 1] && (i < size && merge_arr[i] == MERGE_NEXT))
-			content = ft_strjoin(content, mtx_cmdline[i + 1]);
+			content = strjoin_gnl(&content, mtx_cmdline[i + 1]);
 		if (i + 1 < size && merge_arr[i + 1] == STAY)
 		{
-			content = ft_strjoin(content, "\"");
+			content = strjoin_gnl(&content, "\"");
 			break ;
 		}
 		i++;
@@ -95,10 +98,10 @@ char	*get_new_input(char	**mtx_cmdline, int *merge_arr, int size)
 	new_input = NULL;
 	while ((mtx_cmdline && mtx_cmdline[i]) && i < size)
 	{
-		new_input = ft_strjoin(new_input, " ");
+		new_input = strjoin_gnl(&new_input, " ");
 		content = NULL;
 		if (i < size && merge_arr[i] == STAY)
-			content = ft_strjoin(content, mtx_cmdline[i]);
+			content = strjoin_gnl(&content, mtx_cmdline[i]);
 		if (i < size && merge_arr[i] == MERGE_NEXT)
 		{
 			content = handle_merge_next(mtx_cmdline, merge_arr, &i);
@@ -106,7 +109,7 @@ char	*get_new_input(char	**mtx_cmdline, int *merge_arr, int size)
 		}
 		if (!content)
 			return (NULL);
-		new_input = ft_strjoin(new_input, content);
+		new_input = strjoin_gnl(&new_input, content);
 		free(content);
 		i++;
 	}

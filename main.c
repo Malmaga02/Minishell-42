@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-/* int	main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
 	t_all		all_info;
 	char		*line;
@@ -21,14 +21,14 @@
 		add_history(line);
 		all_info = get_input_complete(all_info, line, envp);
 		//gestione errori durante la get_input_complete da fare
-		/* if (!all_info.cmd_line)
-			continue ; */
+		if (!all_info.cmd_line)
+			continue ;
 		exec_main(&all_info);
 		set_clear_all(&all_info);
 	}
 	rl_clear_history();
 	return (0);
-} */
+}
 
 
 
@@ -63,7 +63,7 @@ char *enum_to_str(int enume)
 		return (ft_strdup("single quote"));
 	return (NULL);
 }
-
+/* 
 int	main(int ac, char **av, char **envp)
 {
 	t_all		all_info;
@@ -93,4 +93,4 @@ int	main(int ac, char **av, char **envp)
 		}
 	}
 	return (0);
-}
+} */

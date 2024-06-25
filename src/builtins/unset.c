@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:05 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/25 13:33:51 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:41:51 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void del_env_variable(t_list **envp, char *word)
         str = (char *)tmp->content;
         if (ft_strncmp(str, word, ft_strlen(word)) == 0)
 		{
-			tmp = *envp->next;
+			printf("c");
 		}
         tmp = tmp->next;
     }

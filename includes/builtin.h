@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/24 17:02:26 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:33:47 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void				builtin_pwd(void);
 int					builtin_cd(t_all *shell, t_input *cmd_line);
 /*------------------UNSET------------------*/
 int					builtin_unset(t_input *cmd, t_list *envp);
+void				del_env_variable(t_list **envp, char *word);
 /*------------------EXPORT------------------*/
 int					builtin_export(t_input *cmd_line, t_list *envp);
 /*------------------EXEC------------------*/

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:05 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/24 18:24:10 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:33:51 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,26 @@ static int	unset_syntax(char *str)
 	return (1);
 }
 
-static void	del_env_variable(t_list **envp, char *word)
+void del_env_variable(t_list **envp, char *word)
 {
-	char	*str;
-	t_list	*tmp;
+    t_list *tmp;
+    char *str;
 
-	str = NULL;
-	tmp = *envp;
-	while (tmp)
-	{
-		str = (char *)tmp->content;
-		if (ft_strcmp(str, word) == 0)
+    if (envp == NULL || *envp == NULL || word == NULL)
+        return;
+
+    tmp = *envp;
+    while (tmp != NULL)
+    {
+        str = (char *)tmp->content;
+        if (ft_strncmp(str, word, ft_strlen(word)) == 0)
 		{
-			*envp = tmp->next;
-			free(tmp);
+			tmp = *envp->next;
 		}
-		else
-			tmp = *envp;
-		tmp = tmp->next;
-	}
-	return ;
+        tmp = tmp->next;
+    }
 }
+
 static void	print_err(char *str)
 {
 	ft_printf(2, "minishello: unset: %s : not a valid identifier\n", str);

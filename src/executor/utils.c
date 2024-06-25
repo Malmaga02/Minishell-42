@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 21:51:31 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/24 17:32:47 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/25 17:15:47 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,17 @@ int	ft_strcmp(const char *s1, const char *s2)
 		i++;
 	}
 	return (s1[i] - s2[i]);
+}
+
+
+void	add_node_env(t_list **envp, char *str)
+{
+	t_list	*new_node;
+	t_list	*tmp;
+	
+	tmp = *envp;
+	new_node = ft_lstnew(str);
+	if (!new_node)
+		return ;
+	ft_lstadd_back(&tmp, new_node);
 }

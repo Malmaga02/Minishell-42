@@ -14,7 +14,7 @@
 
 static int	occurrence(const char s1, const char *set)
 {
-	while (*set)
+	while (set && *set)
 	{
 		if (*set == s1)
 			return (1);
@@ -30,7 +30,7 @@ char	*ft_strtrim(const char *s1, const char *set)
 
 	if (!s1 || !set)
 		return (NULL);
-	while (*s1 && occurrence(*s1, set))
+	while ((s1 && *s1) && occurrence(*s1, set))
 		s1++;
 	len = ft_strlen(s1);
 	while (len > 0 && occurrence(s1[len - 1], set))

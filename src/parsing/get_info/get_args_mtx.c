@@ -23,6 +23,7 @@ char	**get_args(int *arr_token, char **mtx_cmdline, int index, char **args)
 		args[j++] = ft_strdup(mtx_cmdline[(index)++]);
 	while ((index < size && arr_token[index] == ARG) && (mtx_cmdline && mtx_cmdline[index]))
 		args[j++] = ft_strdup(mtx_cmdline[(index)++]);
+	args[j] = NULL;
 	return (args);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/24 17:38:41 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/25 19:10:44 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,11 @@ void	exec_command(t_all *shell, t_input *cmd_line)
 		cmd = cmd_line->args;
 		envp = lst_to_mtx(shell->envp, false);
 		path = get_path(shell, cmd[0]);
-		if (execve(path, cmd, envp) == -1)
+		if ((!path) || (execve(path, cmd, envp) == -1))
 		{
 			printf("%s: command not found\n", cmd[0]);
-			//free_all(shell);
+			free_all(shell);
+			free_mtx(envp);
 			exit(127);
 		}
 	}

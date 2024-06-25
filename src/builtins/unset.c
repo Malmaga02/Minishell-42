@@ -6,13 +6,13 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:05 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/25 14:41:51 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:54:01 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	unset_syntax(char *str)
+int	unset_syntax(char *str)
 {
 	int	i;
 
@@ -29,22 +29,29 @@ static int	unset_syntax(char *str)
 void del_env_variable(t_list **envp, char *word)
 {
     t_list *tmp;
+    t_list *prev;
     char *str;
 
     if (envp == NULL || *envp == NULL || word == NULL)
-        return;
-
+        return ;
     tmp = *envp;
+    prev = NULL;
     while (tmp != NULL)
     {
         str = (char *)tmp->content;
-        if (ft_strncmp(str, word, ft_strlen(word)) == 0)
-		{
-			printf("c");
-		}
+        if (ft_strncmp(str, word, ft_strlen(word)) == 0 && str[ft_strlen(word)] == '=')
+        {
+            if (prev == NULL)
+                *envp = tmp->next;
+            else
+                prev->next = tmp->next;
+            return (free(tmp->content), free(tmp));
+        }
+        prev = tmp;
         tmp = tmp->next;
     }
 }
+
 
 static void	print_err(char *str)
 {
@@ -61,11 +68,11 @@ static int syntax_check(char **av)
 	while (av[j])
 	{
 		if ((ft_isdigit(av[j][0])) || (!unset_syntax(av[j])))
-			return (print_err(av[j]), 0);
+			return (print_err(av[j]), 1);
 		while (av[j] && av[j][i])
 		{
 			if (!ft_isalnum(av[j][i]) && av[j][i] != '_')
-				return (print_err(av[j]), 0);
+				return (print_err(av[j]), 1);
 			i++;
 		}
 		j++;

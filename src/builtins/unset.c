@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:05 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/23 17:26:55 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:41:51 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,26 @@ static int	unset_syntax(char *str)
 	return (1);
 }
 
-static void	del_word_in_env(t_list *envp, char *word)
+void del_env_variable(t_list **envp, char *word)
 {
-	char *str;
+    t_list *tmp;
+    char *str;
 
-	while (envp)
-	{
-		str = (char *)envp->content;
-		if (ft_strncmp(str, word, ft_strlen(word)) == 0)
-			ft_lstdelone(envp, free);
-		else
-			envp = envp->next;
-	}
-	return ;
+    if (envp == NULL || *envp == NULL || word == NULL)
+        return;
+
+    tmp = *envp;
+    while (tmp != NULL)
+    {
+        str = (char *)tmp->content;
+        if (ft_strncmp(str, word, ft_strlen(word)) == 0)
+		{
+			printf("c");
+		}
+        tmp = tmp->next;
+    }
 }
+
 static void	print_err(char *str)
 {
 	ft_printf(2, "minishello: unset: %s : not a valid identifier\n", str);
@@ -62,6 +68,7 @@ static int syntax_check(char **av)
 				return (print_err(av[j]), 0);
 			i++;
 		}
+		j++;
 	}
 	return (1);
 
@@ -70,12 +77,12 @@ int	builtin_unset(t_input *cmd, t_list *envp)
 {
 	if ((cmd->next && cmd->next->token != ARG) || (!cmd->next))
 		return (0);
-	if (! syntax_check(cmd->args))
+	if (!syntax_check(cmd->args))
 		return (1);
 	cmd = cmd->next;
-	while (cmd->token == ARG)
+	while (cmd && cmd->token == ARG)
 	{
-		del_word_in_env(envp, cmd->content);
+		del_env_variable(&envp, cmd->content);
 		cmd = cmd->next;
 	}
 	return (0);

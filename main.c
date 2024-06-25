@@ -12,20 +12,21 @@ int	main(int ac, char **av, char **envp)
 	while (42)
 	{
 		line = readline("minishello > ");
-		if (line == NULL)
+		/* if (line == NULL)
 		{
 			// perror("Error on readline");
 			//error for ctrl-D
 			continue ;
-		}
+		} */
+		add_history(line);
 		all_info = get_input_complete(all_info, line, envp);
-		print_mtx(all_info.cmd_line->args);
 		//gestione errori durante la get_input_complete da fare
 		if (!all_info.cmd_line)
 			continue ;
 		// esecuzione
-		close_all(&all_info);	
+		set_clear_all(&all_info);
 	}
+	rl_clear_history();
 	return (0);
 }
 
@@ -62,7 +63,7 @@ char *enum_to_str(int enume)
 		return (ft_strdup("single quote"));
 	return (NULL);
 }
-
+/* 
 int	main(int ac, char **av, char **envp)
 {
 	t_all		all_info;

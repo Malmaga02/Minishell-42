@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/23 17:32:30 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:33:47 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void				builtin_echo(t_input *cmd_line);
 void				print_echo(t_input *tmp);
 int					char_rep_check(char *str, char c);
 /*------------------ENV------------------*/
-int					builtin_env(t_input *cmd_line, t_list *envp);
+int					builtin_env(t_all *shell);
 void				print_env(t_list *envp);
 /*------------------EXIT------------------*/
 int					builtin_exit(t_all *shell, t_input *cmd_line);
@@ -35,6 +35,7 @@ void				builtin_pwd(void);
 int					builtin_cd(t_all *shell, t_input *cmd_line);
 /*------------------UNSET------------------*/
 int					builtin_unset(t_input *cmd, t_list *envp);
+void				del_env_variable(t_list **envp, char *word);
 /*------------------EXPORT------------------*/
 int					builtin_export(t_input *cmd_line, t_list *envp);
 /*------------------EXEC------------------*/
@@ -54,8 +55,9 @@ void				shell_struct_init(t_all *shell, char **envp);
 char				*find_word_in_env(t_list *envp, char *word);
 /*------------------UTILS------------------*/
 char				**lst_to_mtx(void *lst, bool is_input);
-void				change_env_variable(t_list *envp, char *var, char *new);
+t_list				*change_env_variable(t_list *envp, char *var, char *new);
 void				print_mtx(char **mtx);
+int					ft_strcmp(const char *s1, const char *s2);
 
 
 int					dll_input_size(t_input *lst);

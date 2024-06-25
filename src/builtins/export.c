@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:12 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/25 17:20:53 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/25 19:04:57 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	export_err(char *str)
 {
 	ft_printf(2, "minishello: export: `%s': not a valid identifier\n", str);
 }
-static int	val_check(char *str)
+int	val_check(char *str)
 {
 	int	i;
 

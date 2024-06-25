@@ -23,7 +23,7 @@ int	main(int ac, char **av, char **envp)
 		//gestione errori durante la get_input_complete da fare
 		if (!all_info.cmd_line)
 			continue ;
-		// esecuzione
+		exec_main(&all_info);
 		set_clear_all(&all_info);
 	}
 	rl_clear_history();
@@ -63,7 +63,7 @@ char *enum_to_str(int enume)
 		return (ft_strdup("single quote"));
 	return (NULL);
 }
-/* 
+
 int	main(int ac, char **av, char **envp)
 {
 	t_all		all_info;

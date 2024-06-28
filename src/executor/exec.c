@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/25 19:10:44 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/27 12:43:39 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	exec_builtin(t_all *shell)
 	if (ft_strcmp(shell->cmd_line->content, "unset") == 0)
 		builtin_unset(shell->cmd_line, shell->envp);
 	if (ft_strcmp(shell->cmd_line->content, "export") == 0)
-		builtin_export(shell->cmd_line, shell->envp);
+		builtin_export(shell);
 }
 
 bool	is_builtin(t_all *shell)

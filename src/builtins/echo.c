@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:02:57 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/23 16:18:49 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/27 12:25:30 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	builtin_echo(t_input *cmd_line)
 	tmp = tmp->next;
 	while (tmp && tmp->content[0] == '-' && (ft_strlen(tmp->content) > 1))
 	{
-		if (char_rep_check(tmp->content, 'n') && !flag)
+		if (char_rep_check(tmp->content, 'n'))
 			flag = true;
 		else
 			break ;

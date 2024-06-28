@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/25 19:05:24 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:26:43 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ int					builtin_unset(t_input *cmd, t_list *envp);
 void				del_env_variable(t_list **envp, char *word);
 int					unset_syntax(char *str);
 /*------------------EXPORT------------------*/
-int					builtin_export(t_input *cmd_line, t_list *envp);
-int					val_check(char *str);
+int					builtin_export(t_all *shell);
+int					equal_check(char *str);
+int					doppelganger_check(t_list *envp, char *str, int len);
+void				change_node_env(t_list **envp, char *key, int eq);
 /*------------------EXEC------------------*/
 bool				is_builtin(t_all *shell);
 void				exec_builtin(t_all *shell);

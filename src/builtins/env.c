@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:21 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/25 17:25:48 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/06/28 16:31:39 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_env(t_list *envp)
 	tmp = envp;
 	while (tmp != NULL)
     {
-		if (val_check(tmp->content))
+		if (equal_check(tmp->content) != 0)
 		{
         	if (tmp->content != NULL)
         	    ft_printf(1, "%s\n", tmp->content);

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/28 17:26:43 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/01 18:04:22 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int					builtin_export(t_all *shell);
 int					equal_check(char *str);
 int					doppelganger_check(t_list *envp, char *str, int len);
 void				change_node_env(t_list **envp, char *key, int eq);
+t_list				*find_node_in_env(t_list *envp, char *word, int len);
 /*------------------EXEC------------------*/
 bool				is_builtin(t_all *shell);
 void				exec_builtin(t_all *shell);

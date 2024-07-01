@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/27 12:43:39 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/01 14:42:37 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,13 @@
 
 char	*find_word_in_env(t_list *envp, char *word)
 {
-	int	i;
 	char *str;
 
-	i = 0;
 	while (envp)
 	{
 		str = (char *)envp->content;
-		if (ft_strncmp(&str[i], word, ft_strlen(word)) == 0)
-			return (&str[i] + ft_strlen(word));
+		if (ft_strncmp(str, word, ft_strlen(word)) == 0)
+			return (str + ft_strlen(word));
 		envp = envp->next;
 	}
 	return (NULL);

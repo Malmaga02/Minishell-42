@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:12 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/28 17:26:35 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/01 18:08:45 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,20 @@ static void	print_export(t_list *envp)
 static void	export_add(t_all *shell)
 {
 	int	i;
+	t_list *tmp;
 
 	i = equal_check(shell->cmd_line->content);
-	if (i > 0 && shell->cmd_line->content[i - 1] == '+')
-	{
+	if ((i > 0 && shell->cmd_line->content[i - 1] == '+'))
 		change_node_env(&shell->envp, shell->cmd_line->content, i);
-		//printf("ciao\n");
+	else if (doppelganger_check(shell->envp, shell->cmd_line->content, i))
+	{
+		tmp = find_node_in_env(shell->envp, shell->cmd_line->content, i);
+		free(tmp->content);
+		tmp->content = malloc(sizeof(char) * (ft_strlen(shell->cmd_line->content) + 1));
+		ft_strlcpy(tmp->content, shell->cmd_line->content, (ft_strlen(shell->cmd_line->content) + 1));
 	}
-	if (!doppelganger_check(shell->envp, shell->cmd_line->content, ft_strlen(shell->cmd_line->content)))
+	else
 		add_node_env(&shell->envp, shell->cmd_line->content);
-	//equal_check();
-	/* if ()
-	add_node_env(shell->envp, ); */
 }
 
 int	builtin_export(t_all *shell)
@@ -85,6 +87,6 @@ int	builtin_export(t_all *shell)
 		shell->cmd_line = shell->cmd_line->next;
 	}
 	if (error)
-		return (printf("ERR\n"), 1);
+		return (1);
 	return (0);
 }

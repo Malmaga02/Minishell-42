@@ -1,38 +1,5 @@
 #include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
-{
-	t_all		all_info;
-	char		*line;
-
-	line = NULL;
-	all_info = (t_all){0};
-	(void)ac;
-	(void)av;
-	while (42)
-	{
-		line = readline("minishello > ");
-		/* if (line == NULL)
-		{
-			// perror("Error on readline");
-			//error for ctrl-D
-			continue ;
-		} */
-		add_history(line);
-		all_info = get_input_complete(all_info, line, envp);
-		//gestione errori durante la get_input_complete da fare
-		if (!all_info.cmd_line)
-			continue ;
-		exec_main(&all_info);
-		set_clear_all(&all_info);
-	}
-	rl_clear_history();
-	return (0);
-}
-
-
-
-/* // testing parsing
 char *enum_to_str(int enume)
 {
 	if (enume == CMD)
@@ -64,6 +31,45 @@ char *enum_to_str(int enume)
 	return (NULL);
 }
 
+int	main(int ac, char **av, char **envp)
+{
+	t_all		all_info;
+	char		*line;
+
+	line = NULL;
+	all_info = (t_all){0};
+	(void)ac;
+	(void)av;
+	while (42)
+	{
+		line = readline("minishello > ");
+		/* if (line == NULL)
+		{
+			// perror("Error on readline");
+			//error for ctrl-D
+			continue ;
+		} */
+		add_history(line);
+		all_info = get_input_complete(all_info, line, envp);
+		//gestione errori durante la get_input_complete da fare
+		if (!all_info.cmd_line)
+			continue ;
+		while (all_info.cmd_line)
+		{
+			printf("[%s] is a %s\n", all_info.cmd_line->content, enum_to_str(all_info.cmd_line->token));
+			print_mtx(all_info.cmd_line->args);
+			all_info.cmd_line = all_info.cmd_line->next;
+		}
+		exec_main(&all_info);
+		set_clear_all(&all_info);
+	}
+	rl_clear_history();
+	return (0);
+}
+
+// testing parsing
+
+/*
 int	main(int ac, char **av, char **envp)
 {
 	t_all		all_info;

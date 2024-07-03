@@ -4,3 +4,4 @@ Chri: -> Exit, pwd, env
 Lore: -> Echo, unset
 
 Insieme Export
+ciao

@@ -46,9 +46,11 @@ SRC =	./main.c \
 		./src/parsing/handlers/handling_quotes_as_word_token.c \
 		./src/parsing/handlers/handling_token.c \
 		./src/parsing/handlers/trim_quotes.c \
-		./src/executor/exec.c \
+		./src/executor/exec_main.c \
+		./src/executor/exec_utils.c \
+		./src/executor/exec_free.c \
         ./src/executor/utils.c \
-		./src/executor/free.c
+		./src/executor/redirect_main.c 
 
 all: $(NAME)
 

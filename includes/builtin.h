@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/01 18:04:22 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/04 19:04:48 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ bool				is_builtin(t_all *shell);
 void				exec_builtin(t_all *shell);
 int					exec_main(t_all *shell);
 void				exec_command(t_all *shell, t_input *cmd_line);
+char				*get_path(t_all *shell, char *cmd);
+/*------------------EXEC_FREE------------------*/
+void				close_pipes(t_all *shell);
+void 				free_pipes(t_all *shell);
 /*------------------SIGNAL------------------*/
 int					signal_handle(char *str);
 /*------------------FREE------------------*/

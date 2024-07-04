@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:29:13 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/01 18:04:09 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/04 18:55:08 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	change_node_env(t_list **envp, char *str, int eq)
 	{
 		key = strjoin_gnl(&key, value);
 		ft_lstadd_back(envp, ft_lstnew(key));
-		printf("PORCOFFFF\n");
 		return ;
 	}
 	tmp->content = strjoin_gnl((char **)&tmp->content, value + 1);

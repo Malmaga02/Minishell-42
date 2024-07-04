@@ -6,13 +6,13 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 21:51:31 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/25 17:15:47 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/04 21:26:59 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**lst_to_mtx(void *lst, bool is_input) // cambiare fun che accetta sia t_input che t_list
+char	**lst_to_mtx(void *lst, bool is_input)
 {
 	int		i;
 	int		len;
@@ -55,23 +55,6 @@ char	**lst_to_mtx(void *lst, bool is_input) // cambiare fun che accetta sia t_in
 	mtx[i] = NULL;
 	return(mtx);
 }
-
-
-/* static size_t	ft_strlcpy_skip(char *dst, const char *src, size_t size, int skip)
-{
-	size_t	i;
-
-	if (size == 0 || !src[skip])
-		return (ft_strlen(src));
-	i = skip;
-	while (src[i] && i < size - 1)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return ((size_t)ft_strlen(src));
-} */
 
 t_list	*change_env_variable(t_list *envp, char *var, char *new)
 {

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:33:51 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/06/25 14:45:55 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/04 17:15:56 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct	s_all
 {
 	t_list		*envp;
 	t_input		*cmd_line;
+	int			**pipes;
 }	t_all;
 
 // --- Execution --- //

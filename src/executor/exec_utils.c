@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/01 14:42:37 by lotrapan         ###   ########.fr       */
+/*   Created: 2024/07/04 16:51:07 by lotrapan          #+#    #+#             */
+/*   Updated: 2024/07/04 21:26:05 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ char	*get_path(t_all *shell, char *cmd)
 	char	**possible_paths;
 
 	i = 0;
-	path_env = find_word_in_env(shell->envp, "PATH"); //prendo la riga dell PATH dall'env
+	path_env = find_word_in_env(shell->envp, "PATH");
 	if (!path_env)
 		return (NULL);
-	possible_paths = ft_split(path_env, ':'); //mtx di tutte le path possibili
+	possible_paths = ft_split(path_env, ':'); 
 	if (!possible_paths)
 		return (NULL);
 	while (possible_paths[i])
@@ -91,40 +91,3 @@ bool	is_builtin(t_all *shell)
 		return (true);
 	return (false);
 }
-
-void	exec_command(t_all *shell, t_input *cmd_line)
-{
-	pid_t	pid;
-	char	*path;
-	char	**cmd;
-	char	**envp;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		cmd = cmd_line->args;
-		envp = lst_to_mtx(shell->envp, false);
-		path = get_path(shell, cmd[0]);
-		if ((!path) || (execve(path, cmd, envp) == -1))
-		{
-			printf("%s: command not found\n", cmd[0]);
-			free_all(shell);
-			free_mtx(envp);
-			exit(127);
-		}
-	}
-	waitpid(pid, NULL, 0);
-}
-
-int	exec_main(t_all *shell)
-{
-	if (is_builtin(shell) /*&& no pipe*/)
-	{
-		exec_builtin(shell);
-	}
-	else if (!is_builtin(shell))
-		exec_command(shell, shell->cmd_line);
-	return (1);
-}
-
-

@@ -41,20 +41,6 @@ int	doppelganger_check(t_list *envp, char *key, int len)
 	return (0);
 }
 
-t_list	*find_node_in_env(t_list *envp, char *word, int len)
-{
-	char *str;
-
-	while (envp)
-	{
-		str = (char *)envp->content;
-		if (ft_strncmp(str, word, len) == 0)
-			return (envp);
-		envp = envp->next;
-	}
-	return (NULL);
-}
-
 void	change_node_env(t_list **envp, char *str, int eq)
 {
 	char	*key;
@@ -75,4 +61,3 @@ void	change_node_env(t_list **envp, char *str, int eq)
 	}
 	tmp->content = strjoin_gnl((char **)&tmp->content, value + 1);
 }
-

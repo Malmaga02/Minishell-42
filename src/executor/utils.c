@@ -12,72 +12,56 @@
 
 #include "minishell.h"
 
-char	**lst_to_mtx(void *lst, bool is_input)
+char	*get_path(t_all *shell, char *cmd)
+{
+	char	*path;
+	char	*part_path;
+	char	*path_env;
+	int		i;
+	char	**possible_paths;
+
+	i = 0;
+	path_env = find_word_in_env(shell->envp, "PATH");
+	if (!path_env)
+		return (NULL);
+	possible_paths = ft_split(path_env, ':'); 
+	if (!possible_paths)
+		return (NULL);
+	while (possible_paths[i])
+	{
+		part_path = ft_strjoin(possible_paths[i], "/");
+		path = ft_strjoin(part_path, cmd);
+		free(part_path);
+		if (access(path, F_OK | X_OK) == 0) // contolla se esiste e se e' eseguibile 
+			return (path);
+		free(path);
+		i++;
+	}
+	free_mtx(possible_paths);
+	return (NULL);
+}
+
+char	**lst_to_mtx(t_list *envp)
 {
 	int		i;
 	int		len;
 	char	**mtx;
-	t_input *input_lst = NULL;
-    t_list *list_lst = NULL;
+    t_list *tmp = NULL;
 
 	i = 0;
-	if (is_input)
-	{
-		input_lst = (t_input *)lst;
-		len = dll_input_size(input_lst);
-	}
-	else
-	{
-		list_lst = (t_list *)lst;
-		len = ft_lstsize(list_lst);
-	}
+	tmp = envp;
+	len = ft_lstsize(tmp);
 	mtx = malloc(sizeof(char *) * (len + 1));
 	if (!mtx)
 		return (NULL);
-	if (is_input)
+	while (tmp)
 	{
-		while (input_lst)
-		{
-			mtx[i] = ft_strdup(input_lst->content);
-			i++;
-			input_lst = input_lst->next;
-		}
-	}
-	else
-	{
-		while (list_lst)
-		{
-			mtx[i] = ft_strdup(list_lst->content);
-			i++;
-			list_lst = list_lst->next;
-		} 
+		mtx[i] = ft_strdup(tmp->content);
+		i++;
+		tmp = tmp->next;
 	}
 	mtx[i] = NULL;
 	return(mtx);
-}
-
-t_list	*change_env_variable(t_list *envp, char *var, char *new)
-{
-	t_list	*tmp;
-	int		len_var;
-	int		len_new;
-
-	tmp = envp;
-	len_var = ft_strlen(var);
-	len_new = ft_strlen(new);
-	while (tmp)
-	{
-		if (ft_strncmp(tmp->content, var, len_var) == 0)
-		{
-			free(tmp->content);
-			tmp->content = malloc(sizeof(char) * (len_var + len_new + 1));
-			ft_strlcpy(tmp->content, var, len_var + 1);
-			ft_strlcpy(tmp->content + len_var, new, len_new + 1);
-			return (envp);
-		}
-		tmp = tmp->next;
-	}
-	return (envp);
 }
 
 void	print_mtx(char **mtx)
@@ -106,17 +90,4 @@ int	ft_strcmp(const char *s1, const char *s2)
 		i++;
 	}
 	return (s1[i] - s2[i]);
-}
-
-
-void	add_node_env(t_list **envp, char *str)
-{
-	t_list	*new_node;
-	t_list	*tmp;
-	
-	tmp = *envp;
-	new_node = ft_lstnew(str);
-	if (!new_node)
-		return ;
-	ft_lstadd_back(&tmp, new_node);
 }

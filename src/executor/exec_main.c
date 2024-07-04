@@ -19,7 +19,7 @@ void	exec_command(t_all *shell, t_input *cmd_line)
 	char	**envp;
 
 	cmd = cmd_line->args;
-	envp = lst_to_mtx(shell->envp, false);
+	envp = lst_to_mtx(shell->envp);
 	path = get_path(shell, cmd[0]);
 	if ((!path) || (execve(path, cmd, envp) == -1))
 	{
@@ -28,40 +28,6 @@ void	exec_command(t_all *shell, t_input *cmd_line)
 		free_mtx(envp);
 		exit(127);
 	}
-}
-
-int	count_commands(t_input *cmd_line)
-{
-	int		i;
-	t_input	*tmp;
-
-	i = 0;
-	tmp = cmd_line;
-	while (tmp)
-	{
-		if (tmp->token == CMD)
-			i++;
-		tmp = tmp->next;
-	}
-	return (i);
-}
-
-static t_all	*init_pipe(t_all *shell, int cmd_num)
-{
-	int	i;
-
-	i = 0;
-	shell->pipes = malloc(sizeof(int *) * (cmd_num - 1));
-    while (i < cmd_num - 1)
-	{
-        shell->pipes[i] = ft_calloc(2, sizeof(int));
-        if (pipe(shell->pipes[i]) == -1) {
-            ft_printf(2, "Error: pipe\n");
-            exit(1);
-        }
-		i++;
-    }
-	return (shell);
 }
 
 int exec_main(t_all *shell) 

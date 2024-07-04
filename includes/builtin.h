@@ -39,35 +39,35 @@ void				del_env_variable(t_list **envp, char *word);
 int					unset_syntax(char *str);
 /*------------------EXPORT------------------*/
 int					builtin_export(t_all *shell);
+void	            print_export(t_list *envp);
+void            	export_add(t_all *shell);
+/*------------------EXPORT_UTILS------------------*/
 int					equal_check(char *str);
 int					doppelganger_check(t_list *envp, char *str, int len);
 void				change_node_env(t_list **envp, char *key, int eq);
-t_list				*find_node_in_env(t_list *envp, char *word, int len);
-/*------------------EXEC------------------*/
-bool				is_builtin(t_all *shell);
-void				exec_builtin(t_all *shell);
-int					exec_main(t_all *shell);
+/*------------------EXEC_MAIN------------------*/
 void				exec_command(t_all *shell, t_input *cmd_line);
-char				*get_path(t_all *shell, char *cmd);
+int					exec_main(t_all *shell);
+/*------------------EXEC_UTILS------------------*/
+void				exec_builtin(t_all *shell);
+bool				is_builtin(t_all *shell);
+int	                count_commands(t_input *cmd_line);
+t_all           	*init_pipe(t_all *shell, int cmd_num);
 /*------------------EXEC_FREE------------------*/
 void				close_pipes(t_all *shell);
 void 				free_pipes(t_all *shell);
 /*------------------SIGNAL------------------*/
 int					signal_handle(char *str);
-/*------------------FREE------------------*/
-void				cleanup(t_all *shell);
-void				dll_input_clear(t_input **lst);
-/*------------------FAKE_PARSE------------------*/
-t_list				*set_env_lst(char **envp);
-t_input   			*fake_parse(char *input);
-void				shell_struct_init(t_all *shell, char **envp);
-char				*find_word_in_env(t_list *envp, char *word);
-/*------------------UTILS------------------*/
-char				**lst_to_mtx(void *lst, bool is_input);
+/*------------------ENVP_UTILS------------------*/
+void				add_node_env(t_list **envp, char *str);
 t_list				*change_env_variable(t_list *envp, char *var, char *new);
+char				*find_word_in_env(t_list *envp, char *word);
+t_list				*find_node_in_env(t_list *envp, char *word, int len);
+/*------------------UTILS------------------*/
+char				*get_path(t_all *shell, char *cmd);
+char				**lst_to_mtx(t_list *envp);
 void				print_mtx(char **mtx);
 int					ft_strcmp(const char *s1, const char *s2);
-void				add_node_env(t_list **envp, char *str);
 
 
 int					dll_input_size(t_input *lst);

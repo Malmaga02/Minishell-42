@@ -38,7 +38,7 @@ static int	export_syntax(char *str, int *error)
 	return (1);	
 }
 
-static void	print_export(t_list *envp)
+void	print_export(t_list *envp)
 {
 	t_list *tmp;
 
@@ -53,7 +53,7 @@ static void	print_export(t_list *envp)
     }
 }
 
-static void	export_add(t_all *shell)
+void	export_add(t_all *shell)
 {
 	int	i;
 	t_list *tmp;

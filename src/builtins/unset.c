@@ -52,7 +52,6 @@ void del_env_variable(t_list **envp, char *word)
     }
 }
 
-
 static void	print_err(char *str)
 {
 	ft_printf(2, "minishello: unset: %s : not a valid identifier\n", str);
@@ -80,6 +79,7 @@ static int syntax_check(char **av)
 	return (1);
 
 }
+
 int	builtin_unset(t_input *cmd, t_list *envp)
 {
 	if ((cmd->next && cmd->next->token != ARG) || (!cmd->next))

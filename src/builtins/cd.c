@@ -29,6 +29,7 @@ static int	cd_home(t_all *shell, char *home_dir, char *old_pwd)
 	else
 		return(printf("minishell: cd: " "%s: Error home\n", home_dir), 1);
 }
+
 int	builtin_cd(t_all *shell, t_input *cmd_line)
 {
 	char	*dir;

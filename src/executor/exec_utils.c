@@ -12,49 +12,6 @@
 
 #include "minishell.h"
 
-char	*find_word_in_env(t_list *envp, char *word)
-{
-	char *str;
-
-	while (envp)
-	{
-		str = (char *)envp->content;
-		if (ft_strncmp(str, word, ft_strlen(word)) == 0)
-			return (str + ft_strlen(word));
-		envp = envp->next;
-	}
-	return (NULL);
-}
-
-char	*get_path(t_all *shell, char *cmd)
-{
-	char	*path;
-	char	*part_path;
-	char	*path_env;
-	int		i;
-	char	**possible_paths;
-
-	i = 0;
-	path_env = find_word_in_env(shell->envp, "PATH");
-	if (!path_env)
-		return (NULL);
-	possible_paths = ft_split(path_env, ':'); 
-	if (!possible_paths)
-		return (NULL);
-	while (possible_paths[i])
-	{
-		part_path = ft_strjoin(possible_paths[i], "/");
-		path = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (access(path, F_OK | X_OK) == 0) // contolla se esiste e se e' eseguibile 
-			return (path);
-		free(path);
-		i++;
-	}
-	free_mtx(possible_paths);
-	return (NULL);
-}
-
 void	exec_builtin(t_all *shell)
 {
 	if (ft_strcmp(shell->cmd_line->content, "exit") == 0)
@@ -90,4 +47,38 @@ bool	is_builtin(t_all *shell)
 	if (ft_strcmp(shell->cmd_line->content, "export") == 0)
 		return (true);
 	return (false);
+}
+
+int	count_commands(t_input *cmd_line)
+{
+	int		i;
+	t_input	*tmp;
+
+	i = 0;
+	tmp = cmd_line;
+	while (tmp)
+	{
+		if (tmp->token == CMD)
+			i++;
+		tmp = tmp->next;
+	}
+	return (i);
+}
+
+t_all	*init_pipe(t_all *shell, int cmd_num)
+{
+	int	i;
+
+	i = 0;
+	shell->pipes = malloc(sizeof(int *) * (cmd_num - 1));
+    while (i < cmd_num - 1)
+	{
+        shell->pipes[i] = ft_calloc(2, sizeof(int));
+        if (pipe(shell->pipes[i]) == -1) {
+            ft_printf(2, "Error: pipe\n");
+            exit(1);
+        }
+		i++;
+    }
+	return (shell);
 }

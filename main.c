@@ -56,11 +56,11 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		while (all_info.cmd_line)
 		{
-			printf("[%s] is a %s\n", all_info.cmd_line->content, enum_to_str(all_info.cmd_line->token));
+			//printf("[%s] is a %s\n", all_info.cmd_line->content, enum_to_str(all_info.cmd_line->token));
 			print_mtx(all_info.cmd_line->args);
 			all_info.cmd_line = all_info.cmd_line->next;
 		}
-		exec_main(&all_info);
+		//exec_main(&all_info);
 		set_clear_all(&all_info);
 	}
 	rl_clear_history();

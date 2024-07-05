@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/04 21:29:30 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/05 12:25:21 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,55 @@ void	exec_command(t_all *shell, t_input *cmd_line)
 	}
 }
 
-int exec_main(t_all *shell) 
+void	child_exe(t_all *shell)
+{
+	if (is_builtin(shell)) 
+	{
+    	exec_builtin(shell);
+    	exit(0);//variabile globale
+	}
+    else
+    	exec_command(shell, shell->cmd_line);
+}
+
+void	child_init(t_all *shell, int i, int cmd_num)
+{
+	if (i > 0)
+	{
+        if (dup2(shell->pipes[i - 1][0], STDIN_FILENO) == -1)
+		{
+            ft_printf(2, "Error: dup2\n");
+            exit(1);
+        }
+    }
+    if (cmd_num > 1)
+	{
+        if (dup2(shell->pipes[i][1], STDOUT_FILENO) == -1)
+		{
+            ft_printf(2, "Error: dup2\n");
+            exit(1);
+     	}
+	}
+	else
+		//ultimo cmd
+    close_pipes(shell);
+	free_pipes(shell);
+}
+
+void exec_main(t_all *shell) 
 {
     int 	i;
-    int 	cdm_num;
+    int 	cmd_num;
     pid_t 	pid;
 
 	i = 0;
-    cdm_num = count_commands(shell->cmd_line);
-	//handle_redirect (in caso di errore return)
-	shell = init_pipe(shell, cdm_num);
+    cmd_num = count_commands(shell->cmd_line);
+	if (!handle_redirect(shell))
+		return ;
+	shell = init_pipe(shell, cmd_num);
     while (shell->cmd_line)
 	{
-		if (cdm_num < 1)
+		if (cmd_num < 1)
 			break ;
 		while (shell->cmd_line && shell->cmd_line->token != CMD)
 			shell->cmd_line = shell->cmd_line->next;
@@ -51,49 +87,18 @@ int exec_main(t_all *shell)
 		{
             ft_printf(2, "Error: fork\n");
             exit(1);
-        }
-        if (pid == 0) //child
+        } 
+        if (pid == 0)
 		{
-            if (i > 0) // input
-			{
-                if (dup2(shell->pipes[i - 1][0], STDIN_FILENO) == -1)
-				{
-                    ft_printf(2, "Error: dup2\n");
-                    exit(1);
-                }
-            }
-            if (cdm_num > 1) //output
-			{
-               	if (dup2(shell->pipes[i][1], STDOUT_FILENO) == -1)
-				{
-               	    ft_printf(2, "Error: dup2\n");
-               	    exit(1);
-               	}
-			}
-			else
-				//ultimo_cmd
-            close_pipes(shell);
-			free_pipes(shell);
-            if (is_builtin(shell)) 
-			{
-                exec_builtin(shell);
-                exit(0);//variabile globale
-			}
-            else
-            	exec_command(shell, shell->cmd_line);
+			child_init(shell, i, cmd_num);
+			child_exe(shell);
         }
         shell->cmd_line = shell->cmd_line->next;
-		cdm_num--;
+		cmd_num--;
         i++;
     }
 	close_pipes(shell);
-	i = 0;
-    while (i < cdm_num)
-	{
-		wait(NULL);
-		i++;
-	}
+	wait_cmd(cmd_num);
 	free_pipes(shell);
-	return (1);
+	return ;
 }
-

@@ -51,7 +51,8 @@ SRC =	./main.c \
 		./src/executor/exec_free.c \
         ./src/executor/envp_utils.c \
 		./src/executor/utils.c \
-		./src/executor/redirect_main.c 
+		./src/executor/redirect.c \
+		./src/executor/redirect_utils.c
 
 all: $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:07 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/04 21:26:05 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/05 10:04:18 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,16 @@ t_all	*init_pipe(t_all *shell, int cmd_num)
 		i++;
     }
 	return (shell);
+}
+
+void	wait_cmd(int cmd_num)
+{
+	int	i;
+
+	i = 0;
+    while (i < cmd_num)
+	{
+		wait(NULL);
+		i++;
+	}
 }

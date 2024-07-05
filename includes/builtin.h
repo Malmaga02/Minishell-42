@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/04 19:04:48 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/05 11:38:45 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,28 @@ int					doppelganger_check(t_list *envp, char *str, int len);
 void				change_node_env(t_list **envp, char *key, int eq);
 /*------------------EXEC_MAIN------------------*/
 void				exec_command(t_all *shell, t_input *cmd_line);
-int					exec_main(t_all *shell);
+void				exec_main(t_all *shell);
+void				child_init(t_all *shell, int i, int cmd_num);
+void				child_exe(t_all *shell);
 /*------------------EXEC_UTILS------------------*/
 void				exec_builtin(t_all *shell);
 bool				is_builtin(t_all *shell);
 int	                count_commands(t_input *cmd_line);
 t_all           	*init_pipe(t_all *shell, int cmd_num);
+void				wait_cmd(int cmd_num);
 /*------------------EXEC_FREE------------------*/
 void				close_pipes(t_all *shell);
 void 				free_pipes(t_all *shell);
+/*------------------REDIRECT------------------*/
+int					handle_redirect(t_all *shell);
+int					handle_input(char **args);
+int					handle_output(char **args);
+int					handle_append_output(char **args);
+/*------------------REDIRECT_UTILS------------------*/
+int					redirect_validation(t_input *cmd_line);
+int					file_validation(char **args);
+int					syntax_validation(char **args);
+int					get_last_args(char **args);
 /*------------------SIGNAL------------------*/
 int					signal_handle(char *str);
 /*------------------ENVP_UTILS------------------*/

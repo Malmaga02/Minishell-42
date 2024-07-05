@@ -6,13 +6,13 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:12 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/01 18:08:45 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/05 17:35:57 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	export_err(char *str, int *error)
+void	export_err(char *str, int *error)
 {
 	*error = 1;
 	ft_printf(2, "minishello: export: `%s': not a valid identifier\n", str);
@@ -23,7 +23,7 @@ static int	export_syntax(char *str, int *error)
 	int	i;
 
 	i = 0;
-	if (str[0] == '=' || !ft_isalpha(str[0]))
+	if (str[0] != '_' && !ft_isalpha(str[0]))
 		return (export_err(str, error), 0);
 	if (!equal_check(str))
 		return (1);
@@ -31,7 +31,7 @@ static int	export_syntax(char *str, int *error)
 	{
 		if ((str[i] == '=') && (str[i - 1] == '+'))
 			return (1);
-		if ((str[i] == '=') && (!ft_isalpha(str[i - 1])))
+		if ((str[i] == '=') && (!char_check(str, error)))
 			return (export_err(str, error), 0);
 		i++;
 	}
@@ -76,6 +76,7 @@ int	builtin_export(t_all *shell)
 {
 	int	error;
 	
+	g_status_code = 0;
 	error = 0;
 	if (!shell->cmd_line->next)
 		return (print_export(shell->envp), 0);
@@ -87,6 +88,6 @@ int	builtin_export(t_all *shell)
 		shell->cmd_line = shell->cmd_line->next;
 	}
 	if (error)
-		return (1);
+		return (g_status_code = 1, 1);
 	return (0);
 }

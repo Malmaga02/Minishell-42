@@ -6,37 +6,54 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:00:45 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/05 11:37:10 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/05 19:05:44 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_last_args(char **args)
+int	redirect_validation_input(t_input *cmd_line)
 {
-	int	i;
+	t_input	*current;
 
-	i = 0;
-	while (args[i])
-		i++;
-	return (i);
+	current = cmd_line;
+	while (current)
+	{
+		if (current->token == R_INPUT)
+		{
+			if (!syntax_validation(current->args) || !file_validation(current->args))
+				return (0);
+			if (!handle_input(current->args))
+				return (0);
+		}
+		current = current->next;
+	}
+	return (1);
 }
 
-int	redirect_validation(t_input *cmd_line)
+int	redirect_validation_output(t_input *cmd_line)
 {
-	while (cmd_line)
+	t_input	*current;
+
+	current = cmd_line;
+	while (current)
 	{
-		if (cmd_line->token == R_INPUT)
+		if (current->token == R_OUTPUT || current->token == D_RED_OUTPUT)
 		{
-			if (!syntax_validation(cmd_line->args) || !file_validation(cmd_line->args))
+			if (!syntax_validation(current->args))
 				return (0);
+			if (current->token == R_OUTPUT)
+			{
+				if (!handle_output(current->args))
+					return (0);
+        	}
+			else if (current->token == D_RED_OUTPUT)
+			{
+        	    if (!handle_append_output(current->args))
+					return (0);
+        	}
 		}
-		else if (cmd_line->token == R_OUTPUT || cmd_line->token == D_RED_OUTPUT)
-		{
-			if (!syntax_validation(cmd_line->args))
-				return (0);
-		}
-		cmd_line = cmd_line->next;
+		current = current->next;
 	}
 	return (1);
 }
@@ -67,4 +84,14 @@ int	syntax_validation(char **args)
 		i++;
 	}
 	return (1);
+}
+
+int	get_last_args(char **args)
+{
+	int	i;
+
+	i = 0;
+	while (args[i])
+		i++;
+	return (i);
 }

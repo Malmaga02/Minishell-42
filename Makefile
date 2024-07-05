@@ -4,6 +4,7 @@ CC = cc
 INCLUDES = ./includes
 CFLAGS = -Wextra -Werror -Wall -g -I$(INCLUDES)
 COMPILE = $(CC) $(CFLAGS) -c
+RM = rm -f
 
 
 LIBFT_DIR = ./libft.plus
@@ -63,7 +64,6 @@ $(NAME): libft $(SRC)
 	$(CC) $(CFLAGS) -I. -I$(INCLUDES) $(SRC) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 	@echo "$(BLUE)	MINISHELL COMPILED!$(RESET)"
 
-RM = rm -f
 
 valgrind: $(NAME)
 	valgrind --leak-check=full -s --show-reachable=yes --suppressions=readline.supp ./$(NAME)

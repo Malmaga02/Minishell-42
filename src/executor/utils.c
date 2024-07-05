@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 21:51:31 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/04 21:26:59 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/05 19:06:49 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	**lst_to_mtx(t_list *envp)
 	int		i;
 	int		len;
 	char	**mtx;
-    t_list *tmp = NULL;
+    t_list *tmp;
 
 	i = 0;
 	tmp = envp;

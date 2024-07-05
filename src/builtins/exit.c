@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:02:54 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/25 14:45:50 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/05 17:46:36 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,24 +64,23 @@ int	numeric_check(t_input *cmd_line)
 
 int	builtin_exit(t_all *shell, t_input *cmd_line)
 {
-	int	exit_code;
-
-	exit_code = 0;
+	g_status_code = 0;
 	ft_printf(1, "exit\n");
-	if (dll_input_size(cmd_line) == 1)
-		exit_code = 0;
-	else if (dll_input_size(cmd_line) > 2)
+	if (dll_input_size(cmd_line) != 1)
 	{
-		ft_printf(1, "minishell: exit: too many arguments\n");
-		return (1);
+		if (dll_input_size(cmd_line) > 2)
+		{
+			g_status_code = 1;
+			return ((ft_printf(2, "minishell: exit: too many arguments\n")), 1);
+		}	
+		else if (numeric_check(cmd_line) == 0)
+		{
+			ft_printf(2, "minishell: exit: rrt: numeric argument required\n");
+			g_status_code = 2;
+		}
 	}
-	else if (numeric_check(cmd_line) == 0)
-	{
-		ft_printf(1, "minishell: exit: rrt: numeric argument required\n");
-		exit_code = 2;
-	}
-	if (dll_input_size(cmd_line) == 2 && exit_code != 2)
-		exit_code = ft_uatoi(cmd_line->next->content);
+	if (dll_input_size(cmd_line) == 2 && g_status_code != 2)
+		g_status_code = ft_uatoi(cmd_line->next->content);
 	free_all(shell);
-	exit(exit_code);
+	exit(g_status_code);
 }

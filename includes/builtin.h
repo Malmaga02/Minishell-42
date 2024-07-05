@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/05 11:38:45 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/05 19:05:51 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void				builtin_echo(t_input *cmd_line);
 void				print_echo(t_input *tmp);
 int					char_rep_check(char *str, char c);
 /*------------------ENV------------------*/
-int					builtin_env(t_all *shell);
+void				builtin_env(t_all *shell);
 void				print_env(t_list *envp);
 /*------------------EXIT------------------*/
 int					builtin_exit(t_all *shell, t_input *cmd_line);
@@ -41,10 +41,12 @@ int					unset_syntax(char *str);
 int					builtin_export(t_all *shell);
 void	            print_export(t_list *envp);
 void            	export_add(t_all *shell);
+void				export_err(char *str, int *error);
 /*------------------EXPORT_UTILS------------------*/
 int					equal_check(char *str);
 int					doppelganger_check(t_list *envp, char *str, int len);
 void				change_node_env(t_list **envp, char *key, int eq);
+int					char_check(char *str, int *error);
 /*------------------EXEC_MAIN------------------*/
 void				exec_command(t_all *shell, t_input *cmd_line);
 void				exec_main(t_all *shell);
@@ -60,12 +62,13 @@ void				wait_cmd(int cmd_num);
 void				close_pipes(t_all *shell);
 void 				free_pipes(t_all *shell);
 /*------------------REDIRECT------------------*/
-int					handle_redirect(t_all *shell);
+int					handle_redirect(t_all *shell, bool start);
 int					handle_input(char **args);
 int					handle_output(char **args);
 int					handle_append_output(char **args);
 /*------------------REDIRECT_UTILS------------------*/
-int					redirect_validation(t_input *cmd_line);
+int					redirect_validation_input(t_input *cmd_line);
+int					redirect_validation_output(t_input *cmd_line);
 int					file_validation(char **args);
 int					syntax_validation(char **args);
 int					get_last_args(char **args);

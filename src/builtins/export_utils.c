@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:29:13 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/04 18:55:08 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/05 17:32:41 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,20 @@ void	change_node_env(t_list **envp, char *str, int eq)
 		return ;
 	}
 	tmp->content = strjoin_gnl((char **)&tmp->content, value + 1);
+}
+
+int	char_check(char *str, int *error)
+{
+	int	i;
+	int lim;
+
+	lim = equal_check(str);
+	i = 1;
+	while (str[i] && i < lim)
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (export_err(str, error), 0);
+		i++;
+	}
+	return (1);
 }

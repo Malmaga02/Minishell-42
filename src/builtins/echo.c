@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:02:57 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/27 12:25:30 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/05 19:01:34 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	builtin_echo(t_input *cmd_line)
 	t_input	*tmp;
 	bool	flag;
 
+	g_status_code = 0;
 	tmp = cmd_line;
 	flag = false;
 	if (!tmp->next)
@@ -61,5 +62,4 @@ void	builtin_echo(t_input *cmd_line)
 	print_echo(tmp);
 	if (!flag)
 		ft_printf(1, "\n");
-	return ;
 }

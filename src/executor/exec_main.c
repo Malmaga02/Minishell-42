@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/05 12:25:21 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/05 19:07:54 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	child_exe(t_all *shell)
 	if (is_builtin(shell)) 
 	{
     	exec_builtin(shell);
-    	exit(0);//variabile globale
+    	exit(g_status_code);
 	}
     else
     	exec_command(shell, shell->cmd_line);
@@ -59,8 +59,6 @@ void	child_init(t_all *shell, int i, int cmd_num)
             exit(1);
      	}
 	}
-	else
-		//ultimo cmd
     close_pipes(shell);
 	free_pipes(shell);
 }
@@ -70,18 +68,22 @@ void exec_main(t_all *shell)
     int 	i;
     int 	cmd_num;
     pid_t 	pid;
+	t_input	*current;
 
 	i = 0;
-    cmd_num = count_commands(shell->cmd_line);
-	if (!handle_redirect(shell))
+	shell->std_in = dup(STDIN_FILENO);
+	shell->std_out = dup(STDOUT_FILENO);
+	current = shell->cmd_line;
+    cmd_num = count_commands(current);
+	if (!handle_redirect(shell, true))
 		return ;
 	shell = init_pipe(shell, cmd_num);
-    while (shell->cmd_line)
+    while (current)
 	{
 		if (cmd_num < 1)
 			break ;
-		while (shell->cmd_line && shell->cmd_line->token != CMD)
-			shell->cmd_line = shell->cmd_line->next;
+		while (current && current->token != CMD)
+			current = current->next;
         pid = fork();
         if (pid == -1) 
 		{
@@ -93,7 +95,7 @@ void exec_main(t_all *shell)
 			child_init(shell, i, cmd_num);
 			child_exe(shell);
         }
-        shell->cmd_line = shell->cmd_line->next;
+        current = current->next;
 		cmd_num--;
         i++;
     }

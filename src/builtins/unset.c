@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:05 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/25 15:54:01 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/05 17:16:53 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ static int syntax_check(char **av)
 	while (av[j])
 	{
 		if ((ft_isdigit(av[j][0])) || (!unset_syntax(av[j])))
-			return (print_err(av[j]), 1);
+			return (print_err(av[j]), 0);
 		while (av[j] && av[j][i])
 		{
 			if (!ft_isalnum(av[j][i]) && av[j][i] != '_')
-				return (print_err(av[j]), 1);
+				return (print_err(av[j]), 0);
 			i++;
 		}
 		j++;
@@ -82,10 +82,11 @@ static int syntax_check(char **av)
 
 int	builtin_unset(t_input *cmd, t_list *envp)
 {
+	g_status_code = 0;
 	if ((cmd->next && cmd->next->token != ARG) || (!cmd->next))
 		return (0);
 	if (!syntax_check(cmd->args))
-		return (1);
+		return (g_status_code = 1, 1);
 	cmd = cmd->next;
 	while (cmd && cmd->token == ARG)
 	{

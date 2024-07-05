@@ -1,6 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/05 14:32:15 by lotrapan          #+#    #+#             */
+/*   Updated: 2024/07/05 14:33:40 by lotrapan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char *enum_to_str(int enume)
+int	g_status_code;
+
+
+/* char *enum_to_str(int enume)
 {
 	if (enume == CMD)
 		return (ft_strdup("command"));
@@ -29,7 +44,7 @@ char *enum_to_str(int enume)
 	else if (enume == S_QUOTE)
 		return (ft_strdup("single quote"));
 	return (NULL);
-}
+} */
 
 int	main(int ac, char **av, char **envp)
 {
@@ -37,6 +52,7 @@ int	main(int ac, char **av, char **envp)
 	char		*line;
 
 	line = NULL;
+	g_status_code = 0;
 	all_info = (t_all){0};
 	(void)ac;
 	(void)av;
@@ -54,13 +70,7 @@ int	main(int ac, char **av, char **envp)
 		//gestione errori durante la get_input_complete da fare
 		if (!all_info.cmd_line)
 			continue ;
-		while (all_info.cmd_line)
-		{
-			//printf("[%s] is a %s\n", all_info.cmd_line->content, enum_to_str(all_info.cmd_line->token));
-			print_mtx(all_info.cmd_line->args);
-			all_info.cmd_line = all_info.cmd_line->next;
-		}
-		//exec_main(&all_info);
+		exec_main(&all_info);
 		set_clear_all(&all_info);
 	}
 	rl_clear_history();

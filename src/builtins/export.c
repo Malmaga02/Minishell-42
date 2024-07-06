@@ -23,7 +23,7 @@ static int	export_syntax(char *str, int *error)
 	int	i;
 
 	i = 0;
-	if (str[0] != '_' && !ft_isalpha(str[0]))
+	if ((str[0] != '_') && (!ft_isalpha(str[0])))
 		return (export_err(str, error), 0);
 	if (!equal_check(str))
 		return (1);

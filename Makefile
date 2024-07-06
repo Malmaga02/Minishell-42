@@ -51,16 +51,14 @@ SRC =	./main.c \
 		./src/executor/exec_utils.c \
 		./src/executor/exec_free.c \
         ./src/executor/envp_utils.c \
-		./src/executor/utils.c \
+		./src/executor/general_utils.c \
 		./src/executor/redirect.c \
 		./src/executor/redirect_utils.c
 
 all: $(NAME)
 
-libft:
+$(NAME): $(SRC)
 	make all -C $(LIBFT_DIR)
-
-$(NAME): libft $(SRC)
 	$(CC) $(CFLAGS) -I. -I$(INCLUDES) $(SRC) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 	@echo "$(BLUE)	MINISHELL COMPILED!$(RESET)"
 

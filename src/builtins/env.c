@@ -30,7 +30,7 @@ void	print_env(t_list *envp)
     }
 }
 
-void		builtin_env(t_all *shell)
+void	builtin_env(t_all *shell)
 {
 	if (dll_input_size(shell->cmd_line) > 1)
 	{

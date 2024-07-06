@@ -57,11 +57,9 @@ SRC =	./main.c \
 
 all: $(NAME)
 
-libft:
-	make all -C $(LIBFT_DIR)
-
-$(NAME): libft $(SRC)
-	$(CC) $(CFLAGS) -I. -I$(INCLUDES) $(SRC) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
+$(NAME): $(SRC)
+	@make -C $(LIBFT_DIR)
+	@$(CC) $(CFLAGS) -I. -I$(INCLUDES) $(SRC) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 	@echo "$(BLUE)	MINISHELL COMPILED!$(RESET)"
 
 

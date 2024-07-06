@@ -12,20 +12,6 @@
 
 #include "minishell.h"
 
-int	unset_syntax(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str && str[i])
-	{
-		if (str[i] == ' ')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 void del_env_variable(t_list **envp, char *word)
 {
     t_list *tmp;
@@ -66,7 +52,7 @@ static int syntax_check(char **av)
 	i = 0;
 	while (av[j])
 	{
-		if ((ft_isdigit(av[j][0])) || (!unset_syntax(av[j])))
+		if ((av[j][0] != '_') && (!ft_isalpha(av[j][0])))
 			return (print_err(av[j]), 0);
 		while (av[j] && av[j][i])
 		{

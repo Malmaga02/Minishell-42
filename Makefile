@@ -58,13 +58,8 @@ SRC =	./main.c \
 all: $(NAME)
 
 $(NAME): $(SRC)
-<<<<<<< HEAD
 	@make -C $(LIBFT_DIR)
 	@$(CC) $(CFLAGS) -I. -I$(INCLUDES) $(SRC) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
-=======
-	make all -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) -I. -I$(INCLUDES) $(SRC) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
->>>>>>> 5ea0f44f25636ebbd647aa0aa6499d45a3932a78
 	@echo "$(BLUE)	MINISHELL COMPILED!$(RESET)"
 
 

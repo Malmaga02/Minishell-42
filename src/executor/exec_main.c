@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/05 19:07:54 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/07 19:01:34 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void exec_main(t_all *shell)
 	if (!handle_redirect(shell, true))
 		return ;
 	shell = init_pipe(shell, cmd_num);
+	//caso 1 buitin(return)
     while (current)
 	{
 		if (cmd_num < 1)

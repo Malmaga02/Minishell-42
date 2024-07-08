@@ -6,36 +6,38 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:05 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/05 17:16:53 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/08 12:06:03 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void del_env_variable(t_list **envp, char *word)
+void	del_env_variable(t_list **envp, char *word)
 {
-    t_list *tmp;
-    t_list *prev;
-    char *str;
+	t_list	*tmp;
+	t_list	*prev;
+	char	*str;
 
-    if (envp == NULL || *envp == NULL || word == NULL)
-        return ;
-    tmp = *envp;
-    prev = NULL;
-    while (tmp != NULL)
-    {
-        str = (char *)tmp->content;
-        if (ft_strncmp(str, word, ft_strlen(word)) == 0 && str[ft_strlen(word)] == '=')
-        {
-            if (prev == NULL)
-                *envp = tmp->next;
-            else
-                prev->next = tmp->next;
-            return (free(tmp->content), free(tmp));
-        }
-        prev = tmp;
-        tmp = tmp->next;
-    }
+	str = NULL;
+	if (envp == NULL || *envp == NULL || word == NULL)
+		return ;
+	tmp = *envp;
+	prev = NULL;
+	while (tmp != NULL)
+	{
+		str = (char *)tmp->content;
+		if (ft_strncmp(str, word, ft_strlen(word)) == 0
+			&& str[ft_strlen(word)] == '=')
+		{
+			if (prev == NULL)
+				*envp = tmp->next;
+			else
+				prev->next = tmp->next;
+			return (free(tmp->content), free(tmp));
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
 }
 
 static void	print_err(char *str)
@@ -43,7 +45,7 @@ static void	print_err(char *str)
 	ft_printf(2, "minishello: unset: %s : not a valid identifier\n", str);
 }
 
-static int syntax_check(char **av)
+static int	syntax_check(char **av)
 {
 	int	i;
 	int	j;
@@ -63,7 +65,6 @@ static int syntax_check(char **av)
 		j++;
 	}
 	return (1);
-
 }
 
 int	builtin_unset(t_input *cmd, t_list *envp)

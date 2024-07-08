@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:12 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/05 17:35:57 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/08 12:08:38 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,47 +35,49 @@ static int	export_syntax(char *str, int *error)
 			return (export_err(str, error), 0);
 		i++;
 	}
-	return (1);	
+	return (1);
 }
 
 void	print_export(t_list *envp)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	tmp = envp;
 	while (tmp != NULL)
-    {
-        if (tmp->content != NULL)
-            ft_printf(1, "declare -x %s\n", tmp->content);
-        else
-		    ft_printf(1, "(null)\n");
-        tmp = tmp->next;
-    }
+	{
+		if (tmp->content != NULL)
+			ft_printf(1, "declare -x %s\n", tmp->content);
+		else
+			ft_printf(1, "(null)\n");
+		tmp = tmp->next;
+	}
 }
 
 void	export_add(t_all *shell)
 {
-	int	i;
-	t_list *tmp;
+	int		i;
+	t_list	*tmp;
+	char	*str;
 
-	i = equal_check(shell->cmd_line->content);
-	if ((i > 0 && shell->cmd_line->content[i - 1] == '+'))
-		change_node_env(&shell->envp, shell->cmd_line->content, i);
-	else if (doppelganger_check(shell->envp, shell->cmd_line->content, i))
+	str = shell->cmd_line->content;
+	i = equal_check(str);
+	if ((i > 0 && str[i - 1] == '+'))
+		change_node_env(&shell->envp, str, i);
+	else if (doppelganger_check(shell->envp, str, i))
 	{
-		tmp = find_node_in_env(shell->envp, shell->cmd_line->content, i);
+		tmp = find_node_in_env(shell->envp, str, i);
 		free(tmp->content);
-		tmp->content = malloc(sizeof(char) * (ft_strlen(shell->cmd_line->content) + 1));
-		ft_strlcpy(tmp->content, shell->cmd_line->content, (ft_strlen(shell->cmd_line->content) + 1));
+		tmp->content = malloc(sizeof(char) * (ft_strlen(str) + 1));
+		ft_strlcpy(tmp->content, str, (ft_strlen(str) + 1));
 	}
 	else
-		add_node_env(&shell->envp, shell->cmd_line->content);
+		add_node_env(&shell->envp, str);
 }
 
 int	builtin_export(t_all *shell)
 {
 	int	error;
-	
+
 	g_status_code = 0;
 	error = 0;
 	if (!shell->cmd_line->next)

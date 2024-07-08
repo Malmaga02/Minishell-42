@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:02:54 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/05 17:46:36 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/08 12:03:18 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	builtin_exit(t_all *shell, t_input *cmd_line)
 		{
 			g_status_code = 1;
 			return ((ft_printf(2, "minishell: exit: too many arguments\n")), 1);
-		}	
+		}
 		else if (numeric_check(cmd_line) == 0)
 		{
 			ft_printf(2, "minishell: exit: rrt: numeric argument required\n");

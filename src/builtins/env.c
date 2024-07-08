@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:21 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/05 19:01:55 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/08 12:00:08 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,34 @@
 
 void	print_env(t_list *envp)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	tmp = envp;
 	while (tmp != NULL)
-    {
+	{
 		if (equal_check(tmp->content) != 0)
 		{
-        	if (tmp->content != NULL)
-        	    ft_printf(1, "%s\n", tmp->content);
-        	else
-        	    ft_printf(1, "(null)\n");
+			if (tmp->content != NULL)
+				ft_printf(1, "%s\n", tmp->content);
+			else
+				ft_printf(1, "(null)\n");
 		}
-        tmp = tmp->next;
-    }
+		tmp = tmp->next;
+	}
 }
 
 void	builtin_env(t_all *shell)
 {
-	if (dll_input_size(shell->cmd_line) > 1)
+	t_input	*current;
+
+	current = shell->cmd_line;
+	if (dll_input_size(current) > 1)
 	{
-		ft_printf(2, "env: '%s' : No such file or directory\n", shell->cmd_line->next->content);
+		ft_printf(2, "env: '%s' : No such file or directory\n",
+			current->next->content);
 		g_status_code = 127;
 		return ;
 	}
-    print_env(shell->envp);
+	print_env(shell->envp);
 	g_status_code = 1;
 }

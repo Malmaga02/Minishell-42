@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/08 10:55:02 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/08 12:11:07 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	open_heredoc(char **args)
 		if (line == NULL || strcmp(line, delimiter) == 0)
 			return (free(line));
 		rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
+		rl_replace_line("", 0);
+		rl_redisplay();
 		free(line);
 	}
 }

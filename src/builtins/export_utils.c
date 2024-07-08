@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:29:13 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/05 17:32:41 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/08 12:09:49 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,19 @@ int	doppelganger_check(t_list *envp, char *key, int len)
 	while (envp)
 	{
 		str = (char *)envp->content;
-		if ((ft_strncmp(str, key, len) == 0) && ((str[len] == '=') || (str[len] == '+')))
+		if ((ft_strncmp(str, key, len) == 0)
+			&& ((str[len] == '=') || (str[len] == '+')))
 			return (1);
 		envp = envp->next;
-	}	
+	}
 	return (0);
 }
 
 void	change_node_env(t_list **envp, char *str, int eq)
 {
-	char	*key;
-	char	*value;
-	t_list	*tmp;
+	char		*key;
+	char		*value;
+	t_list		*tmp;
 	const int	len = ft_strlen(str) - eq + 1;
 
 	value = malloc(sizeof(char) * len);
@@ -65,7 +66,7 @@ void	change_node_env(t_list **envp, char *str, int eq)
 int	char_check(char *str, int *error)
 {
 	int	i;
-	int lim;
+	int	lim;
 
 	lim = equal_check(str);
 	i = 1;

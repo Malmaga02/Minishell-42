@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/05 19:05:51 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/08 11:50:31 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,20 @@ void				wait_cmd(int cmd_num);
 void				close_pipes(t_all *shell);
 void 				free_pipes(t_all *shell);
 /*------------------REDIRECT------------------*/
-int					handle_redirect(t_all *shell, bool start);
+int					handle_redirect(t_all *shell);
 int					handle_input(char **args);
 int					handle_output(char **args);
 int					handle_append_output(char **args);
 /*------------------REDIRECT_UTILS------------------*/
-int					redirect_validation_input(t_input *cmd_line);
-int					redirect_validation_output(t_input *cmd_line);
+int					redirect_validation(t_input *cmd_line);
 int					file_validation(char **args);
 int					syntax_validation(char **args);
 int					get_last_args(char **args);
+/*------------------HEREDOC------------------*/
+int					heredoc_validation(t_input *cmd_line);
 /*------------------SIGNAL------------------*/
 int					signal_handle(char *str);
+void				open_heredoc(char **args);
 /*------------------ENVP_UTILS------------------*/
 void				add_node_env(t_list **envp, char *str);
 t_list				*change_env_variable(t_list *envp, char *var, char *new);
@@ -84,6 +86,7 @@ char				*get_path(t_all *shell, char *cmd);
 char				**lst_to_mtx(t_list *envp);
 void				print_mtx(char **mtx);
 int					ft_strcmp(const char *s1, const char *s2);
+
 
 
 int					dll_input_size(t_input *lst);

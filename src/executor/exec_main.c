@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/07 19:01:34 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/08 11:53:10 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,11 @@ void exec_main(t_all *shell)
 	shell->std_out = dup(STDOUT_FILENO);
 	current = shell->cmd_line;
     cmd_num = count_commands(current);
-	if (!handle_redirect(shell, true))
+	if (!handle_redirect(shell))
 		return ;
+	if (cmd_num == 1 && is_builtin(shell))
+		exec_builtin(shell);
 	shell = init_pipe(shell, cmd_num);
-	//caso 1 buitin(return)
     while (current)
 	{
 		if (cmd_num < 1)

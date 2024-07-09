@@ -53,9 +53,9 @@ t_all	expand_dollar_sign(t_all all_info)
 	while (tmp)
 	{
 		if (tmp->token == D_QUOTE && check_dollar_sign(tmp->content))
-			tmp->content = expand_env_with_quotes((char *)tmp->content, all_info);
+			tmp->content = expand_env_with_quotes(tmp->content, all_info);
 		else if (tmp->token == DOLLAR_SIGN)
-			tmp->content = expand_env((char *)tmp->content, all_info);
+			tmp->content = expand_env(tmp->content, all_info);
 		if (!tmp->content)
 			return ((t_all){0});
 		tmp = tmp->next;

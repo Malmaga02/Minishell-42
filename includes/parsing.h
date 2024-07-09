@@ -126,7 +126,7 @@ char    	**parsing_list_in_mtx(t_input *cmd_line);
 t_all		assign_quote_as_words_token(t_all all_info);
 
 // Handling_token
-int			check_if_operator(int token);
+int			find_token_type(int token);
 int			count_rows_args(char **mtx_cmdline, int *arr_token);
 int			check_if_word_after_operator(int token);
 

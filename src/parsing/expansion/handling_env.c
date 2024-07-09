@@ -52,3 +52,16 @@ char	*find_expansion_env(t_list *envp, char *name_env)
 	}
 	return (ft_strdup(""));
 }
+/* 
+char	*handle_escaped_char(char *env)
+{
+	int		i;
+	char	*new_content;
+
+	i = 0;
+	while (env && env[i])
+	{
+		if (check_spaces(env[i]) == PIPE || check_spaces(env[i]) == PIPE ||
+		check_spaces(env[i]) == PIPE || check_spaces(env[i]) == PIPE)
+	}
+} */

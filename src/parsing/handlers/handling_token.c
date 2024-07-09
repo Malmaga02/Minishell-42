@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	check_if_operator(int token)
+int	find_token_type(int token)
 {
 	if (token == PIPE || token == R_INPUT
 	|| token == R_OUTPUT || token == D_RED_INPUT
@@ -20,6 +20,8 @@ int	check_if_operator(int token)
 		return (OPERATORS);
 	else if (token == CMD || token == FILE_W || token == EOF_DEL)
 		return (WORDS);
+	else if (token == D_QUOTE || token == S_QUOTE)
+		return (D_QUOTE);
 	return (0);
 }
 

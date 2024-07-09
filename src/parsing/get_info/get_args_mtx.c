@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+int	if_token_needs_arg(int token)
+{
+	if (token == CMD || token == R_INPUT || token == D_RED_INPUT
+	|| token == R_OUTPUT || token == D_RED_OUTPUT)
+		return (1);
+	else if (token == ARG || token == FILE_W || token == EOF_DEL)
+		return (0);
+	return (-1);
+}
+
 char	**get_args(int *arr_token, char **mtx_cmdline, int index, char **args)
 {
 	int		j;
@@ -19,9 +29,9 @@ char	**get_args(int *arr_token, char **mtx_cmdline, int index, char **args)
 
 	j = 0;
 	size = count_rows(mtx_cmdline);
-	if ((index < size && arr_token[index] == CMD) && (mtx_cmdline && mtx_cmdline[index]))
+	if ((index < size && if_token_needs_arg(arr_token[index])) && (mtx_cmdline && mtx_cmdline[index]))
 		args[j++] = ft_strdup(mtx_cmdline[(index)++]);
-	while ((index < size && arr_token[index] == ARG) && (mtx_cmdline && mtx_cmdline[index]))
+	while ((index < size && !if_token_needs_arg(arr_token[index])) && (mtx_cmdline && mtx_cmdline[index]))
 		args[j++] = ft_strdup(mtx_cmdline[(index)++]);
 	args[j] = NULL;
 	return (args);
@@ -34,7 +44,7 @@ char	**create_args_mtx(int *arr_token, char **mtx_cmdline, int *index)
 
 	args = NULL;
 	size = 0;
-	if (arr_token[*index] == CMD)
+	if (if_token_needs_arg(arr_token[*index]))
 	{
 		size = count_rows_args(&mtx_cmdline[*index], &arr_token[*index]);
 		if (!size)

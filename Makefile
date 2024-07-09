@@ -4,6 +4,7 @@ CC = cc
 INCLUDES = ./includes
 CFLAGS = -Wextra -Werror -Wall -g -I$(INCLUDES)
 COMPILE = $(CC) $(CFLAGS) -c
+RM = rm -f
 
 
 LIBFT_DIR = ./libft.plus
@@ -19,6 +20,7 @@ SRC =	./main.c \
 		./src/builtins/env.c \
 		./src/builtins/exit.c \
 		./src/builtins/export.c \
+		./src/builtins/export_utils.c \
 		./src/builtins/pwd.c \
 		./src/builtins/unset.c \
 		./src/builtins/cd.c \
@@ -45,20 +47,22 @@ SRC =	./main.c \
 		./src/parsing/handlers/handling_quotes_as_word_token.c \
 		./src/parsing/handlers/handling_token.c \
 		./src/parsing/handlers/trim_quotes.c \
-		./src/executor/exec.c \
-        ./src/executor/utils.c \
-		./src/executor/free.c
+		./src/executor/exec_main.c \
+		./src/executor/exec_utils.c \
+		./src/executor/exec_free.c \
+        ./src/executor/envp_utils.c \
+		./src/executor/general_utils.c \
+		./src/executor/redirect.c \
+		./src/executor/redirect_utils.c \
+		./src/executor/heredoc.c 
 
 all: $(NAME)
 
-libft:
-	make all -C $(LIBFT_DIR)
-
-$(NAME): libft $(SRC)
-	$(CC) $(CFLAGS) -I. -I$(INCLUDES) $(SRC) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
+$(NAME): $(SRC)
+	@make -C $(LIBFT_DIR)
+	@$(CC) $(CFLAGS) -I. -I$(INCLUDES) $(SRC) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 	@echo "$(BLUE)	MINISHELL COMPILED!$(RESET)"
 
-RM = rm -f
 
 valgrind: $(NAME)
 	valgrind --leak-check=full -s --show-reachable=yes --suppressions=readline.supp ./$(NAME)

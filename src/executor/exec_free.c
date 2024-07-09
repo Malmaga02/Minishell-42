@@ -1,35 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   exec_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 16:38:02 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/17 18:58:26 by lotrapan         ###   ########.fr       */
+/*   Created: 2024/07/04 18:59:23 by lotrapan          #+#    #+#             */
+/*   Updated: 2024/07/04 19:06:22 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	clear_list(t_list *envp)
+void	close_pipes(t_all *shell)
 {
-	t_list	*tmp;
+	int i;
 
-	tmp = envp;
-	if (!tmp->content)
+	i = 0;
+	while (shell->pipes[i])
 	{
-		printf("aaaaaaa\n");
-		return ;
-	}
-	while (tmp)
-	{
-		free(tmp->content);
-		tmp = tmp->next;
+		close(shell->pipes[i][0]);
+		close(shell->pipes[i][1]);
+		i++;
 	}
 }
 
-void	cleanup(t_all *shell)
+void free_pipes(t_all *shell)
 {
-	clear_list(shell->envp);
+	int i;
+
+	i = 0;
+	while (shell->pipes[i])
+	{
+		free(shell->pipes[i]);
+		i++;
+	}
+	free(shell->pipes);
 }

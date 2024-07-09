@@ -1,61 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/25 19:10:44 by lotrapan         ###   ########.fr       */
+/*   Created: 2024/07/04 16:51:07 by lotrapan          #+#    #+#             */
+/*   Updated: 2024/07/05 17:02:43 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*find_word_in_env(t_list *envp, char *word)
-{
-	int	i;
-	char *str;
-
-	i = 0;
-	while (envp)
-	{
-		str = (char *)envp->content;
-		if (ft_strncmp(&str[i], word, ft_strlen(word)) == 0)
-			return (&str[i] + ft_strlen(word));
-		envp = envp->next;
-	}
-	return (NULL);
-}
-
-char	*get_path(t_all *shell, char *cmd)
-{
-	char	*path;
-	char	*part_path;
-	char	*path_env;
-	int		i;
-	char	**possible_paths;
-
-	i = 0;
-	path_env = find_word_in_env(shell->envp, "PATH"); //prendo la riga dell PATH dall'env
-	if (!path_env)
-		return (NULL);
-	possible_paths = ft_split(path_env, ':'); //mtx di tutte le path possibili
-	if (!possible_paths)
-		return (NULL);
-	while (possible_paths[i])
-	{
-		part_path = ft_strjoin(possible_paths[i], "/");
-		path = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (access(path, F_OK | X_OK) == 0) // contolla se esiste e se e' eseguibile 
-			return (path);
-		free(path);
-		i++;
-	}
-	free_mtx(possible_paths);
-	return (NULL);
-}
 
 void	exec_builtin(t_all *shell)
 {
@@ -72,7 +27,7 @@ void	exec_builtin(t_all *shell)
 	if (ft_strcmp(shell->cmd_line->content, "unset") == 0)
 		builtin_unset(shell->cmd_line, shell->envp);
 	if (ft_strcmp(shell->cmd_line->content, "export") == 0)
-		builtin_export(shell->cmd_line, shell->envp);
+		builtin_export(shell);
 }
 
 bool	is_builtin(t_all *shell)
@@ -94,37 +49,48 @@ bool	is_builtin(t_all *shell)
 	return (false);
 }
 
-void	exec_command(t_all *shell, t_input *cmd_line)
+int	count_commands(t_input *cmd_line)
 {
-	pid_t	pid;
-	char	*path;
-	char	**cmd;
-	char	**envp;
+	int		i;
+	t_input	*tmp;
 
-	pid = fork();
-	if (pid == 0)
+	i = 0;
+	tmp = cmd_line;
+	while (tmp)
 	{
-		cmd = cmd_line->args;
-		envp = lst_to_mtx(shell->envp, false);
-		path = get_path(shell, cmd[0]);
-		if ((!path) || (execve(path, cmd, envp) == -1))
-		{
-			printf("%s: command not found\n", cmd[0]);
-			free_all(shell);
-			free_mtx(envp);
-			exit(127);
-		}
+		if (tmp->token == CMD)
+			i++;
+		tmp = tmp->next;
 	}
-	waitpid(pid, NULL, 0);
+	return (i);
 }
 
-int	exec_main(t_all *shell)
+t_all	*init_pipe(t_all *shell, int cmd_num)
 {
-	if (is_builtin(shell) /*&& no pipe*/)
+	int	i;
+
+	i = 0;
+	shell->pipes = malloc(sizeof(int *) * (cmd_num - 1));
+    while (i < cmd_num - 1)
 	{
-		exec_builtin(shell);
+        shell->pipes[i] = ft_calloc(2, sizeof(int));
+        if (pipe(shell->pipes[i]) == -1) {
+            ft_printf(2, "Error: pipe\n");
+            exit(1);
+        }
+		i++;
+    }
+	return (shell);
+}
+
+void	wait_cmd(int cmd_num)
+{
+	int	i;
+
+	i = 0;
+    while (i < cmd_num)
+	{
+		wait(NULL);
+		i++;
 	}
-	else if (!is_builtin(shell))
-		exec_command(shell, shell->cmd_line);
-	return (1);
 }

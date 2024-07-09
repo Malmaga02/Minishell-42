@@ -6,80 +6,90 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:12 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/06/25 19:04:57 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/08 12:08:38 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	export_err(char *str)
+void	export_err(char *str, int *error)
 {
+	*error = 1;
 	ft_printf(2, "minishello: export: `%s': not a valid identifier\n", str);
 }
-int	val_check(char *str)
+
+static int	export_syntax(char *str, int *error)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-static int	export_syntax(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[0] == '=' || !ft_isalpha(str[0]))
-		return (export_err(str), 0);
-	if (!val_check(str))
+	if ((str[0] != '_') && (!ft_isalpha(str[0])))
+		return (export_err(str, error), 0);
+	if (!equal_check(str))
 		return (1);
 	while (str && str[i])
 	{
-		if ((str[i] == '=') && (!ft_isalpha(str[i - 1])))
-			return (export_err(str), 0);
+		if ((str[i] == '=') && (str[i - 1] == '+'))
+			return (1);
+		if ((str[i] == '=') && (!char_check(str, error)))
+			return (export_err(str, error), 0);
 		i++;
 	}
-	return (1);	
+	return (1);
 }
 
-static void	print_export(t_list *envp)
+void	print_export(t_list *envp)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	tmp = envp;
 	while (tmp != NULL)
-    {
-        if (tmp->content != NULL)
-            ft_printf(1, "declare -x %s\n", tmp->content);
-        else
-		    ft_printf(1, "(null)\n");	
-        tmp = tmp->next;
-    }
+	{
+		if (tmp->content != NULL)
+			ft_printf(1, "declare -x %s\n", tmp->content);
+		else
+			ft_printf(1, "(null)\n");
+		tmp = tmp->next;
+	}
 }
 
-int	builtin_export(t_input *cmd_line, t_list *envp)
+void	export_add(t_all *shell)
 {
-	bool	error;
+	int		i;
+	t_list	*tmp;
+	char	*str;
 
-	error = false;
-	if (!cmd_line->next)
-		return (print_export(envp), 0);
-	cmd_line = cmd_line->next;
-	while (cmd_line && cmd_line->token == ARG)
+	str = shell->cmd_line->content;
+	i = equal_check(str);
+	if ((i > 0 && str[i - 1] == '+'))
+		change_node_env(&shell->envp, str, i);
+	else if (doppelganger_check(shell->envp, str, i))
 	{
-		if (!export_syntax(cmd_line->content))
-			error = true;
-		else
-			add_node_env(&envp, cmd_line->content);
-		cmd_line = cmd_line->next;
+		tmp = find_node_in_env(shell->envp, str, i);
+		free(tmp->content);
+		tmp->content = malloc(sizeof(char) * (ft_strlen(str) + 1));
+		ft_strlcpy(tmp->content, str, (ft_strlen(str) + 1));
+	}
+	else
+		add_node_env(&shell->envp, str);
+}
+
+int	builtin_export(t_all *shell)
+{
+	int	error;
+
+	g_status_code = 0;
+	error = 0;
+	if (!shell->cmd_line->next)
+		return (print_export(shell->envp), 0);
+	shell->cmd_line = shell->cmd_line->next;
+	while (shell->cmd_line && shell->cmd_line->token == ARG)
+	{
+		if (export_syntax(shell->cmd_line->content, &error))
+			export_add(shell);
+		shell->cmd_line = shell->cmd_line->next;
 	}
 	if (error)
-		return (1);
+		return (g_status_code = 1, 1);
 	return (0);
 }

@@ -76,37 +76,6 @@ char *enum_to_str(int enume)
 	return (NULL);
 } */
 
-int	main(int ac, char **av, char **envp)
-{
-	t_all		all_info;
-	char		*line;
-
-	line = NULL;
-	all_info = (t_all){0};
-	(void)ac;
-	(void)av;
-	while (42)
-	{
-		g_status_code = 0;
-		line = readline("minishello > ");
-		/* if (line == NULL)
-		{
-			// perror("Error on readline");
-			//error for ctrl-D
-			continue ;
-		} */
-		add_history(line);
-		all_info = get_input_complete(all_info, line, envp);
-		//gestione errori durante la get_input_complete da fare
-		if (!all_info.cmd_line)
-			continue ;
-		exec_main(&all_info);
-		set_clear_all(&all_info);
-	}
-	rl_clear_history();
-	return (0);
-}
-
 // testing parsing
 
 /*

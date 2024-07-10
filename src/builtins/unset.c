@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:05 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/08 12:06:03 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/10 11:51:36 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,20 @@ static int	syntax_check(char **av)
 	return (1);
 }
 
-int	builtin_unset(t_input *cmd, t_list *envp)
+int	builtin_unset(char **av, t_list *envp)
 {
+	int	i;
+
+	i = 1;
 	g_status_code = 0;
-	if ((cmd->next && cmd->next->token != ARG) || (!cmd->next))
+	if (!av[i])
 		return (0);
-	if (!syntax_check(cmd->args))
+	if (!syntax_check(av))
 		return (g_status_code = 1, 1);
-	cmd = cmd->next;
-	while (cmd && cmd->token == ARG)
+	while (av && av[i])
 	{
-		del_env_variable(&envp, cmd->content);
-		cmd = cmd->next;
+		del_env_variable(&envp, av[i]);
+		i++;
 	}
 	return (0);
 }

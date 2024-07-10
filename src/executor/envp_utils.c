@@ -3,13 +3,15 @@
 void	add_node_env(t_list **envp, char *str)
 {
 	t_list	*new_node;
-	t_list	*tmp;
-	
-	tmp = *envp;
-	new_node = ft_lstnew(str);
-	if (!new_node)
+	char	*new;
+
+	new = ft_strdup(str);
+	if (!new)
 		return ;
-	ft_lstadd_back(&tmp, new_node);
+	new_node = ft_lstnew(new);
+	if (!new_node)
+		return (free(new));
+	ft_lstadd_back(envp, new_node);
 }
 
 t_list	*change_env_variable(t_list *envp, char *var, char *new)

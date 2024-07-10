@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/08 11:50:31 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/10 12:46:07 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,22 @@ typedef struct s_all t_all;
 typedef struct	s_input t_input;
 
 /*------------------ECHO------------------*/
-void				builtin_echo(t_input *cmd_line);
-void				print_echo(t_input *tmp);
-int					char_rep_check(char *str, char c);
+void				builtin_echo(char **av);
 /*------------------ENV------------------*/
 void				builtin_env(t_all *shell);
 void				print_env(t_list *envp);
 /*------------------EXIT------------------*/
-int					builtin_exit(t_all *shell, t_input *cmd_line);
-unsigned int		ft_uatoi(const char *str);
-int					numeric_check(t_input *cmd_line);
+int					builtin_exit(t_all *shell, char **av);
 /*------------------PWD------------------*/
 void				builtin_pwd(void);
 /*------------------CD------------------*/
-int					builtin_cd(t_all *shell, t_input *cmd_line);
+int					builtin_cd(t_all *shell, char **av);
 /*------------------UNSET------------------*/
-int					builtin_unset(t_input *cmd, t_list *envp);
+int					builtin_unset(char **av, t_list *envp);
 void				del_env_variable(t_list **envp, char *word);
-int					unset_syntax(char *str);
 /*------------------EXPORT------------------*/
-int					builtin_export(t_all *shell);
+int					builtin_export(t_all *shell, char **av);
 void	            print_export(t_list *envp);
-void            	export_add(t_all *shell);
 void				export_err(char *str, int *error);
 /*------------------EXPORT_UTILS------------------*/
 int					equal_check(char *str);
@@ -51,7 +45,7 @@ int					char_check(char *str, int *error);
 void				exec_command(t_all *shell, t_input *cmd_line);
 void				exec_main(t_all *shell);
 void				child_init(t_all *shell, int i, int cmd_num);
-void				child_exe(t_all *shell);
+void				child_exe(t_all *shell, t_input *current);
 /*------------------EXEC_UTILS------------------*/
 void				exec_builtin(t_all *shell);
 bool				is_builtin(t_all *shell);
@@ -81,11 +75,12 @@ void				add_node_env(t_list **envp, char *str);
 t_list				*change_env_variable(t_list *envp, char *var, char *new);
 char				*find_word_in_env(t_list *envp, char *word);
 t_list				*find_node_in_env(t_list *envp, char *word, int len);
-/*------------------UTILS------------------*/
+/*------------------GENERAL_UTILS------------------*/
 char				*get_path(t_all *shell, char *cmd);
 char				**lst_to_mtx(t_list *envp);
 void				print_mtx(char **mtx);
 int					ft_strcmp(const char *s1, const char *s2);
+int					mtx_size(char **mtx);
 
 
 

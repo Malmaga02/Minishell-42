@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:21 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/08 12:00:08 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/10 11:30:13 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ void	print_env(t_list *envp)
 
 void	builtin_env(t_all *shell)
 {
-	t_input	*current;
+	char	**av;
 
-	current = shell->cmd_line;
-	if (dll_input_size(current) > 1)
+	av = shell->cmd_line->args;
+	if (av[1])
 	{
 		ft_printf(2, "env: '%s' : No such file or directory\n",
-			current->next->content);
+			av[1]);
 		g_status_code = 127;
 		return ;
 	}

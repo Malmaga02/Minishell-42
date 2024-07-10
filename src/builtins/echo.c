@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:02:57 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/05 19:01:34 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/10 11:48:20 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,40 +26,39 @@ int	char_rep_check(char *str, char c)
 	return (1);
 }
 
-void	print_echo(t_input *tmp)
+void	print_echo(char **av, int i)
 {
-	while (tmp)
+	while (av && av[i])
 	{
-		ft_printf(1, "%s", tmp->content);
-		if (tmp->next)
+		ft_printf(1, "%s", av[i]);
+		if (av[i + 1])
 			ft_printf(1, " ");
-		tmp = tmp->next;
+		i++;
 	}
 }
 
-void	builtin_echo(t_input *cmd_line)
+void	builtin_echo(char **av)
 {
-	t_input	*tmp;
 	bool	flag;
+	int		i;
 
+	i = 1;
 	g_status_code = 0;
-	tmp = cmd_line;
 	flag = false;
-	if (!tmp->next)
+	if (!av[i])
 	{
 		ft_printf(1, "\n");
 		return ;
 	}
-	tmp = tmp->next;
-	while (tmp && tmp->content[0] == '-' && (ft_strlen(tmp->content) > 1))
+	while (av && av[i][0] == '-' && (ft_strlen(av[i]) > 1))
 	{
-		if (char_rep_check(tmp->content, 'n'))
+		if (char_rep_check(av[i], 'n'))
 			flag = true;
 		else
 			break ;
-		tmp = tmp->next;
+		i++;
 	}
-	print_echo(tmp);
+	print_echo(av, i);
 	if (!flag)
 		ft_printf(1, "\n");
 }

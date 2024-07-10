@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/10 12:46:07 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:14:58 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ void				close_pipes(t_all *shell);
 void 				free_pipes(t_all *shell);
 /*------------------REDIRECT------------------*/
 int					handle_redirect(t_all *shell);
-int					handle_input(char **args);
-int					handle_output(char **args);
-int					handle_append_output(char **args);
+int					handle_input(t_input *current);
+int					handle_output(t_input *current);
+int					handle_append_output(t_input *current);
 /*------------------REDIRECT_UTILS------------------*/
 int					redirect_validation(t_input *cmd_line);
-int					file_validation(char **args);
-int					syntax_validation(char **args);
+int					file_validation(t_input *cmd_line);
 int					get_last_args(char **args);
+t_input				*set_std_cmd_line(t_input *current);
 /*------------------HEREDOC------------------*/
 int					heredoc_validation(t_input *cmd_line);
 /*------------------SIGNAL------------------*/

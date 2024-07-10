@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:07 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/10 12:43:34 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:24:59 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_all	*init_pipe(t_all *shell, int cmd_num)
 		shell->pipes = NULL;
 		return (shell);
 	}
-	shell->pipes = malloc(sizeof(int *) * (cmd_num - 1));
+	shell->pipes = malloc(sizeof(int *) * (cmd_num));
     while (i < cmd_num - 1)
 	{
         shell->pipes[i] = ft_calloc(2, sizeof(int));
@@ -85,6 +85,7 @@ t_all	*init_pipe(t_all *shell, int cmd_num)
         }
 		i++;
     }
+	shell->pipes[i] = NULL;
 	return (shell);
 }
 

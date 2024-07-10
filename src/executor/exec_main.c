@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/10 14:27:44 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:23:29 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	child_exe(t_all *shell, t_input *current)
 
 void	child_init(t_all *shell, int i, int cmd_num)
 {
-	if (i > 0)
+	if (i > 0 && shell->pipes)
 	{
         if (dup2(shell->pipes[i - 1][0], STDIN_FILENO) == -1)
 		{
@@ -51,7 +51,7 @@ void	child_init(t_all *shell, int i, int cmd_num)
             exit(1);
         }
     }
-    if (cmd_num > 1)
+    if (cmd_num > 1 && shell->pipes)
 	{
         if (dup2(shell->pipes[i][1], STDOUT_FILENO) == -1)
 		{
@@ -70,12 +70,10 @@ void exec_main(t_all *shell)
 	t_input	*current;
 
 	i = 0;
-	shell->std_in = dup(STDIN_FILENO);
-	shell->std_out = dup(STDOUT_FILENO);
 	current = shell->cmd_line;
     cmd_num = count_commands(current);
 	if (!handle_redirect(shell))
-		return ;
+		g_status_code = 1;
 	if (cmd_num == 1 && is_builtin(shell))
 		return (exec_builtin(shell));
 	shell = init_pipe(shell, cmd_num);

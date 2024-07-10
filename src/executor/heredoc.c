@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/08 12:11:07 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/10 17:06:43 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	heredoc_validation(t_input *cmd_line)
 	current = cmd_line;
 	while (current)
 	{
-		if (current->token == D_RED_INPUT)
+		/* if (current->token == D_RED_INPUT)
 		{
 			if (!syntax_validation(current->args))
 				return (0);
 			open_heredoc(current->args);
-		}
+		} */
 		current = current->next;
 	}
 	return (1);

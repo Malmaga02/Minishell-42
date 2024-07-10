@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:32:15 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/10 14:13:10 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/10 17:45:20 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,11 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 		all_info = get_input_complete(all_info, line, envp);
 		//gestione errori durante la get_input_complete da fare
-		if (!all_info.cmd_line)
-			continue ;
+		/* while (all_info.cmd_line)
+		{
+			print_mtx(all_info.cmd_line->args);
+			all_info.cmd_line = all_info.cmd_line->next;
+		} */
 		exec_main(&all_info);
 		set_clear_all(&all_info);
 	}

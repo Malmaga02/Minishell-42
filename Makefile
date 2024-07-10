@@ -65,7 +65,7 @@ $(NAME): $(SRC)
 
 
 valgrind: $(NAME)
-	valgrind --leak-check=full -s --show-reachable=yes --suppressions=readline.supp ./$(NAME)
+	valgrind --leak-check=full --trace-children=yes --track-fds=yes -s --show-reachable=yes --suppressions=readline.supp ./$(NAME)
 
 clean:
 	make clean -C $(LIBFT_DIR)

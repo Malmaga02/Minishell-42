@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:33:51 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/10 12:20:53 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/10 18:27:30 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct	s_input
 	char			**args;
 	int				token;
 	int				merge;
+	int				*fd_in;
+	int				*fd_out;
 	struct s_input	*next;	
 	struct s_input	*prev;
 }	t_input;
@@ -55,8 +57,6 @@ typedef struct	s_all
 	t_list		*envp;
 	t_input		*cmd_line;
 	int			**pipes;
-	int			std_in;
-	int			std_out;
 }	t_all;
 
 // --- Execution --- //

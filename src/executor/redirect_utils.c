@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:00:45 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/08 10:55:29 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/08 13:46:21 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	redirect_validation(t_input *cmd_line)
 	t_input	*current;
 
 	current = cmd_line;
-	if (!heredoc_validation(current))
-		return (0);
+	/* if (!heredoc_validation(current))
+		return (0); */
 	while (current)
 	{
 		if (current->token == R_INPUT)

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/08 11:53:10 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/10 11:06:11 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ void	exec_command(t_all *shell, t_input *cmd_line)
 	path = get_path(shell, cmd[0]);
 	if ((!path) || (execve(path, cmd, envp) == -1))
 	{
-		printf("%s: command not found\n", cmd[0]);
+		ft_printf(2, "%s: command not found\n", cmd[0]);
 		free_all(shell);
 		free_mtx(envp);
 		exit(127);
 	}
 }
 
-void	child_exe(t_all *shell)
+void	child_exe(t_all *shell, t_input *current)
 {
 	if (is_builtin(shell)) 
 	{
@@ -38,29 +38,35 @@ void	child_exe(t_all *shell)
     	exit(g_status_code);
 	}
     else
-    	exec_command(shell, shell->cmd_line);
+    	exec_command(shell, current);
 }
 
 void	child_init(t_all *shell, int i, int cmd_num)
 {
 	if (i > 0)
 	{
+		//printf("%d\n", i);
+		//ft_printf(1, "pipe: %d\n", shell->pipes[i - 1][0]);
         if (dup2(shell->pipes[i - 1][0], STDIN_FILENO) == -1)
 		{
             ft_printf(2, "Error: dup2\n");
             exit(1);
         }
+		close(shell->pipes[i - 1][0]);
     }
     if (cmd_num > 1)
 	{
+		//printf("%d: out\n", i);
+		//ft_printf(1, "pipe: %d\n", shell->pipes[i][1]);
+		//close(shell->pipes[i][0]);
         if (dup2(shell->pipes[i][1], STDOUT_FILENO) == -1)
 		{
             ft_printf(2, "Error: dup2\n");
             exit(1);
      	}
+		printf("ciao\n");
+		close(shell->pipes[i][1]);
 	}
-    close_pipes(shell);
-	free_pipes(shell);
 }
 
 void exec_main(t_all *shell) 
@@ -78,7 +84,7 @@ void exec_main(t_all *shell)
 	if (!handle_redirect(shell))
 		return ;
 	if (cmd_num == 1 && is_builtin(shell))
-		exec_builtin(shell);
+		return (exec_builtin(shell));
 	shell = init_pipe(shell, cmd_num);
     while (current)
 	{
@@ -95,14 +101,14 @@ void exec_main(t_all *shell)
         if (pid == 0)
 		{
 			child_init(shell, i, cmd_num);
-			child_exe(shell);
+			child_exe(shell, current);
         }
         current = current->next;
 		cmd_num--;
         i++;
     }
 	close_pipes(shell);
-	wait_cmd(cmd_num);
+	wait_cmd(i);
 	free_pipes(shell);
 	return ;
 }

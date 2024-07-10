@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:02:54 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/08 12:03:18 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/10 11:45:55 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,49 +38,47 @@ unsigned int	ft_uatoi(const char *str)
 	return (n * sign);
 }
 
-int	numeric_check(t_input *cmd_line)
+int	numeric_check(char **av)
 {
 	int		i;
-	t_input	*tmp;
+	int		j;
 
-	i = 0;
-	tmp = cmd_line;
-	if (tmp->next)
-		tmp = tmp->next;
-	while (tmp)
+	i = 1;
+	j = 0;
+	while (av && av[i])
 	{
-		while (tmp->content[i])
+		while (av[i][j])
 		{
-			if (tmp->content[i] == '-' || tmp->content[i] == '+')
-				i++;
-			if (!ft_isdigit(tmp->content[i]))
+			if (av[i][j] == '-' || av[i][j] == '+')
+				j++;
+			if (!ft_isdigit(av[i][j]))
 				return (0);
-			i++;
+			j++;
 		}
-		tmp = tmp->next;
+		i++;
 	}
 	return (1);
 }
 
-int	builtin_exit(t_all *shell, t_input *cmd_line)
+int	builtin_exit(t_all *shell, char **av)
 {
 	g_status_code = 0;
 	ft_printf(1, "exit\n");
-	if (dll_input_size(cmd_line) != 1)
+	if (mtx_size(av) != 1)
 	{
-		if (dll_input_size(cmd_line) > 2)
-		{
-			g_status_code = 1;
-			return ((ft_printf(2, "minishell: exit: too many arguments\n")), 1);
-		}
-		else if (numeric_check(cmd_line) == 0)
+		if (numeric_check(av) == 0)
 		{
 			ft_printf(2, "minishell: exit: rrt: numeric argument required\n");
 			g_status_code = 2;
 		}
+		else if (mtx_size(av) > 2)
+		{
+			g_status_code = 1;
+			return ((ft_printf(2, "minishell: exit: too many arguments\n")), 1);
+		}
 	}
-	if (dll_input_size(cmd_line) == 2 && g_status_code != 2)
-		g_status_code = ft_uatoi(cmd_line->next->content);
+	if (mtx_size(av) == 2 && g_status_code != 2)
+		g_status_code = ft_uatoi(av[1]);
 	free_all(shell);
 	exit(g_status_code);
 }

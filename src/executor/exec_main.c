@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/10 11:06:11 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:27:44 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,21 @@ void	child_init(t_all *shell, int i, int cmd_num)
 {
 	if (i > 0)
 	{
-		//printf("%d\n", i);
-		//ft_printf(1, "pipe: %d\n", shell->pipes[i - 1][0]);
         if (dup2(shell->pipes[i - 1][0], STDIN_FILENO) == -1)
 		{
             ft_printf(2, "Error: dup2\n");
             exit(1);
         }
-		close(shell->pipes[i - 1][0]);
     }
     if (cmd_num > 1)
 	{
-		//printf("%d: out\n", i);
-		//ft_printf(1, "pipe: %d\n", shell->pipes[i][1]);
-		//close(shell->pipes[i][0]);
         if (dup2(shell->pipes[i][1], STDOUT_FILENO) == -1)
 		{
             ft_printf(2, "Error: dup2\n");
             exit(1);
      	}
-		printf("ciao\n");
-		close(shell->pipes[i][1]);
 	}
+	close_pipes(shell);
 }
 
 void exec_main(t_all *shell) 

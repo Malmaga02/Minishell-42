@@ -52,6 +52,7 @@ char	*find_expansion_env(t_list *envp, char *name_env)
 	}
 	return (ft_strdup(""));
 }
+
 /* 
 char	*handle_escaped_char(char *env)
 {

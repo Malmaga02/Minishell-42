@@ -61,13 +61,13 @@ int	first_token_check(int *arr_token, int size)
 		while (i < size && (arr_token[i] && arr_token[i] == WORDS))
 			i++;
 		if (i < size && (arr_token[i] == PIPE 
-		|| arr_token[i] == R_INPUT || 
+		|| arr_token[i] == R_INPUT ||
 		arr_token[i] == R_OUTPUT || arr_token[i] == D_RED_INPUT
 		|| arr_token[i] == D_RED_OUTPUT))
 		{
 			if (i + 1 >= size || 
 			(i + 1 < size && !check_if_word_after_operator(arr_token[i + 1])))
-				return (0);
+				return (ft_putstr_fd("syntax error near unexpected token `newline", 0), 0);
 		}
 		i++;
 	}

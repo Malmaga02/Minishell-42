@@ -40,16 +40,17 @@ char	*get_name_env(char *str)
 	index_dollar_sign = get_index_special_char(str, '$') + 1;
 	if (index_dollar_sign == -1)
 		return (NULL);
-	len_env = get_len_word(str, index_dollar_sign);
+	len_env = get_len_word(str, index_dollar_sign) + 1;
 	name_env = ft_calloc(len_env + 1, sizeof(char));
 	if (!name_env)
 		return (NULL);
-	while ((str && str[index_dollar_sign]) && i < len_env)
+	while ((str && str[index_dollar_sign]) && i < len_env - 1)
 	{
 		name_env[i] = str[index_dollar_sign];
 		index_dollar_sign++;
 		i++;
 	}
+	name_env[i] = '=';
 	return (name_env);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/10 18:14:58 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:50:56 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int					redirect_validation(t_input *cmd_line);
 int					file_validation(t_input *cmd_line);
 int					get_last_args(char **args);
 t_input				*set_std_cmd_line(t_input *current);
+void				set_fd_cmd(t_all *shell, int *last_fdin, int *last_fdout);
 /*------------------HEREDOC------------------*/
 int					heredoc_validation(t_input *cmd_line);
 /*------------------SIGNAL------------------*/

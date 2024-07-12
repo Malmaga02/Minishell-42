@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/10 18:23:29 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/12 16:58:38 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,28 @@ void	child_init(t_all *shell, int i, int cmd_num)
 	close_pipes(shell);
 }
 
+/* void redir_init(t_input *current)
+{
+	if (current->fd_in != NULL)
+	{
+		printf("fdin: %d\n", *current->fd_in);
+		if (dup2(*current->fd_in, STDIN_FILENO) == -1)
+		{
+			ft_printf(2, "Error fdin: dup2\n");
+			exit(1);
+		}
+	}
+	if (current->fd_out != NULL)
+	{
+		printf("fdout: %d\n", *current->fd_out);
+		if (dup2(*current->fd_out, STDOUT_FILENO) == -1)
+		{
+			ft_printf(2, "Error fdout: dup2\n");
+			exit(1);
+		}
+	}
+} */
+
 void exec_main(t_all *shell) 
 {
     int 	i;
@@ -72,8 +94,8 @@ void exec_main(t_all *shell)
 	i = 0;
 	current = shell->cmd_line;
     cmd_num = count_commands(current);
-	if (!handle_redirect(shell))
-		g_status_code = 1;
+	/* if (!handle_redirect(shell))
+		g_status_code = 1; */
 	if (cmd_num == 1 && is_builtin(shell))
 		return (exec_builtin(shell));
 	shell = init_pipe(shell, cmd_num);
@@ -91,6 +113,7 @@ void exec_main(t_all *shell)
         } 
         if (pid == 0)
 		{
+			//redir_init(current);
 			child_init(shell, i, cmd_num);
 			child_exe(shell, current);
         }
@@ -103,4 +126,3 @@ void exec_main(t_all *shell)
 	free_pipes(shell);
 	return ;
 }
-

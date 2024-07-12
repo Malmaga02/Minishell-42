@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:33:51 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/10 18:27:30 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/12 16:50:54 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,6 @@
 # include <term.h>
 # include <curses.h>
 # include <signal.h>
-
-// # define ECHO "echo";
-# define CD "cd";
-# define PWD "pwd";
-# define EXPORT "export";
-# define UNSET "unset";
-# define ENV "env";
-# define EXIT "exit";
 
 extern	int	g_status_code;
 

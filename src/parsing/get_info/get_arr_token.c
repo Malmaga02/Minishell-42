@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_arr_token.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgalmari <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/06/18 14:34:59 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:20:23 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	first_token_check(int *arr_token, int size)
 	int	i;
 
 	i = 0;
-	if (!arr_token || !arr_token[i])
+	if (!arr_token)
 		return (0);
 	else if (i < size && arr_token[i] == PIPE)
 		return (0);

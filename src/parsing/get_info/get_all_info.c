@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/06/24 17:46:11 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/13 16:06:35 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ t_input	*create_list_from_input(t_parsing *parsing)
 		node = dll_input_new(ft_strdup(parsing->mtx_from_input[i]));
 		if (!node)
 			return (dll_input_clear(&cmd_line), NULL);
+		node->fd_in = -1;
+		node->fd_out = -1;
 		node->token = parsing->arr_token[i];
 		dll_input_addback(&cmd_line, node);
 		i++;

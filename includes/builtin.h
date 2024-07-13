@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/12 12:50:56 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/13 15:55:02 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int					char_check(char *str, int *error);
 /*------------------EXEC_MAIN------------------*/
 void				exec_command(t_all *shell, t_input *cmd_line);
 void				exec_main(t_all *shell);
-void				child_init(t_all *shell, int i, int cmd_num);
-void				child_exe(t_all *shell, t_input *current);
 /*------------------EXEC_UTILS------------------*/
 void				exec_builtin(t_all *shell);
 bool				is_builtin(t_all *shell);
@@ -57,20 +55,15 @@ void				close_pipes(t_all *shell);
 void 				free_pipes(t_all *shell);
 /*------------------REDIRECT------------------*/
 int					handle_redirect(t_all *shell);
-int					handle_input(t_input *current);
-int					handle_output(t_input *current);
-int					handle_append_output(t_input *current);
 /*------------------REDIRECT_UTILS------------------*/
-int					redirect_validation(t_input *cmd_line);
-int					file_validation(t_input *cmd_line);
-int					get_last_args(char **args);
-t_input				*set_std_cmd_line(t_input *current);
-void				set_fd_cmd(t_all *shell, int *last_fdin, int *last_fdout);
+int					handle_input(char *path);
+int					handle_output(char *path);
+int					handle_append_output(char *path);
 /*------------------HEREDOC------------------*/
 int					heredoc_validation(t_input *cmd_line);
+void				open_heredoc(char **args);
 /*------------------SIGNAL------------------*/
 int					signal_handle(char *str);
-void				open_heredoc(char **args);
 /*------------------ENVP_UTILS------------------*/
 void				add_node_env(t_list **envp, char *str);
 t_list				*change_env_variable(t_list *envp, char *var, char *new);

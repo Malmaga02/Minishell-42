@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:32:15 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/12 15:32:34 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/13 18:11:26 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,19 @@ int	g_status_code;
 	return (NULL);
 } */
 
+bool all_spaces(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if (str[i] != ' ' && !(str[i] >= 9  && str[i] <= 13))
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
 int	main(int ac, char **av, char **envp)
 {
@@ -59,14 +72,17 @@ int	main(int ac, char **av, char **envp)
 	{
 		g_status_code = 0;
 		line = readline("minishello > ");
+		if (!line)
+			break ;
+		if (all_spaces(line))
+		{
+			free(line);
+			continue ;
+		}
 		add_history(line);
 		all_info = get_input_complete(all_info, line, envp);
-		//gestione errori durante la get_input_complete da fare
-		/* while (all_info.cmd_line)
-		{
-			print_all(all_info.cmd_line);
-			all_info.cmd_line = all_info.cmd_line->next;
-		} */
+		if (!all_info.cmd_line)
+			break ;
 		exec_main(&all_info);
 		set_clear_all(&all_info);
 	}

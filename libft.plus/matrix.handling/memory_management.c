@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:05:40 by chsassi           #+#    #+#             */
-/*   Updated: 2024/06/22 16:55:51 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/13 18:13:51 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,11 @@ char	**copy_mtx(char **mtx)
 void	free_mtx(char **mtx)
 {
 	int	i;
-	int	len;
 
 	if (!mtx)
 		return ;
-	len = count_rows(mtx);
 	i = 0;
-	while (i < len)
+	while (mtx[i])
 	{
 		free(mtx[i]);
 		mtx[i] = NULL;

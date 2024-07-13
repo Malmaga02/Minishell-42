@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_final_cmd_line.c                               :+:      :+:    :+:   */
+/*   get_args_mtx.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgalmari <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/06/18 14:34:59 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/13 18:37:44 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ char	**get_args(int *arr_token, char **mtx_cmdline, int index, char **args)
 		args[j++] = ft_strdup(mtx_cmdline[(index)++]);
 	while ((index < size && !if_token_needs_arg(arr_token[index])) && (mtx_cmdline && mtx_cmdline[index]))
 		args[j++] = ft_strdup(mtx_cmdline[(index)++]);
-	args[j] = NULL;
 	return (args);
 }
 
@@ -49,7 +48,7 @@ char	**create_args_mtx(int *arr_token, char **mtx_cmdline, int *index)
 		size = count_rows_args(&mtx_cmdline[*index], &arr_token[*index]);
 		if (!size)
 			return (free(arr_token), free_mtx(mtx_cmdline), NULL);
-		args = ft_calloc(size + 1, sizeof(char *));
+		args = ft_calloc(size + 2, sizeof(char *));
 		if (!args)
 			return (free(arr_token), free_mtx(mtx_cmdline), NULL);
 		args = get_args(arr_token, mtx_cmdline, *index, args);

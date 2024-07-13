@@ -6,42 +6,101 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 21:30:01 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/12 16:41:16 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/13 15:46:36 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_redirect(t_input *current, int *last_fdin, int *last_fdout)
+int	check_redirect(t_input *cmd, t_input *current, int *last)
 {
+	int	status;
+	int	ret;
+
+	status = 0;
+	ret = 1;
 	if (current->token == R_INPUT)
-	{
-		if ((*last_fdin = handle_input(current)) == -1)
-			return (0);
-    } 
+		status = handle_input(current->next->content);
 	else if (current->token == R_OUTPUT)
-	{
-		if ((*last_fdout = handle_output(current)) == -1)
-			return (0);
-    }
+		status = handle_output(current->next->content);
 	else if (current->token == D_RED_OUTPUT)
+		status = handle_append_output(current->next->content);
+	if (status == -1)
+		ret = 0;
+	if (last != NULL)
+		*last = status;
+	if (status == -1 && cmd)
+		cmd->prevent = true;
+	if (status == -1)
+		g_status_code = 1;
+	return (ret);
+}
+
+t_input *find_cmd_in_block(t_input *block)
+{
+	while (block && block->token != PIPE)
 	{
-           if ((*last_fdout = handle_append_output(current)) == -1)
-			return (0);
-    }
-	return (1);
+		if (block->token == CMD)
+			return (block);
+		block = block->next;
+	}
+	return (NULL);
+}
+
+bool	handle_block(t_input *block)
+{
+	t_input *cmd;
+	int		*last_in;
+	int		*last_out;
+
+	cmd = find_cmd_in_block(block);
+	last_in = NULL;
+	last_out = NULL;
+	if (cmd)
+		last_in = &cmd->fd_in;
+	if (cmd)
+		last_out = &cmd->fd_out;
+	while(block && block->token != PIPE)
+	{
+		if (block->token == R_INPUT)
+		{
+			if (!check_redirect(cmd, block, last_in))
+				return (false);
+		}
+		else if ((block->token == R_OUTPUT || block->token == D_RED_OUTPUT)
+			&& !check_redirect(cmd, block, last_out))
+			return (false);
+		block = block->next;
+	}
+	return (true);
 }
 
 int	handle_redirect(t_all *shell)
 {
+	t_input	*current;
+
+	current = shell->cmd_line;
+	handle_block(current);
+	while (current)
+	{
+		if (current->token == PIPE)
+			handle_block(current->next);
+		current = current->next;
+	}
+	return (1);
+}
+
+/* int	handle_redirect(t_all *shell)
+{
 	t_input *current;
+	t_input *cmd;
 	int		*last_fdin;
 	int 	*last_fdout;
 	bool	redirect;
 
 	current = shell->cmd_line;
-	last_fdin = malloc(sizeof(int *));
-	last_fdout = malloc(sizeof(int *));
+	// last_fdin = malloc(sizeof(int));
+	// last_fdout = malloc(sizeof(int));
 	if (!last_fdout || !last_fdin)
 		return (0);
 	redirect = false;
@@ -50,6 +109,8 @@ int	handle_redirect(t_all *shell)
 		return (0);
     while (current)
 	{
+		if (current->token == CMD)
+			cmd = current;
 		if (current->token == R_INPUT || current->token == R_OUTPUT || current->token == D_RED_OUTPUT)
 		{
 			redirect = true;
@@ -66,34 +127,6 @@ int	handle_redirect(t_all *shell)
         current = current->next;
     }
     return (1);
-}
+} */
 
-int	handle_input(t_input *current)
-{
-	int	fd;
 
-	if ((fd = open(current->args[1], O_RDONLY)) == -1)
-        return (ft_printf(2, "Error: open\n"), 0);
-    close(fd);
-	return (fd);
-}
-
-int	handle_output(t_input *current)
-{
-	int	fd;
-
-	if ((fd = open(current->args[1], O_WRONLY | O_CREAT | O_TRUNC, 0644)) == -1)
-        return (ft_printf(2, "Error: open\n"), 0);
-    close(fd);
-	return (fd);
-}
-
-int	handle_append_output(t_input *current)
-{
-	int	fd;
-
-	if ((fd = open(current->args[1], O_WRONLY | O_CREAT | O_APPEND, 0644)) == -1)
-        return (ft_printf(2, "Error: open\n"), 0);
-    close(fd);
-	return (fd);
-}

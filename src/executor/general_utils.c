@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 21:51:31 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/10 11:35:42 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/13 18:04:32 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,7 @@ char	**lst_to_mtx(t_list *envp)
 	return(mtx);
 }
 
-void	print_mtx(char **mtx)
-{
-	int	i;
 
-	i = 0;
-	while (mtx && mtx[i])
-	{
-		printf("%s\n", mtx[i]);
-		i++;
-	}
-}
 
 int	ft_strcmp(const char *s1, const char *s2)
 {

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:29:13 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/08 12:09:49 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/14 17:29:29 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,23 @@ int	equal_check(char *str)
 	return (0);
 }
 
-int	doppelganger_check(t_list *envp, char *key, int len)
+int doppelganger_check(t_list *envp, char *all, int len)
 {
-	char	*str;
-
-	str = NULL;
-	while (envp)
-	{
-		str = (char *)envp->content;
-		if ((ft_strncmp(str, key, len) == 0)
-			&& ((str[len] == '=') || (str[len] == '+')))
-			return (1);
-		envp = envp->next;
-	}
-	return (0);
+    char *key = malloc(sizeof(char) * (len + 1));
+    if (!key)
+        return (0);
+    ft_strlcpy(key, all, len + 1);
+    while (envp)
+    {
+        char *str = (char *)envp->content;
+        if (strncmp(str, key, len) == 0 && 
+            (str[len] == '=' || str[len] == '+' || str[len] == '\0'))
+            return (free(key), 1);
+        envp = envp->next;
+    }
+    return (free(key), 0);
 }
+
 
 void	change_node_env(t_list **envp, char *str, int eq)
 {

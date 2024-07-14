@@ -54,7 +54,8 @@ SRC =	./main.c \
 		./src/executor/general_utils.c \
 		./src/executor/redirect.c \
 		./src/executor/redirect_utils.c \
-		./src/executor/heredoc.c 
+		./src/executor/heredoc.c \
+		./src/executor/signal.c 
 
 all: $(NAME)
 

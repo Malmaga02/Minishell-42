@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:12 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/10 12:43:28 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/14 17:17:22 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	export_add(t_all *shell, char *str)
 		change_node_env(&shell->envp, str, i);
 	else if (doppelganger_check(shell->envp, str, i))
 	{
+		printf("doppelganger\n");
 		tmp = find_node_in_env(shell->envp, str, i);
 		free(tmp->content);
 		tmp->content = malloc(sizeof(char) * (ft_strlen(str) + 1));

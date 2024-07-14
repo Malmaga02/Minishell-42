@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/14 16:56:45 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/14 19:07:55 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	exec_command(t_all *shell, t_input *cmd_line)
 	char	**cmd;
 	char	**envp;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	cmd = cmd_line->args;
 	envp = lst_to_mtx(shell->envp);
 	path = get_path(shell, cmd[0]);
@@ -31,7 +33,7 @@ void	exec_command(t_all *shell, t_input *cmd_line)
 }
 
 void	child_exe(t_all *shell, t_input *current)
-{		
+{
 	if (is_builtin(shell)) 
 	{
     	exec_builtin(shell);
@@ -77,6 +79,7 @@ void exec_main(t_all *shell)
 		return (pipe_init(shell, current, i, cmd_num),
 			exec_builtin(shell));
 	shell = init_pipe(shell, cmd_num);
+	signal(SIGINT, handle_exec_sig);
     while (current)
 	{
 		if (cmd_num < 1)
@@ -106,7 +109,13 @@ void exec_main(t_all *shell)
         i++;
     }
 	close_pipes(shell);
-	wait_cmd(i);
+	while (wait(&g_status_code) != -1)
+	{
+		if (WIFEXITED(g_status_code))
+			g_status_code = WEXITSTATUS(g_status_code);
+		else if (WIFSIGNALED(g_status_code))
+			handle_signal_child(WTERMSIG(g_status_code));
+	}
 	free_pipes(shell);
 	return ;
 }

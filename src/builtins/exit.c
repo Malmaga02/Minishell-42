@@ -6,17 +6,18 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:02:54 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/10 11:45:55 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/14 17:46:56 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-unsigned int	ft_uatoi(const char *str)
+unsigned int	ft_uatoi(const char *str, int *error)
 {
 	int					i;
 	int					sign;
 	unsigned int		n;
+	unsigned int		check;	
 
 	i = 0;
 	sign = 1;
@@ -32,7 +33,10 @@ unsigned int	ft_uatoi(const char *str)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
+		check = n;
 		n = n * 10 + (str[i] - '0');
+		if (check > n)
+			return (*error = 1, 0);
 		i++;
 	}
 	return (n * sign);
@@ -62,11 +66,15 @@ int	numeric_check(char **av)
 
 int	builtin_exit(t_all *shell, char **av)
 {
+	int		error;
+
+	error = 0;
 	g_status_code = 0;
 	ft_printf(1, "exit\n");
 	if (mtx_size(av) != 1)
 	{
-		if (numeric_check(av) == 0)
+		g_status_code = ft_uatoi(av[1], &error);
+		if (numeric_check(av) == 0 || error == 1)
 		{
 			ft_printf(2, "minishell: exit: rrt: numeric argument required\n");
 			g_status_code = 2;
@@ -77,8 +85,6 @@ int	builtin_exit(t_all *shell, char **av)
 			return ((ft_printf(2, "minishell: exit: too many arguments\n")), 1);
 		}
 	}
-	if (mtx_size(av) == 2 && g_status_code != 2)
-		g_status_code = ft_uatoi(av[1]);
 	free_all(shell);
 	exit(g_status_code);
 }

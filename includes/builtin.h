@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/14 17:06:29 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/14 18:46:26 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ int					handle_append_output(char *path);
 int					heredoc_validation(t_input *cmd_line);
 void				open_heredoc(char **args);
 /*------------------SIGNAL------------------*/
-int					signal_handle(char *str);
+void				handle_signal_child(int signal);
+void				sig_handler(int signal);
+void				handle_exec_sig(int signal);
 /*------------------ENVP_UTILS------------------*/
 void				add_node_env(t_list **envp, char *str);
 t_list				*change_env_variable(t_list *envp, char *var, char *new);

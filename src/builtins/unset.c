@@ -6,13 +6,13 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:05 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/10 11:51:36 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/14 17:06:05 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	del_env_variable(t_list **envp, char *word)
+static void	del_env_variable(t_list **envp, char *word)
 {
 	t_list	*tmp;
 	t_list	*prev;

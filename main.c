@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:32:15 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/13 18:11:26 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/14 17:02:02 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,7 @@ int	g_status_code;
 	return (NULL);
 } */
 
-bool all_spaces(char *str)
-{
-	int	i;
 
-	i = 0;
-	while (str && str[i])
-	{
-		if (str[i] != ' ' && !(str[i] >= 9  && str[i] <= 13))
-			return (false);
-		i++;
-	}
-	return (true);
-}
 
 int	main(int ac, char **av, char **envp)
 {

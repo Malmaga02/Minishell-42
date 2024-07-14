@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 21:30:01 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/13 15:46:36 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/14 16:44:38 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,44 +89,5 @@ int	handle_redirect(t_all *shell)
 	}
 	return (1);
 }
-
-/* int	handle_redirect(t_all *shell)
-{
-	t_input *current;
-	t_input *cmd;
-	int		*last_fdin;
-	int 	*last_fdout;
-	bool	redirect;
-
-	current = shell->cmd_line;
-	// last_fdin = malloc(sizeof(int));
-	// last_fdout = malloc(sizeof(int));
-	if (!last_fdout || !last_fdin)
-		return (0);
-	redirect = false;
-	current = set_std_cmd_line(current);
-	if (!current)
-		return (0);
-    while (current)
-	{
-		if (current->token == CMD)
-			cmd = current;
-		if (current->token == R_INPUT || current->token == R_OUTPUT || current->token == D_RED_OUTPUT)
-		{
-			redirect = true;
-			if (!check_redirect(current, last_fdin, last_fdout))
-				return (0);
-		}
-		if (redirect && (!current->next || current->next->token == PIPE))
-		{
-			set_fd_cmd(shell, last_fdin, last_fdout);
-			last_fdin = NULL;
-			last_fdout = NULL;
-			redirect = false;
-		}
-        current = current->next;
-    }
-    return (1);
-} */
 
 

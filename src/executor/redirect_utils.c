@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:00:45 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/13 15:30:09 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/14 16:44:20 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ int	handle_output(char *path)
 {
 	int	fd;
 
-	if (access(path, F_OK))
-		return (ft_printf(2, "%s: No such file or directory\n", path), -1);
 	fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
         return (ft_printf(2, "%s: permission denied\n", path), -1);
@@ -40,8 +38,6 @@ int	handle_append_output(char *path)
 {
 	int	fd;
 	
-	if (access(path, F_OK))
-		return (ft_printf(2, "%s: No such file or directory\n", path), -1);
 	fd = open(path, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
         return (ft_printf(2, "%s: permission denied\n", path), -1);

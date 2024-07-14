@@ -80,6 +80,7 @@ int	handle_redirect(t_all *shell)
 	t_input	*current;
 
 	current = shell->cmd_line;
+	handle_heredoc(shell);
 	handle_block(current);
 	while (current)
 	{

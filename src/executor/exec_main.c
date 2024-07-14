@@ -79,7 +79,7 @@ void exec_main(t_all *shell)
 		return (pipe_init(shell, current, i, cmd_num),
 			exec_builtin(shell));
 	shell = init_pipe(shell, cmd_num);
-	signal(SIGINT, handle_exec_sig);
+	signal(SIGINT, handle_sigint_exec);
     while (current)
 	{
 		if (cmd_num < 1)

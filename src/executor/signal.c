@@ -23,7 +23,7 @@ void	handle_signal_child(int signal)
 	}
 }
 
-void sig_handler(int signal)
+void handle_sigint(int signal)
 {
 	if (signal == SIGINT)
 	{
@@ -34,7 +34,7 @@ void sig_handler(int signal)
 	}
 }
 
-void	handle_exec_sig(int signal)
+void	handle_sigint_exec(int signal)
 {
 	if (signal == SIGINT)
 	{

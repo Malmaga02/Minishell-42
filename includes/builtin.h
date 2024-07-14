@@ -53,17 +53,18 @@ void				close_pipes(t_all *shell);
 void 				free_pipes(t_all *shell);
 /*------------------REDIRECT------------------*/
 int					handle_redirect(t_all *shell);
+t_input             *find_cmd_in_block(t_input *block);
 /*------------------REDIRECT_UTILS------------------*/
 int					handle_input(char *path);
 int					handle_output(char *path);
 int					handle_append_output(char *path);
 /*------------------HEREDOC------------------*/
-int					heredoc_validation(t_input *cmd_line);
-void				open_heredoc(char **args);
+int					handle_heredoc(t_all *shell);
+int					open_heredoc(t_input *block);
 /*------------------SIGNAL------------------*/
 void				handle_signal_child(int signal);
-void				sig_handler(int signal);
-void				handle_exec_sig(int signal);
+void				handle_sigint(int signal);
+void				handle_sigint_exec(int signal);
 /*------------------ENVP_UTILS------------------*/
 void				add_node_env(t_list **envp, char *str);
 t_list				*change_env_variable(t_list *envp, char *var, char *new);

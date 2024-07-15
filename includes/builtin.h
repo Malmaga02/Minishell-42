@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/14 18:46:26 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:37:01 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int					char_check(char *str, int *error);
 /*------------------EXEC_MAIN------------------*/
 void				exec_main(t_all *shell);
 void				exec_command(t_all *shell, t_input *cmd_line);
+void				pipe_init(t_all *shell, t_input *current, int i, int cmd_num);
 /*------------------EXEC_UTILS------------------*/
 void				exec_builtin(t_all *shell);
 bool				is_builtin(t_all *shell);
@@ -60,7 +61,6 @@ int					handle_output(char *path);
 int					handle_append_output(char *path);
 /*------------------HEREDOC------------------*/
 int					handle_heredoc(t_all *shell);
-int					open_heredoc(t_input *block);
 /*------------------SIGNAL------------------*/
 void				handle_signal_child(int signal);
 void				handle_sigint(int signal);

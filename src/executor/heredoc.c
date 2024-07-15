@@ -6,46 +6,89 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/10 17:06:43 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/15 18:24:23 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	display_heredoc(char *delimiter, int *fd)
+static char	*strjoin_heredoc(char *s1, const char *s2)
+{
+	size_t	len_s1;
+	size_t	len_s2;
+	char	*result;
+
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	len_s1 = ft_strlen(s1);
+	len_s2 = ft_strlen(s2);
+	result = (char *)malloc(len_s1 + len_s2 + 1);
+	if (result == NULL)
+		return (NULL);
+	ft_strlcpy(result, s1, len_s1 + 1);
+	ft_strlcat(result, s2, len_s1 + len_s2 + 1);
+	return (result);
+}
+
+static char *open_file(char *file_name, int *fd)
+{
+	char	*new;
+
+	new = NULL;
+	/* if (access(file_name, F_OK) == 0)
+	{
+		new = strjoin_heredoc(file_name, "_daje");
+		return (open_file(new));
+	} */
+	*fd = open(file_name, O_WRONLY | O_CREAT | O_EXCL, 0644);
+	if (fd < 0)
+	{
+		new = strjoin_heredoc(file_name, "_daje");
+		return (open_file(new, fd));
+	}
+	return (file_name);
+}
+
+void	display_heredoc(char *delimiter, int *last)
 {
 	char	*line;
+	char	*file_name;
+	int		fd;
 
+	file_name = open_file("heredoc", &fd);
 	while (1)
 	{
 		line = readline("> ");
 		if (line == NULL || strcmp(line, delimiter) == 0)
-			return (free(line));
-		*fd = open("heredoc", O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (*fd == -1)
-			return (ft_printf(2, "heredoc denied\n"), free(line));
-		ft_putendl_fd(line, *fd);
+		{
+			free(line);
+			break ;
+		}
+		ft_putendl_fd(line, fd);
 		free(line);
 	}
+	close(fd);
+	fd = open(file_name, O_RDONLY);
+	if (last != NULL)
+		*last = fd;
+	unlink(file_name);
 }
 
 int	open_heredoc(t_input *block)
 {
-	char		*line;
 	t_input		*cmd;
-	int			fd;
+	int			*last;
 
-	fd = -1;
+	last = NULL;
 	cmd = find_cmd_in_block(block);
-	line = NULL;
+	if (cmd)
+		last = &cmd->fd_in;
 	while (block && block->token != PIPE)
 	{
 		if (block->token == D_RED_INPUT)
-			display_heredoc(block->args[1], &fd);
+			display_heredoc(block->args[1], last);
 		block = block->next;
 	}
-	if (cmd && fd != -1)
-		fd = cmd->fd_in;
 	return (1);
 }
 

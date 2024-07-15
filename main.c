@@ -31,6 +31,7 @@ int	main(int ac, char **av, char **envp)
 		line = readline("minishello >: ");
 		if (!line)
 		{
+			free_all(&all_info);
 			ft_printf(2, "exit\n");
 			break ;
 		}

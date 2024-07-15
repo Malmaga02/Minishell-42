@@ -35,11 +35,6 @@ static char *open_file(char *file_name, int *fd)
 	char	*new;
 
 	new = NULL;
-	/* if (access(file_name, F_OK) == 0)
-	{
-		new = strjoin_heredoc(file_name, "_daje");
-		return (open_file(new));
-	} */
 	*fd = open(file_name, O_WRONLY | O_CREAT | O_EXCL, 0644);
 	if (fd < 0)
 	{
@@ -61,6 +56,8 @@ void	display_heredoc(char *delimiter, int *last)
 		line = readline("> ");
 		if (line == NULL || strcmp(line, delimiter) == 0)
 		{
+			if (line == NULL)
+				write(1, "\n", 1);
 			free(line);
 			break ;
 		}

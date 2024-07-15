@@ -45,6 +45,16 @@ void	free_all(t_all *all)
 		dll_input_clear(&(all->cmd_line));
 		all->cmd_line = NULL;
 	}
+	if (all && all->std_fd_in > 2)
+	{
+		close(all->std_fd_in);
+		all->std_fd_in = 0;
+	}
+	if (all && all->std_fd_out > 2)
+	{
+		close(all->std_fd_out);
+		all->std_fd_out = 0;
+	}
 }
 
 void	close_all(t_all *all)

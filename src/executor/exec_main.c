@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/16 11:40:21 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:38:39 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,12 @@ void	child_exe(t_all *shell, t_input *current)
 
 void	pipe_init(t_all *shell, t_input *current, int i, int cmd_num)
 {
-	if (i > 0 && shell->pipes)
+	char *path;
+
+	path = get_path(shell, current->content);
+	if (path && i > 0 && shell->pipes)
 		dup2(shell->pipes[i - 1][0], STDIN_FILENO);
-	if (cmd_num > 1 && shell->pipes)
+	if (path && cmd_num > 1 && shell->pipes)
     	dup2(shell->pipes[i][1], STDOUT_FILENO);
 	if (current->fd_in > 2)
 	{
@@ -121,5 +124,6 @@ void exec_main(t_all *shell)
 		else if (WIFSIGNALED(g_status_code))
 			handle_signal_child(WTERMSIG(g_status_code));
 	}
+	close_exec_fd();
 	free_pipes(shell);
 }

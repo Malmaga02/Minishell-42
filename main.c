@@ -23,9 +23,9 @@ int	main(int ac, char **av, char **envp)
 	all_info = (t_all){0};
 	(void)ac;
 	(void)av;
+	g_status_code = 0;
 	while (42)
 	{
-		g_status_code = 0;
 		signal(SIGINT, sig_handler);
 		signal(SIGQUIT, SIG_IGN);
 		line = readline("minishello >: ");

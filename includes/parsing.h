@@ -130,7 +130,8 @@ t_all		assign_quote_as_words_token(t_all all_info);
 // Handling_token ..
 int			find_token_type(int token);
 int			count_rows_args(char **mtx_cmdline, int *arr_token);
-int			check_if_word_token(int token);
+int			check_which_operator(int token);
+int			handle_syntax_error_operators(int *arr_token, int i, int size);
 
 // Trim_quotes
 char		*trim_quotes(char *content);

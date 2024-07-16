@@ -91,7 +91,7 @@ char	**get_mtx_from_input(t_parsing *parsing)
 
 	words = count_words(parsing->input);
 	if (words == -1)
-		return (NULL);
+		return (ft_putstr_fd("syntax error: open quote\n", 0), NULL);
 	res = ft_calloc((words + 1), sizeof(char *));
 	if (!res || !parsing->input)
 		return (NULL);

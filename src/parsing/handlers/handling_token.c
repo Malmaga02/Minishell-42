@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/13 18:38:03 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int	find_token_type(int token)
 {
 	if (token == PIPE || token == R_INPUT
-	|| token == R_OUTPUT || token == HEREDOC
-	|| token == D_RED_OUTPUT)
+		|| token == R_OUTPUT || token == HEREDOC
+		|| token == D_RED_OUTPUT)
 		return (OPERATORS);
 	else if (token == CMD || token == FILE_W || token == EOF_DEL
-	|| token == ARG)
+		|| token == ARG)
 		return (WORDS);
 	else if (token == D_QUOTE || token == S_QUOTE)
 		return (QUOTES);
@@ -44,8 +44,8 @@ int	count_rows_args(char **mtx_cmdline, int *arr_token)
 
 int	check_which_operator(int token)
 {
-	if (token == R_INPUT || token == R_OUTPUT || token == HEREDOC 
-	|| token == D_RED_OUTPUT)
+	if (token == R_INPUT || token == R_OUTPUT || token == HEREDOC
+		|| token == D_RED_OUTPUT)
 		return (REDIRECTS);
 	if (token == D_QUOTE || token == S_QUOTE)
 		return (QUOTES);
@@ -56,14 +56,21 @@ int	check_which_operator(int token)
 
 int	handle_syntax_error_operators(int *arr_token, int i, int size)
 {
+	int	tkn_before;
+	int	tkn_after;
+
+	tkn_before = 0;
+	tkn_after = 0;
 	if (i >= size)
 		return (0);
 	if (i > 0 && (i + 1) < size)
 	{
-		if ((arr_token[i] == PIPE && find_token_type(arr_token[i - 1]) == OPERATORS)
-		|| (check_which_operator(arr_token[i]) == REDIRECTS
-			&& find_token_type(arr_token[i + 1]) == OPERATORS))
-			return (ft_putstr_fd("syntax error near unexpected token `newline'\n", 0), 0);
+		tkn_before = arr_token[i - 1];
+		tkn_after = arr_token[i + 1];
+		if ((arr_token[i] == PIPE && find_token_type(tkn_before) == OPERATORS)
+			|| (check_which_operator(arr_token[i]) == REDIRECTS
+				&& find_token_type(tkn_after) == OPERATORS))
+			return (ft_putstr_fd("syntax error near unexpected token\n", 0), 0);
 	}
-	return (1);		
+	return (1);
 }

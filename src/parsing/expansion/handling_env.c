@@ -6,7 +6,7 @@
 /*   By: mgalmari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/06/18 14:34:59 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ int	len_escaped_char(char *env)
 	while (env && env[i])
 	{
 		token = check_spaces(env[i]);
-		if (find_token_type(token) == OPERATORS || find_token_type(token) == QUOTES)
+		if (find_token_type(token) == OPERATORS
+			|| find_token_type(token) == QUOTES)
 			res++;
 		i++;
 	}
@@ -88,7 +89,8 @@ char	*handle_escaped_char(char *env)
 	while (env && env[i])
 	{
 		token = check_spaces(env[i]);
-		if (find_token_type(token) == OPERATORS || find_token_type(token) == QUOTES)
+		if (find_token_type(token) == OPERATORS
+			|| find_token_type(token) == QUOTES)
 			new_content[j++] = '$';
 		new_content[j++] = env[i++];
 	}

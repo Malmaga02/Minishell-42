@@ -6,7 +6,7 @@
 /*   By: mgalmari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/06/18 14:34:59 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*expand_env(char *content, t_all all_info)
 {
-	char 	*env;
+	char	*env;
 	char	*new_content;
 
 	env = get_env(content, all_info);
@@ -32,7 +32,7 @@ void	*expand_env(char *content, t_all all_info)
 
 void	*expand_env_with_quotes(char *content, t_all all_info)
 {
-	char 	*env;
+	char	*env;
 	char	*new_content;
 	int		dollar_signs;
 

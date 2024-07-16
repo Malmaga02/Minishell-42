@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+// CONTROLLARE PUTENDL_FD PASSARSI T_ALL SHELL PER ESPANSIONI
+
+static void	ft_putendl_fd_h(char *s, int fd, t_all *shell)
+{
+	if (ft_check_s_fd(s) == -1 || ft_check_fd(fd) == -1)
+		return ;
+	s = expand_env_with_quotes(s, *shell);
+	if (!s)
+		return ;
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
+}
+
 static char	*strjoin_heredoc(char *s1, const char *s2)
 {
 	size_t	len_s1;
@@ -61,7 +74,7 @@ void	display_heredoc(char *delimiter, int *last)
 			free(line);
 			break ;
 		}
-		ft_putendl_fd(line, fd);
+		ft_putendl_fd_h(line, fd, shell);
 		free(line);
 	}
 	close(fd);

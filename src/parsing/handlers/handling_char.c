@@ -80,7 +80,7 @@ int	handle_operators(char *s)
 	}
 	else if (s[i] && check_spaces(s[i++]) == DOLLAR_SIGN)
 	{
-		while (s[i] && !check_spaces(s[i]))
+		while (s[i] && check_spaces(s[i]) != 1)
 			i++;
 	}
 	return (i);

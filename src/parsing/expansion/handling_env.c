@@ -27,7 +27,7 @@ int	find_len_env(t_list *envp, char *name_env)
 	{
 		content = (char *)tmp->content;
 		if (lst_size > 0 && !ft_strncmp(content, name_env, len))
-			return (ft_strlen(content) - (len + 1));
+			return (ft_strlen(content) - len);
 		tmp = tmp->next;
 		lst_size--;
 	}
@@ -42,11 +42,11 @@ char	*find_expansion_env(t_list *envp, char *name_env)
 
 	tmp = envp;
 	content = NULL;
-	len = ft_strlen(name_env) + 1;
+	len = ft_strlen(name_env);
 	while (tmp)
 	{
 		content = (char *)tmp->content;
-		if (!ft_strncmp(content, name_env, len - 1))
+		if (!ft_strncmp(content, name_env, len))
 			return (&content[len]);
 		tmp = tmp->next;
 	}

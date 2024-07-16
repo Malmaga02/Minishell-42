@@ -130,7 +130,7 @@ t_input		*check_if_need_merge(t_parsing *parsing, t_input *cmd_line);
 char    	**parsing_list_in_mtx(t_input *cmd_line);
 
 // Handling_quotes_as_word_token
-t_all		assign_token_as_words_token(t_all all_info);
+t_all	assign_token_as_words_token(t_all all_info, int token);
 
 // Handling_token ..
 int			find_token_type(int token);

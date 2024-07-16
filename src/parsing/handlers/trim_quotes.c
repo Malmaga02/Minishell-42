@@ -68,6 +68,6 @@ t_all	handle_trim_special_char(t_all all_info, int token)
 			return (set_clear_all(&all_info), (t_all){0});
 		tmp = tmp->next;
 	}
-	all_info = assign_token_as_words_token(all_info);
+	all_info = assign_token_as_words_token(all_info, token);
 	return (all_info);
 }

@@ -53,16 +53,44 @@ char	*find_expansion_env(t_list *envp, char *name_env)
 	return (ft_strdup(""));
 }
 
-/* 
+int	len_escaped_char(char *env)
+{
+	int		i;
+	int		res;
+	int		token;
+
+	i = 0;
+	res = 0;
+	token = 0;
+	while (env && env[i])
+	{
+		token = check_spaces(env[i]);
+		if (find_token_type(token) == OPERATORS || find_token_type(token) == QUOTES)
+			res++;
+		i++;
+	}
+	return (i + res);
+}
+
 char	*handle_escaped_char(char *env)
 {
 	int		i;
+	int		j;
+	int		token;
 	char	*new_content;
 
 	i = 0;
+	j = 0;
+	token = 0;
+	new_content = ft_calloc(len_escaped_char(env) + 1, sizeof(char));
+	if (!new_content)
+		return (NULL);
 	while (env && env[i])
 	{
-		if (check_spaces(env[i]) == PIPE || check_spaces(env[i]) == PIPE ||
-		check_spaces(env[i]) == PIPE || check_spaces(env[i]) == PIPE)
+		token = check_spaces(env[i]);
+		if (find_token_type(token) == OPERATORS || find_token_type(token) == QUOTES)
+			new_content[j++] = '$';
+		new_content[j++] = env[i++];
 	}
-} */
+	return (free(env), new_content);
+}

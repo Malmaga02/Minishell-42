@@ -19,8 +19,13 @@ void	*expand_env(char *content, t_all all_info)
 
 	env = get_env(content, all_info);
 	if (!env || !content)
-		return (NULL);
+		return (free(content), NULL);
 	new_content = ft_strdup(env);
+	if (!new_content)
+		return (free(content), NULL);
+	new_content = handle_escaped_char(new_content);
+	if (!new_content)
+		return (free(content), NULL);
 	free(content);
 	return ((void *)new_content);
 }

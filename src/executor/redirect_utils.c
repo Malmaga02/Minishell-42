@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 11:00:45 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/14 16:44:20 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:39:46 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,52 +44,14 @@ int	handle_append_output(char *path)
 	return (fd);
 }
 
-/* void set_fd_cmd(t_all *shell, int *last_fdin, int *last_fdout)
+void	close_exec_fd()
 {
-    t_input *current;
+	int	fd;
 
-    current = shell->cmd_line;
-    while (current && current->prev)
-    {
-        if (current->token == PIPE)
-            break;
-        if (current->token == CMD)
-        {
-            current->fd_in = last_fdin;
-            current->fd_out = last_fdout;
-            return;
-        }
-        current = current->prev;
-    }
-    while (current && current->next)
-    {
-        if (current->token == PIPE)
-            break;
-        if (current->token == CMD)
-        {
-            current->fd_in = last_fdin;
-            current->fd_out = last_fdout;
-            return;
-        }
-        current = current->next;
-    }
-} */
-
-/* t_input *set_std_cmd_line(t_input *current)
-{
-	t_input *tmp;
-
-	tmp = current;
-	while (tmp)
+	fd = 3;
+	while (fd < 256)
 	{
-		if (tmp->token == CMD)
-		{
-			tmp->fd_in = malloc(sizeof(int));
-			tmp->fd_out = malloc(sizeof(int));
-			if (!tmp->fd_in || !tmp->fd_out)
-				return (NULL);
-		}
-		tmp = tmp->next;
+		close(fd);
+		fd++;
 	}
-	return (current);
-} */
+}

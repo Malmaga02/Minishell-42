@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/14 19:07:55 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:40:21 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ void	child_exe(t_all *shell, t_input *current)
 	if (is_builtin(shell)) 
 	{
     	exec_builtin(shell);
+		if (shell && shell->std_fd_in > 2)
+			close(shell->std_fd_in);
+		if (shell && shell->std_fd_out > 2)
+			close(shell->std_fd_out);
     	exit(g_status_code);
 	}
     else
@@ -79,7 +83,7 @@ void exec_main(t_all *shell)
 		return (pipe_init(shell, current, i, cmd_num),
 			exec_builtin(shell));
 	shell = init_pipe(shell, cmd_num);
-	signal(SIGINT, handle_exec_sig);
+	signal(SIGINT, handle_sigint_exec);
     while (current)
 	{
 		if (cmd_num < 1)
@@ -103,6 +107,7 @@ void exec_main(t_all *shell)
 		{
 			pipe_init(shell, current, i, cmd_num);
 			child_exe(shell, current);
+			close_exec_fd();
         }
         current = current->next;
 		cmd_num--;
@@ -117,5 +122,4 @@ void exec_main(t_all *shell)
 			handle_signal_child(WTERMSIG(g_status_code));
 	}
 	free_pipes(shell);
-	return ;
 }

@@ -6,44 +6,100 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/10 17:06:43 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:32:06 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	heredoc_validation(t_input *cmd_line)
+static char	*strjoin_heredoc(char *s1, const char *s2)
 {
-	t_input *current;
+	size_t	len_s1;
+	size_t	len_s2;
+	char	*result;
 
-	current = cmd_line;
-	while (current)
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	len_s1 = ft_strlen(s1);
+	len_s2 = ft_strlen(s2);
+	result = (char *)malloc(len_s1 + len_s2 + 1);
+	if (result == NULL)
+		return (NULL);
+	ft_strlcpy(result, s1, len_s1 + 1);
+	ft_strlcat(result, s2, len_s1 + len_s2 + 1);
+	return (result);
+}
+
+static char *open_file(char *file_name, int *fd)
+{
+	char	*new;
+
+	new = NULL;
+	*fd = open(file_name, O_WRONLY | O_CREAT | O_EXCL, 0644);
+	if (fd < 0)
 	{
-		/* if (current->token == D_RED_INPUT)
+		new = strjoin_heredoc(file_name, "_daje");
+		return (open_file(new, fd));
+	}
+	return (file_name);
+}
+
+void	display_heredoc(char *delimiter, int *last)
+{
+	char	*line;
+	char	*file_name;
+	int		fd;
+
+	file_name = open_file("heredoc", &fd);
+	while (g_status_code != 130)
+	{
+		line = readline("> ");
+		if (line == NULL || strcmp(line, delimiter) == 0)
 		{
-			if (!syntax_validation(current->args))
-				return (0);
-			open_heredoc(current->args);
-		} */
-		current = current->next;
+			if (line == NULL)
+				ft_printf(2, "minishello: warning: here-document delimited by end-of-file (wanted `%s')\n", delimiter);
+			free(line);
+			break ;
+		}
+		ft_putendl_fd(line, fd);
+		free(line);
+	}
+	close(fd);
+	fd = open(file_name, O_RDONLY);
+	if (last != NULL)
+		*last = fd;
+	unlink(file_name);
+}
+
+int	open_heredoc(t_input *block)
+{
+	t_input		*cmd;
+	int			*last;
+
+	last = NULL;
+	cmd = find_cmd_in_block(block);
+	if (cmd)
+		last = &cmd->fd_in;
+	while (block && block->token != PIPE)
+	{
+		if (block->token == D_RED_INPUT)
+			display_heredoc(block->args[1], last);
+		block = block->next;
 	}
 	return (1);
 }
 
-void	open_heredoc(char **args)
+int	handle_heredoc(t_all *shell)
 {
-	char		*line;
-	const char	*delimiter = args[1];
+	t_input	*current;
 
-	line = NULL;
-	while (1)
+	current = shell->cmd_line;
+	open_heredoc(current);
+	while (current)
 	{
-		line = readline("> ");
-		if (line == NULL || strcmp(line, delimiter) == 0)
-			return (free(line));
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		free(line);
+		if (current->token == PIPE)
+			open_heredoc(current->next);
+		current = current->next;
 	}
+	return (1);
 }

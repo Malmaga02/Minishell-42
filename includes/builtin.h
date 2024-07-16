@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/14 18:46:26 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:40:31 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int					char_check(char *str, int *error);
 /*------------------EXEC_MAIN------------------*/
 void				exec_main(t_all *shell);
 void				exec_command(t_all *shell, t_input *cmd_line);
+void				pipe_init(t_all *shell, t_input *current, int i, int cmd_num);
 /*------------------EXEC_UTILS------------------*/
 void				exec_builtin(t_all *shell);
 bool				is_builtin(t_all *shell);
@@ -53,17 +54,18 @@ void				close_pipes(t_all *shell);
 void 				free_pipes(t_all *shell);
 /*------------------REDIRECT------------------*/
 int					handle_redirect(t_all *shell);
+t_input             *find_cmd_in_block(t_input *block);
 /*------------------REDIRECT_UTILS------------------*/
 int					handle_input(char *path);
 int					handle_output(char *path);
 int					handle_append_output(char *path);
+void				close_exec_fd(void);
 /*------------------HEREDOC------------------*/
-int					heredoc_validation(t_input *cmd_line);
-void				open_heredoc(char **args);
+int					handle_heredoc(t_all *shell);
 /*------------------SIGNAL------------------*/
 void				handle_signal_child(int signal);
-void				sig_handler(int signal);
-void				handle_exec_sig(int signal);
+void				handle_sigint(int signal);
+void				handle_sigint_exec(int signal);
 /*------------------ENVP_UTILS------------------*/
 void				add_node_env(t_list **envp, char *str);
 t_list				*change_env_variable(t_list *envp, char *var, char *new);

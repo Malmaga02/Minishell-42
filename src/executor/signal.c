@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:42:54 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/14 19:06:23 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:35:30 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	handle_signal_child(int signal)
 	}
 }
 
-void sig_handler(int signal)
+void handle_sigint(int signal)
 {
 	if (signal == SIGINT)
 	{
@@ -34,7 +34,7 @@ void sig_handler(int signal)
 	}
 }
 
-void	handle_exec_sig(int signal)
+void	handle_sigint_exec(int signal)
 {
 	if (signal == SIGINT)
 	{

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/15 18:24:23 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:32:06 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ void	display_heredoc(char *delimiter, int *last)
 	int		fd;
 
 	file_name = open_file("heredoc", &fd);
-	while (1)
+	while (g_status_code != 130)
 	{
 		line = readline("> ");
 		if (line == NULL || strcmp(line, delimiter) == 0)
 		{
 			if (line == NULL)
-				write(1, "\n", 1);
+				ft_printf(2, "minishello: warning: here-document delimited by end-of-file (wanted `%s')\n", delimiter);
 			free(line);
 			break ;
 		}

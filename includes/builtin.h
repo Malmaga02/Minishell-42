@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/15 16:37:01 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:40:31 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_input             *find_cmd_in_block(t_input *block);
 int					handle_input(char *path);
 int					handle_output(char *path);
 int					handle_append_output(char *path);
+void				close_exec_fd(void);
 /*------------------HEREDOC------------------*/
 int					handle_heredoc(t_all *shell);
 /*------------------SIGNAL------------------*/

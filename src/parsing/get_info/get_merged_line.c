@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_merged_cmdline.c                               :+:      :+:    :+:   */
+/*   get_merged_line.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgalmari <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/06/18 14:34:59 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:25:01 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ char	*get_merged_line(t_input *cmd_line, int *merge_arr)
 	merge_arr = get_merge_arr(cmd_line, merge_arr, size);
 	merge_arr = organize_merge_arr(merge_arr, size);
 	new_input = get_new_input(mtx_cmdline, merge_arr, size);
-	printf("%s\n", new_input);
+
 	free(merge_arr);
 	free_mtx(mtx_cmdline);
 	return (new_input);

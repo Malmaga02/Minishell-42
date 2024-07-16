@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:32:15 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/16 12:21:44 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:23:38 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int ac, char **av, char **envp)
 	g_status_code = 0;
 	while (42)
 	{
-		signal(SIGINT, sig_handler);
+		signal(SIGINT, handle_sigint);
 		signal(SIGQUIT, SIG_IGN);
 		line = readline("minishello$: ");
 		if (!line)

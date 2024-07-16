@@ -22,6 +22,25 @@ int	if_token_needs_arg(int token)
 	return (-1);
 }
 
+int	*get_token_cmdline(t_input *cmdline, int size)
+{
+	t_input	*tmp;
+	int		*arr_token;
+	int		i;
+
+	i = 0;
+	tmp = cmdline;
+	arr_token = ft_calloc(size, sizeof(int));
+	if (!arr_token)
+		return (NULL);
+	while (tmp && i < size)
+	{
+		arr_token[i++] = tmp->token;
+		tmp = tmp->next;
+	}
+	return (arr_token);
+}
+
 char	**get_args(int *arr_token, char **mtx_cmdline, int index, char **args)
 {
 	int		j;
@@ -71,7 +90,7 @@ t_input	*get_args_mtx(t_input *cmd_line)
 	tmp = cmd_line;
 	if (!mtx_cmdline || !size)
 		return (dll_input_clear(&cmd_line), NULL);
-	arr_token = get_arr_token(mtx_cmdline, size);
+	arr_token = get_token_cmdline(cmd_line, size);
 	while (tmp)
 	{
 		tmp->args = create_args_mtx(arr_token, mtx_cmdline, &i);

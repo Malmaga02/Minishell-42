@@ -78,6 +78,7 @@ t_all		get_all_info(t_all all_info, char *line, char **envp);
 
 // Get_args_mtx
 int			if_token_needs_arg(int token);
+int			*get_token_cmdline(t_input *cmdline, int size);
 char		**get_args(int *arr_token, char **mtx_cmdline, int index, char **args);
 char		**create_args_mtx(int *arr_token, char **mtx_cmdline, int *index);
 t_input		*get_args_mtx(t_input *cmd_line);

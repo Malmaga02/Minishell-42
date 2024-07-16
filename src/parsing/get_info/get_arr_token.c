@@ -54,7 +54,7 @@ int	first_token_check(int *arr_token, int size)
 	i = 0;
 	if (!arr_token)
 		return (0);
-	if (arr_token[0] == PIPE || find_token_type(arr_token[size]) == OPERATORS)
+	if (arr_token[0] == PIPE || find_token_type(arr_token[size - 1]) == OPERATORS)
 		return (ft_putstr_fd("syntax error near unexpected token `newline'\n", 0), 0);
 	while (i < size && arr_token[i])
 	{

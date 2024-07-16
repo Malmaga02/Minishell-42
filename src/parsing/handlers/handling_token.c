@@ -18,10 +18,13 @@ int	find_token_type(int token)
 	|| token == R_OUTPUT || token == D_RED_INPUT
 	|| token == D_RED_OUTPUT)
 		return (OPERATORS);
-	else if (token == CMD || token == FILE_W || token == EOF_DEL)
+	else if (token == CMD || token == FILE_W || token == EOF_DEL
+	|| token == ARG)
 		return (WORDS);
 	else if (token == D_QUOTE || token == S_QUOTE)
 		return (QUOTES);
+	else if (token == DOLLAR_SIGN)
+		return (DOLLAR_SIGN);
 	return (0);
 }
 

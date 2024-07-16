@@ -1,13 +1,14 @@
 #include "minishell.h"
 
-t_all	assign_quote_as_words_token(t_all all_info)
+t_all	assign_token_as_words_token(t_all all_info)
 {
 	t_input	*tmp;
 
 	tmp = all_info.cmd_line;
 	while (tmp)
 	{
-		if (tmp->token == D_QUOTE || tmp->token == S_QUOTE)
+		if (find_token_type(tmp->token) == QUOTES 
+			|| find_token_type(tmp->token) == DOLLAR_SIGN)
 		{
 			if (!tmp->prev)
 				tmp->token = get_word_token(0);

@@ -21,7 +21,7 @@ int	find_token_type(int token)
 	else if (token == CMD || token == FILE_W || token == EOF_DEL)
 		return (WORDS);
 	else if (token == D_QUOTE || token == S_QUOTE)
-		return (D_QUOTE);
+		return (QUOTES);
 	return (0);
 }
 
@@ -39,9 +39,28 @@ int	count_rows_args(char **mtx_cmdline, int *arr_token)
 	return (res);
 }
 
-int	check_if_word_after_operator(int token)
+int	check_which_operator(int token)
 {
-	if (token == WORDS || token == D_QUOTE || token == S_QUOTE)
-		return (1);
+	if (token == R_INPUT || token == R_OUTPUT || token == D_RED_INPUT 
+	|| token == D_RED_OUTPUT)
+		return (REDIRECTS);
+	if (token == D_QUOTE || token == S_QUOTE)
+		return (QUOTES);
+	else
+		return (token);
 	return (0);
+}
+
+int	handle_syntax_error_operators(int *arr_token, int i, int size)
+{
+	if (i >= size)
+		return (0);
+	if (i > 0 && (i + 1) < size)
+	{
+		if ((arr_token[i] == PIPE && find_token_type(arr_token[i - 1]) == OPERATORS)
+		|| (check_which_operator(arr_token[i]) == REDIRECTS
+			&& find_token_type(arr_token[i + 1]) == OPERATORS))
+			return (ft_putstr_fd("syntax error near unexpected token `newline'\n", 0), 0);
+	}
+	return (1);		
 }

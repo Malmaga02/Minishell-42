@@ -14,7 +14,7 @@
 
 int	if_token_needs_arg(int token)
 {
-	if (token == CMD || token == R_INPUT || token == D_RED_INPUT
+	if (token == CMD || token == R_INPUT || token == HEREDOC
 	|| token == R_OUTPUT || token == D_RED_OUTPUT)
 		return (1);
 	else if (token == ARG || token == FILE_W || token == EOF_DEL)

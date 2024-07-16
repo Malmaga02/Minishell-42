@@ -19,7 +19,7 @@ int	get_word_token(int token)
 	else if (token == R_INPUT || token == R_OUTPUT
 	|| token == D_RED_OUTPUT)
 		return (FILE_W);
-	else if (token == D_RED_INPUT)
+	else if (token == HEREDOC)
 		return (EOF_DEL);
 	else
 		return (ARG);
@@ -39,7 +39,7 @@ int	find_token(char *str)
 	else if (*str == '>' && ft_strlen(str) == 1)
 		return (R_OUTPUT);
 	else if (*str == '<' && (*str++) == '<')
-		return (D_RED_INPUT);
+		return (HEREDOC);
 	else if (*str == '>' && (*str++) == '>')
 		return (D_RED_OUTPUT);
 	else if (*str == '$')

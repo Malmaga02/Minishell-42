@@ -82,7 +82,7 @@ int	open_heredoc(t_input *block)
 		last = &cmd->fd_in;
 	while (block && block->token != PIPE)
 	{
-		if (block->token == D_RED_INPUT)
+		if (block->token == HEREDOC)
 			display_heredoc(block->args[1], last);
 		block = block->next;
 	}

@@ -27,7 +27,7 @@ typedef enum	e_token
 	PIPE,
 	R_INPUT,
 	R_OUTPUT,
-	D_RED_INPUT,
+	HEREDOC,
 	D_RED_OUTPUT,
 	D_QUOTE,
 	S_QUOTE,

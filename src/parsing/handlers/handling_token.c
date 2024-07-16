@@ -15,7 +15,7 @@
 int	find_token_type(int token)
 {
 	if (token == PIPE || token == R_INPUT
-	|| token == R_OUTPUT || token == D_RED_INPUT
+	|| token == R_OUTPUT || token == HEREDOC
 	|| token == D_RED_OUTPUT)
 		return (OPERATORS);
 	else if (token == CMD || token == FILE_W || token == EOF_DEL
@@ -44,7 +44,7 @@ int	count_rows_args(char **mtx_cmdline, int *arr_token)
 
 int	check_which_operator(int token)
 {
-	if (token == R_INPUT || token == R_OUTPUT || token == D_RED_INPUT 
+	if (token == R_INPUT || token == R_OUTPUT || token == HEREDOC 
 	|| token == D_RED_OUTPUT)
 		return (REDIRECTS);
 	if (token == D_QUOTE || token == S_QUOTE)

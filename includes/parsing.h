@@ -32,6 +32,8 @@ typedef enum	e_token
 	D_QUOTE,
 	S_QUOTE,
 	OPERATORS,
+	REDIRECTS,
+	QUOTES,
 }	t_token;
 
 typedef struct	s_parsing
@@ -125,10 +127,10 @@ char    	**parsing_list_in_mtx(t_input *cmd_line);
 // Handling_quotes_as_word_token
 t_all		assign_quote_as_words_token(t_all all_info);
 
-// Handling_token
+// Handling_token ..
 int			find_token_type(int token);
 int			count_rows_args(char **mtx_cmdline, int *arr_token);
-int			check_if_word_after_operator(int token);
+int			check_if_word_token(int token);
 
 // Trim_quotes
 char		*trim_quotes(char *content);

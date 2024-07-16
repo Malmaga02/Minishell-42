@@ -20,6 +20,8 @@ char	*get_expansion(t_list *envp, char *name_env)
 
 	if (!name_env)
 		return (NULL);
+	if (!ft_strncmp(name_env, "?=", 2))
+		return (ft_itoa(g_status_code));
 	start = ft_strlen(name_env) + 1;
 	len_env = find_len_env(envp, name_env);
 	env = ft_calloc(len_env + 1, sizeof(char));

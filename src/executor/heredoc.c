@@ -21,6 +21,7 @@ static void	heredoc_putendl_fd(char *s, int fd, t_all *shell)
 		return ;
 	ft_putstr_fd(s, fd);
 	ft_putchar_fd('\n', fd);
+	free(s);
 }
 
 static char	*strjoin_heredoc(char *s1, const char *s2)
@@ -73,7 +74,6 @@ static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 			break ;
 		}
 		heredoc_putendl_fd(line, fd, shell);
-		free(line);
 	}
 	close(fd);
 	fd = open(file_name, O_RDONLY);

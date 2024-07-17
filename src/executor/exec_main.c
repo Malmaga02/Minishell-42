@@ -41,6 +41,8 @@ void	child_exe(t_all *shell, t_input *current)
 			close(shell->std_fd_in);
 		if (shell && shell->std_fd_out > 2)
 			close(shell->std_fd_out);
+		free_pipes(shell);
+		close_exec_fd();
     	exit(g_status_code);
 	}
     else

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/16 11:32:06 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/17 14:47:47 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 			break ;
 		}
 		heredoc_putendl_fd(line, fd, shell);
-		free(line);
 	}
 	close(fd);
 	fd = open(file_name, O_RDONLY);

@@ -6,7 +6,7 @@
 /*   By: mgalmari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/06/18 14:35:00 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,10 @@ int	word_len(char *s)
 	i = 0;
 	if (!s || !s[i])
 		return (0);
-	if (check_spaces(s[i]) == PIPE || check_spaces(s[i]) == R_INPUT
-	|| check_spaces(s[i]) == R_OUTPUT
-	|| check_spaces(s[i]) == DOLLAR_SIGN)
+	if (find_token_type(check_spaces(s[i])) == OPERATORS
+		|| find_token_type(check_spaces(s[i])) == DOLLAR_SIGN)
 		return (handle_operators(&s[i]));
-	if (s[i] && (check_spaces(s[i]) == D_QUOTE || check_spaces(s[i]) == S_QUOTE))
+	if (s[i] && find_token_type(check_spaces(s[i])) == QUOTES)
 		return (handle_quotes(s));
 	while (s[i] && !check_spaces(s[i]))
 		i++;
@@ -91,7 +90,7 @@ char	**get_mtx_from_input(t_parsing *parsing)
 
 	words = count_words(parsing->input);
 	if (words == -1)
-		return (NULL);
+		return (ft_putstr_fd("syntax error: open quote\n", 0), NULL);
 	res = ft_calloc((words + 1), sizeof(char *));
 	if (!res || !parsing->input)
 		return (NULL);

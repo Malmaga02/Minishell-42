@@ -6,7 +6,7 @@
 /*   By: mgalmari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/06/18 14:34:53 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*trim(char *content, int token)
 
 t_all	handle_trim_special_char(t_all all_info, int token)
 {
-	t_input *tmp;
+	t_input	*tmp;
 
 	if (!all_info.cmd_line)
 		return ((t_all){0});

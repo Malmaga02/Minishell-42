@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/12 15:20:23 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	get_word_token(int token)
 	if (!token || token == PIPE)
 		return (CMD);
 	else if (token == R_INPUT || token == R_OUTPUT
-	|| token == D_RED_OUTPUT)
+		|| token == D_RED_OUTPUT)
 		return (FILE_W);
-	else if (token == D_RED_INPUT)
+	else if (token == HEREDOC)
 		return (EOF_DEL);
 	else
 		return (ARG);
@@ -39,7 +39,7 @@ int	find_token(char *str)
 	else if (*str == '>' && ft_strlen(str) == 1)
 		return (R_OUTPUT);
 	else if (*str == '<' && (*str++) == '<')
-		return (D_RED_INPUT);
+		return (HEREDOC);
 	else if (*str == '>' && (*str++) == '>')
 		return (D_RED_OUTPUT);
 	else if (*str == '$')
@@ -54,14 +54,15 @@ int	first_token_check(int *arr_token, int size)
 	i = 0;
 	if (!arr_token)
 		return (0);
-	if (arr_token[0] == PIPE || find_token_type(arr_token[size - 1]) == OPERATORS)
-		return (ft_putstr_fd("syntax error near unexpected token `newline'\n", 0), 0);
+	if (arr_token[0] == PIPE
+		|| find_token_type(arr_token[size - 1]) == OPERATORS)
+		return (ft_putstr_fd("syntax error near unexpected token\n", 0), 0);
 	while (i < size && arr_token[i])
 	{
 		while (i < size && arr_token[i] == WORDS)
 			i++;
-		if (i < size && (find_token_type(arr_token[i]) == OPERATORS 
-			&& !handle_syntax_error_operators(arr_token, i, size)))
+		if (i < size && (find_token_type(arr_token[i]) == OPERATORS
+				&& !handle_syntax_error_operators(arr_token, i, size)))
 			return (0);
 		i++;
 	}

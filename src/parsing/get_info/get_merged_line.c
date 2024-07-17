@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/16 11:25:01 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,24 @@ int	*get_merge_arr(t_input *cmd_line, int *merge_arr, int size)
 	return (merge_arr);
 }
 
-int	*organize_merge_arr(int *merge_arr, int size)
+int	*organize_merge_arr(int *arr, int size)
 {
 	int	i;
 
 	i = 0;
 	while (i < size)
 	{
-		if ((merge_arr[i] == MERGE_PREV || merge_arr[i] == MERGE_BOTH) && i != 0)
+		if (i != 0 && (arr[i] == MERGE_PREV || arr[i] == MERGE_BOTH))
 		{
-			merge_arr[i - 1] = MERGE_NEXT;
-			if (merge_arr[i] == MERGE_PREV)
-				merge_arr[i] = STAY;
-			else if (merge_arr[i] == MERGE_BOTH)
-				merge_arr[i] = MERGE_NEXT;
+			arr[i - 1] = MERGE_NEXT;
+			if (arr[i] == MERGE_PREV)
+				arr[i] = STAY;
+			else if (arr[i] == MERGE_BOTH)
+				arr[i] = MERGE_NEXT;
 		}
 		i++;
 	}
-	return (merge_arr);
+	return (arr);
 }
 
 int	count_merge_next(int *merge_arr, int i, int size)
@@ -55,7 +55,7 @@ int	count_merge_next(int *merge_arr, int i, int size)
 	res = 1;
 	while (i < size && merge_arr[i++] == MERGE_NEXT)
 		res++;
-	return (res - 1);	
+	return (res - 1);
 }
 
 char	*handle_merge_next(char	**mtx_cmdline, int *merge_arr, int *index)
@@ -66,7 +66,7 @@ char	*handle_merge_next(char	**mtx_cmdline, int *merge_arr, int *index)
 	char	*quote;
 
 	i = *index;
-	size = count_rows(mtx_cmdline); 
+	size = count_rows(mtx_cmdline);
 	content = NULL;
 	quote = NULL;
 	while (mtx_cmdline && mtx_cmdline[i])
@@ -130,7 +130,6 @@ char	*get_merged_line(t_input *cmd_line, int *merge_arr)
 	merge_arr = get_merge_arr(cmd_line, merge_arr, size);
 	merge_arr = organize_merge_arr(merge_arr, size);
 	new_input = get_new_input(mtx_cmdline, merge_arr, size);
-
 	free(merge_arr);
 	free_mtx(mtx_cmdline);
 	return (new_input);

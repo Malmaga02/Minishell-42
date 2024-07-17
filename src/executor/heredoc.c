@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+static void	heredoc_putendl_fd(char *s, int fd, t_all *shell)
+{
+	if (!s || fd < 0)
+		return ;
+	s = expand_env_with_quotes(s, *shell);
+	if (!s)
+		return ;
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
+}
+
 static char	*strjoin_heredoc(char *s1, const char *s2)
 {
 	size_t	len_s1;
@@ -44,7 +55,7 @@ static char *open_file(char *file_name, int *fd)
 	return (file_name);
 }
 
-void	display_heredoc(char *delimiter, int *last)
+static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 {
 	char	*line;
 	char	*file_name;
@@ -61,7 +72,7 @@ void	display_heredoc(char *delimiter, int *last)
 			free(line);
 			break ;
 		}
-		ft_putendl_fd(line, fd);
+		heredoc_putendl_fd(line, fd, shell);
 		free(line);
 	}
 	close(fd);
@@ -71,7 +82,7 @@ void	display_heredoc(char *delimiter, int *last)
 	unlink(file_name);
 }
 
-int	open_heredoc(t_input *block)
+static int	open_heredoc(t_input *block, t_all *shell)
 {
 	t_input		*cmd;
 	int			*last;
@@ -82,8 +93,8 @@ int	open_heredoc(t_input *block)
 		last = &cmd->fd_in;
 	while (block && block->token != PIPE)
 	{
-		if (block->token == D_RED_INPUT)
-			display_heredoc(block->args[1], last);
+		if (block->token == HEREDOC)
+			display_heredoc(block->args[1], last, shell);
 		block = block->next;
 	}
 	return (1);
@@ -94,11 +105,11 @@ int	handle_heredoc(t_all *shell)
 	t_input	*current;
 
 	current = shell->cmd_line;
-	open_heredoc(current);
+	open_heredoc(current, shell);
 	while (current)
 	{
 		if (current->token == PIPE)
-			open_heredoc(current->next);
+			open_heredoc(current->next, shell);
 		current = current->next;
 	}
 	return (1);

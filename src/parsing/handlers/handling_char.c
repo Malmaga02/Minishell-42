@@ -6,7 +6,7 @@
 /*   By: mgalmari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/06/18 14:35:00 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	handle_operators(char *s)
 	if (!s || !s[i])
 		return (0);
 	if (s[i] && check_spaces(s[i]) == PIPE)
-		return(++i);
+		return (++i);
 	else if (s[i] && check_spaces(s[i]) == R_INPUT)
 	{
 		if (s[i + 1] && check_spaces(s[i + 1]) == R_INPUT)
@@ -95,10 +95,10 @@ int	handle_not_spaces(char *s)
 	i = 0;
 	if (!s || !s[i])
 		return (0);
-	if (s[i] && (check_spaces(s[i]) == D_QUOTE || check_spaces(s[i]) == S_QUOTE))
+	if (s[i] && find_token_type(check_spaces(s[i])) == QUOTES)
 		tmp = handle_quotes(&s[i]);
-	if (s[i] && (check_spaces(s[i]) == PIPE || check_spaces(s[i]) == R_INPUT
-	|| check_spaces(s[i]) == R_OUTPUT || check_spaces(s[i]) == DOLLAR_SIGN))
+	if (s[i] && (find_token_type(check_spaces(s[i])) == OPERATORS
+		|| find_token_type(check_spaces(s[i])) == DOLLAR_SIGN))
 		tmp = handle_operators(&s[i]);
 	while (s[i] && !check_spaces(s[i]))
 		i++;
@@ -108,7 +108,7 @@ int	handle_not_spaces(char *s)
 	return (i);
 }
 
-int	get_len_word(char *str, int	index)
+int	get_len_word(char *str, int index)
 {
 	int	len;
 

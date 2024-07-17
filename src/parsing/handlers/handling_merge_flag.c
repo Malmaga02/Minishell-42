@@ -6,7 +6,7 @@
 /*   By: mgalmari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/06/18 14:35:00 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ int	find_merge_flag_quote(char *input, int i)
 	flag = 0;
 	if (i == 0)
 		flag = 0;
-	else if (input[i - 1] && (!check_spaces(input[i - 1]) ||
-	(check_spaces(input[i]) == D_QUOTE && check_spaces(input[i - 1]) == S_QUOTE) ||
-	(check_spaces(input[i]) == S_QUOTE && check_spaces(input[i - 1]) == D_QUOTE)))
+	else if (input[i - 1] && (!check_spaces(input[i - 1])
+		|| (check_spaces(input[i]) == D_QUOTE && check_spaces(input[i - 1]) == S_QUOTE)
+		|| (check_spaces(input[i]) == S_QUOTE && check_spaces(input[i - 1]) == D_QUOTE)))
 		flag = MERGE_PREV;
 	i += handle_quotes(&input[i]);
 	if (input[i] && (!check_spaces(input[i]) || check_spaces(input[i]) == D_QUOTE
-	|| check_spaces(input[i]) == S_QUOTE))
+		|| check_spaces(input[i]) == S_QUOTE))
 	{
 		if (flag == MERGE_PREV)
 			return (MERGE_BOTH);

@@ -6,7 +6,7 @@
 /*   By: mgalmari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/06/18 14:34:59 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ int	check_dollar_sign(char *str)
 	return (dollar_signs);
 }
 
-void    new_content_copy(char *new_content, char *content, char *env, int len)
+void	new_content_copy(char *new_content, char *content, char *env, int len)
 {
-    int i;
-    int index;
-    int len_word;
+	int	i;
+	int	index;
+	int	len_word;
 
 	i = 0;
-    index = get_index_special_char(content, '$') + 1;
-    len_word = get_len_word(content, index);
-    while ((content && content[i]) && (i < index - 1))
+	index = get_index_special_char(content, '$') + 1;
+	len_word = get_len_word(content, index);
+	while ((content && content[i]) && (i < index - 1))
 	{
 		new_content[i] = content[i];
 		i++;
@@ -54,7 +54,6 @@ void    new_content_copy(char *new_content, char *content, char *env, int len)
 		new_content[i] = content[len_word++];
 		i++;
 	}
-
 }
 
 char	*get_content_with_quotes(char *content, char *env)

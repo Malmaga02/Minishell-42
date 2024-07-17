@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/13 18:37:44 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	if_token_needs_arg(int token)
 {
-	if (token == CMD || token == R_INPUT || token == D_RED_INPUT
-	|| token == R_OUTPUT || token == D_RED_OUTPUT)
+	if (token == CMD || token == R_INPUT || token == HEREDOC
+		|| token == R_OUTPUT || token == D_RED_OUTPUT)
 		return (1);
 	else if (token == ARG || token == FILE_W || token == EOF_DEL)
 		return (0);
@@ -48,9 +48,11 @@ char	**get_args(int *arr_token, char **mtx_cmdline, int index, char **args)
 
 	j = 0;
 	size = count_rows(mtx_cmdline);
-	if ((index < size && if_token_needs_arg(arr_token[index])) && (mtx_cmdline && mtx_cmdline[index]))
+	if ((index < size && if_token_needs_arg(arr_token[index]))
+		&& (mtx_cmdline && mtx_cmdline[index]))
 		args[j++] = ft_strdup(mtx_cmdline[(index)++]);
-	while ((index < size && !if_token_needs_arg(arr_token[index])) && (mtx_cmdline && mtx_cmdline[index]))
+	while ((index < size && !if_token_needs_arg(arr_token[index]))
+		&& (mtx_cmdline && mtx_cmdline[index]))
 		args[j++] = ft_strdup(mtx_cmdline[(index)++]);
 	return (args);
 }

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/13 16:06:35 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_input	*create_list_from_input(t_parsing *parsing)
 		i++;
 	}
 	cmd_line = check_if_need_merge(parsing, cmd_line);
-	//free_parsing(&parsing);
 	return (cmd_line);
 }
 
@@ -72,11 +71,11 @@ t_list	*create_list_from_envp(char **envp)
 		node = ft_lstnew(envp_cpy[i]);
 		if (!node)
 			return (ft_lstclear(&envp_list, free), NULL);
-		ft_lstadd_back(&envp_list, node); 
+		ft_lstadd_back(&envp_list, node);
 		i++;
 	}
 	free(envp_cpy);
-	return(envp_list);
+	return (envp_list);
 }
 
 t_all	get_all_info(t_all all_info, char *line, char **envp)

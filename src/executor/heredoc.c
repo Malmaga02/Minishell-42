@@ -12,9 +12,7 @@
 
 #include "minishell.h"
 
-// CONTROLLARE PUTENDL_FD PASSARSI T_ALL SHELL PER ESPANSIONI
-
-static void	ft_putendl_fd_h(char *s, int fd, t_all *shell)
+static void	heredoc_putendl_fd(char *s, int fd, t_all *shell)
 {
 	if (!s || fd < 0)
 		return ;
@@ -57,7 +55,7 @@ static char *open_file(char *file_name, int *fd)
 	return (file_name);
 }
 
-void	display_heredoc(char *delimiter, int *last, t_all *shell)
+static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 {
 	char	*line;
 	char	*file_name;
@@ -74,7 +72,7 @@ void	display_heredoc(char *delimiter, int *last, t_all *shell)
 			free(line);
 			break ;
 		}
-		ft_putendl_fd_h(line, fd, shell);
+		heredoc_putendl_fd(line, fd, shell);
 		free(line);
 	}
 	close(fd);
@@ -84,7 +82,7 @@ void	display_heredoc(char *delimiter, int *last, t_all *shell)
 	unlink(file_name);
 }
 
-int	open_heredoc(t_input *block, t_all *shell)
+static int	open_heredoc(t_input *block, t_all *shell)
 {
 	t_input		*cmd;
 	int			*last;

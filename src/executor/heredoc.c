@@ -12,11 +12,9 @@
 
 #include "minishell.h"
 
-// CONTROLLARE PUTENDL_FD PASSARSI T_ALL SHELL PER ESPANSIONI
-
-static void	ft_putendl_fd_h(char *s, int fd, t_all *shell)
+static void	heredoc_putendl_fd(char *s, int fd, t_all *shell)
 {
-	if (ft_check_s_fd(s) == -1 || ft_check_fd(fd) == -1)
+	if (!s || fd < 0)
 		return ;
 	s = expand_env_with_quotes(s, *shell);
 	if (!s)
@@ -57,7 +55,7 @@ static char *open_file(char *file_name, int *fd)
 	return (file_name);
 }
 
-void	display_heredoc(char *delimiter, int *last)
+static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 {
 	char	*line;
 	char	*file_name;
@@ -74,7 +72,7 @@ void	display_heredoc(char *delimiter, int *last)
 			free(line);
 			break ;
 		}
-		ft_putendl_fd_h(line, fd, shell);
+		heredoc_putendl_fd(line, fd, shell);
 		free(line);
 	}
 	close(fd);
@@ -84,7 +82,7 @@ void	display_heredoc(char *delimiter, int *last)
 	unlink(file_name);
 }
 
-int	open_heredoc(t_input *block)
+static int	open_heredoc(t_input *block, t_all *shell)
 {
 	t_input		*cmd;
 	int			*last;
@@ -96,7 +94,7 @@ int	open_heredoc(t_input *block)
 	while (block && block->token != PIPE)
 	{
 		if (block->token == HEREDOC)
-			display_heredoc(block->args[1], last);
+			display_heredoc(block->args[1], last, shell);
 		block = block->next;
 	}
 	return (1);
@@ -107,11 +105,11 @@ int	handle_heredoc(t_all *shell)
 	t_input	*current;
 
 	current = shell->cmd_line;
-	open_heredoc(current);
+	open_heredoc(current, shell);
 	while (current)
 	{
 		if (current->token == PIPE)
-			open_heredoc(current->next);
+			open_heredoc(current->next, shell);
 		current = current->next;
 	}
 	return (1);

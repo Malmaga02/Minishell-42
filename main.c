@@ -43,7 +43,7 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 		all_info = get_input_complete(all_info, line, envp);
 		if (!all_info.cmd_line)
-			break ;
+			continue ;
 		exec_main(&all_info);
 		set_clear_all(&all_info);
 	}

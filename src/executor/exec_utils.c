@@ -32,21 +32,21 @@ void	exec_builtin(t_all *shell)
 	dup2(shell->std_fd_out, STDOUT_FILENO);
 }
 
-bool	is_builtin(t_all *shell)
+bool	is_builtin(t_input *cmd_line)
 {
-	if (ft_strcmp(shell->cmd_line->content, "exit") == 0)
+	if (ft_strcmp(cmd_line->content, "exit") == 0)
 		return (true);
-	if (ft_strcmp(shell->cmd_line->content, "echo") == 0)
+	if (ft_strcmp(cmd_line->content, "echo") == 0)
 		return (true);
-	if (ft_strcmp(shell->cmd_line->content, "env") == 0)
+	if (ft_strcmp(cmd_line->content, "env") == 0)
 		return (true);
-	if (ft_strcmp(shell->cmd_line->content, "pwd") == 0)
+	if (ft_strcmp(cmd_line->content, "pwd") == 0)
 		return (true);
-	if (ft_strcmp(shell->cmd_line->content, "cd") == 0)
+	if (ft_strcmp(cmd_line->content, "cd") == 0)
 		return (true);
-	if (ft_strcmp(shell->cmd_line->content, "unset") == 0)
+	if (ft_strcmp(cmd_line->content, "unset") == 0)
 		return (true);
-	if (ft_strcmp(shell->cmd_line->content, "export") == 0)
+	if (ft_strcmp(cmd_line->content, "export") == 0)
 		return (true);
 	return (false);
 }

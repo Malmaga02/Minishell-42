@@ -45,7 +45,7 @@ void				exec_command(t_all *shell, t_input *cmd_line);
 void				pipe_init(t_all *shell, t_input *current, int i, int cmd_num);
 /*------------------EXEC_UTILS------------------*/
 void				exec_builtin(t_all *shell);
-bool				is_builtin(t_all *shell);
+bool				is_builtin(t_input *cmd_line);
 int	                count_commands(t_input *cmd_line);
 t_all           	*create_pipe(t_all *shell, int cmd_num);
 void				wait_cmd(int cmd_num);

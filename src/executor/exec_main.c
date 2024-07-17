@@ -34,7 +34,7 @@ void	exec_command(t_all *shell, t_input *cmd_line)
 
 void	child_exe(t_all *shell, t_input *current)
 {
-	if (is_builtin(shell))
+	if (is_builtin(current))
 	{
     	exec_builtin(shell);
 		if (shell && shell->std_fd_in > 2)
@@ -110,7 +110,7 @@ void exec_main(t_all *shell)
 	shell->std_fd_out = dup(STDOUT_FILENO);
 	handle_redirect(shell);
 	shell = create_pipe(shell, num_pipes);
-	if (cmd_num == 1 && is_builtin(shell))
+	if (cmd_num == 1 && is_builtin(current))
 		return (pipe_init(shell, current, i, num_pipes),
 			exec_builtin(shell));
 	signal(SIGINT, handle_sigint_exec);

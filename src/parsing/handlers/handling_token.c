@@ -63,14 +63,21 @@ int	handle_syntax_error_operators(int *arr_token, int i, int size)
 	tkn_after = 0;
 	if (i >= size)
 		return (0);
-	if (i > 0 && (i + 1) < size)
+	if (i >= 0 && (i + 1) < size)
 	{
-		tkn_before = arr_token[i - 1];
 		tkn_after = arr_token[i + 1];
+		if (i == 0)
+		{
+			if (check_which_operator(arr_token[i]) == REDIRECTS
+			&& find_token_type(tkn_after) == OPERATORS)
+				return (ft_putstr_fd("syntax error near unexpected token\n", 2), 0);
+			return (1);
+		}
+		tkn_before = arr_token[i - 1];
 		if ((arr_token[i] == PIPE && find_token_type(tkn_before) == OPERATORS)
 			|| (check_which_operator(arr_token[i]) == REDIRECTS
 				&& find_token_type(tkn_after) == OPERATORS))
-			return (ft_putstr_fd("syntax error near unexpected token\n", 0), 0);
+			return (ft_putstr_fd("syntax error near unexpected token\n", 2), 0);
 	}
 	return (1);
 }

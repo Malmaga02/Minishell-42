@@ -50,7 +50,7 @@ char	*find_expansion_env(t_list *envp, char *name_env)
 			return (&content[len]);
 		tmp = tmp->next;
 	}
-	return (ft_strdup(""));
+	return (NULL);
 }
 
 int	len_escaped_char(char *env)

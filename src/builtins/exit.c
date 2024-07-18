@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:02:54 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/14 17:46:56 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:51:58 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,15 @@
 
 unsigned int	ft_uatoi(const char *str, int *error)
 {
-	int					i;
-	int					sign;
-	unsigned int		n;
-	unsigned int		check;	
+	int				i;
+	int				sign;
+	unsigned int	n;
+	unsigned int	check;
 
 	i = 0;
 	sign = 1;
 	n = 0;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
-		|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		i++;
 	if (str[i] == '-' || (str[i] == '+'))
 	{
@@ -44,8 +43,8 @@ unsigned int	ft_uatoi(const char *str, int *error)
 
 int	numeric_check(char **av)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = 1;
 	j = 0;
@@ -66,7 +65,7 @@ int	numeric_check(char **av)
 
 int	builtin_exit(t_all *shell, char **av)
 {
-	int		error;
+	int	error;
 
 	error = 0;
 	g_status_code = 0;

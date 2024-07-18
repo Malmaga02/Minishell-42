@@ -37,7 +37,7 @@ void	child_exe(t_all *shell, t_input *current)
 {
 	if (is_builtin(current))
 	{
-    	exec_builtin(shell);
+		exec_builtin(shell);
 		if (shell && shell->std_fd_in > 2)
 			close(shell->std_fd_in);
 		if (shell && shell->std_fd_out > 2)
@@ -45,10 +45,10 @@ void	child_exe(t_all *shell, t_input *current)
 		free_pipes(shell);
 		free_all(shell);
 		close_exec_fd();
-    	exit(g_status_code);
+		exit(g_status_code);
 	}
-    else
-    	exec_command(shell, current);
+	else
+		exec_command(shell, current);
 }
 
 void	pipe_init(t_all *shell, t_input *current, int i, int num_pipes)
@@ -56,7 +56,7 @@ void	pipe_init(t_all *shell, t_input *current, int i, int num_pipes)
 	if (i > 0 && shell->pipes)
 		dup2(shell->pipes[i - 1][0], STDIN_FILENO);
 	if (num_pipes > 0 && shell->pipes)
-    	dup2(shell->pipes[i][1], STDOUT_FILENO);
+		dup2(shell->pipes[i][1], STDOUT_FILENO);
 	if (current->fd_in > 2)
 	{
 		dup2(current->fd_in, STDIN_FILENO);
@@ -70,7 +70,7 @@ void	pipe_init(t_all *shell, t_input *current, int i, int num_pipes)
 	close_pipes(shell);
 }
 
-int count_pipe(t_input *cmd_line)
+int	count_pipe(t_input *cmd_line)
 {
 	int		i;
 	t_input	*tmp;
@@ -86,29 +86,29 @@ int count_pipe(t_input *cmd_line)
 	return (i);
 }
 
-t_input *find_next_block(t_input *current)
+t_input	*find_next_block(t_input *current)
 {
 	while (current)
 	{
 		if (current->token == PIPE)
-			return (current->next);		
+			return (current->next);
 		current = current->next;
 	}
 	return (NULL);
 }
 
-void exec_main(t_all *shell) 
+void	exec_main(t_all *shell)
 {
-    int 	i;
-    int 	cmd_num;
+	int		i;
+	int		cmd_num;
 	int		num_pipes;
-    pid_t 	pid;
+	pid_t	pid;
 	t_input	*current;
 	t_input	*cmd;
 
 	i = 0;
 	current = shell->cmd_line;
-    cmd_num = count_commands(current);
+	cmd_num = count_commands(current);
 	num_pipes = count_pipe(shell->cmd_line);
 	shell->std_fd_in = dup(STDIN_FILENO);
 	shell->std_fd_out = dup(STDOUT_FILENO);
@@ -116,29 +116,29 @@ void exec_main(t_all *shell)
 	shell = create_pipe(shell, num_pipes);
 	if (cmd_num == 1 && is_builtin(current))
 		return (pipe_init(shell, current, i, num_pipes),
-			exec_builtin(shell));
+				exec_builtin(shell));
 	signal(SIGINT, handle_sigint_exec);
-    while (current)
+	while (current)
 	{
 		cmd = find_cmd_in_block(current);
 		if (cmd)
 		{
 			pid = fork();
-			if (pid == -1) 
+			if (pid == -1)
 			{
 				ft_printf(2, "Error: fork\n");
 				exit(1);
-			} 
+			}
 			if (pid == 0)
 			{
 				pipe_init(shell, current, i, num_pipes);
 				child_exe(shell, current);
 			}
 		}
-        current = find_next_block(current);
+		current = find_next_block(current);
 		num_pipes--;
-        i++;
-    }
+		i++;
+	}
 	close_pipes(shell);
 	while (wait(&g_status_code) != -1)
 	{
@@ -149,8 +149,8 @@ void exec_main(t_all *shell)
 	}
 	free_pipes(shell);
 	dup2(shell->std_fd_in, STDIN_FILENO);
-    dup2(shell->std_fd_out, STDOUT_FILENO);
-    close(shell->std_fd_in);
-    close(shell->std_fd_out);
+	dup2(shell->std_fd_out, STDOUT_FILENO);
+	close(shell->std_fd_in);
+	close(shell->std_fd_out);
 	close_exec_fd();
 }

@@ -80,15 +80,16 @@ t_all	*create_pipe(t_all *shell, int pipe_num)
 		return (shell);
 	}
 	shell->pipes = ft_calloc(pipe_num + 1, sizeof(int *));
-    while (i < pipe_num)
+	while (i < pipe_num)
 	{
-        shell->pipes[i] = ft_calloc(2, sizeof(int));
-        if (pipe(shell->pipes[i]) == -1) {
-            ft_printf(2, "Error: pipe\n");
-            exit(1);
-        }
+		shell->pipes[i] = ft_calloc(2, sizeof(int));
+		if (pipe(shell->pipes[i]) == -1)
+		{
+			ft_printf(2, "Error: pipe\n");
+			exit(1);
+		}
 		i++;
-    }
+	}
 	return (shell);
 }
 /* 

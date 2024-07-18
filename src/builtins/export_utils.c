@@ -80,3 +80,24 @@ int	char_check(char *str, int *error)
 	}
 	return (1);
 }
+
+void	print_export_quotes(char *str)
+{
+	int	i;
+
+	i = 0;
+	write(1, "declare -x ", 12);
+	while (str && str[i - 1] != '=')
+	{
+		write(1, &str[i], 1);
+		i++;
+	}	
+	write(1, "\"", 1);
+	while (str && str[i])
+	{
+		write(1, &str[i], 1);
+		i++;
+	}
+	write(1, "\"", 1);
+	write(1, "\n", 1);
+}

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 21:51:31 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/14 17:02:12 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:58:41 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*get_path(t_all *shell, char *cmd)
 	path_env = find_word_in_env(shell->envp, "PATH");
 	if (!path_env)
 		return (NULL);
-	possible_paths = ft_split(path_env, ':'); 
+	possible_paths = ft_split(path_env, ':');
 	if (!possible_paths)
 		return (NULL);
 	while (possible_paths[i])
@@ -32,7 +32,7 @@ char	*get_path(t_all *shell, char *cmd)
 		part_path = ft_strjoin(possible_paths[i], "/");
 		path = ft_strjoin(part_path, cmd);
 		free(part_path);
-		if (access(path, F_OK | X_OK) == 0) // contolla se esiste e se e' eseguibile 
+		if (access(path, F_OK | X_OK) == 0)
 			return (path);
 		free(path);
 		i++;
@@ -46,7 +46,7 @@ char	**lst_to_mtx(t_list *envp)
 	int		i;
 	int		len;
 	char	**mtx;
-    t_list *tmp;
+	t_list	*tmp;
 
 	i = 0;
 	tmp = envp;
@@ -61,17 +61,17 @@ char	**lst_to_mtx(t_list *envp)
 		tmp = tmp->next;
 	}
 	mtx[i] = NULL;
-	return(mtx);
+	return (mtx);
 }
 
-bool all_spaces(char *str)
+bool	all_spaces(char *str)
 {
 	int	i;
 
 	i = 0;
 	while (str && str[i])
 	{
-		if (str[i] != ' ' && !(str[i] >= 9  && str[i] <= 13))
+		if (str[i] != ' ' && !(str[i] >= 9 && str[i] <= 13))
 			return (false);
 		i++;
 	}

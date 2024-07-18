@@ -14,7 +14,7 @@
 
 void	close_pipes(t_all *shell)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (shell->pipes && shell->pipes[i])
@@ -25,9 +25,9 @@ void	close_pipes(t_all *shell)
 	}
 }
 
-void free_pipes(t_all *shell)
+void	free_pipes(t_all *shell)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!shell->pipes)

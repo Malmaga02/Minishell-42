@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 21:30:01 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/15 17:29:14 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:54:07 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	check_redirect(t_input *cmd, t_input *current, int *last)
 	return (ret);
 }
 
-t_input *find_cmd_in_block(t_input *block)
+t_input	*find_cmd_in_block(t_input *block)
 {
 	while (block && block->token != PIPE)
 	{
@@ -49,7 +49,7 @@ t_input *find_cmd_in_block(t_input *block)
 
 bool	handle_block(t_input *block)
 {
-	t_input *cmd;
+	t_input	*cmd;
 	int		*last_in;
 	int		*last_out;
 
@@ -60,7 +60,7 @@ bool	handle_block(t_input *block)
 		last_in = &cmd->fd_in;
 	if (cmd)
 		last_out = &cmd->fd_out;
-	while(block && block->token != PIPE)
+	while (block && block->token != PIPE)
 	{
 		if (block->token == R_INPUT)
 		{
@@ -90,5 +90,3 @@ int	handle_redirect(t_all *shell)
 	}
 	return (1);
 }
-
-

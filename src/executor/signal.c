@@ -23,7 +23,7 @@ void	handle_signal_child(int signal)
 	}
 }
 
-void handle_sigint(int signal)
+void	handle_sigint(int signal)
 {
 	if (signal == SIGINT)
 	{

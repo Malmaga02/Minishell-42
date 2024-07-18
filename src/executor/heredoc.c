@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/18 14:20:50 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:57:43 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	*strjoin_heredoc(char *s1, const char *s2)
 	return (result);
 }
 
-static char *open_file(char *file_name, int *fd)
+static char	*open_file(char *file_name, int *fd)
 {
 	char	*new;
 
@@ -69,7 +69,10 @@ static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 		if (line == NULL || strcmp(line, delimiter) == 0)
 		{
 			if (line == NULL)
-				ft_printf(2, "minishello: warning: here-document delimited by end-of-file (wanted `%s')\n", delimiter);
+			{
+				ft_printf(2, "minishello: warning: here-document delimited");
+				ft_printf(2, "by end-of-file (wanted `%s')\n", delimiter);
+			}
 			free(line);
 			break ;
 		}
@@ -86,8 +89,8 @@ static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 
 static int	open_heredoc(t_input *block, t_all *shell)
 {
-	t_input		*cmd;
-	int			*last;
+	t_input	*cmd;
+	int		*last;
 
 	last = NULL;
 	cmd = find_cmd_in_block(block);

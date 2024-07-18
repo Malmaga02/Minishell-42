@@ -16,18 +16,15 @@ char	*get_expansion(t_list *envp, char *name_env)
 {
 	int		start;
 	char	*env;
-	int		len_env;
+	//int		len_env;
 
 	if (!name_env)
 		return (NULL);
 	if (!ft_strncmp(name_env, "?=", 2))
 		return (ft_itoa(g_status_code));
 	start = ft_strlen(name_env) + 1;
-	len_env = find_len_env(envp, name_env);
-	env = ft_calloc(len_env + 1, sizeof(char));
-	if (!env)
-		return (NULL);
-	env = find_expansion_env(envp, name_env);
+//	len_env = find_len_env(envp, name_env);
+	env = ft_strdup(find_expansion_env(envp, name_env));
 	return (env);
 }
 

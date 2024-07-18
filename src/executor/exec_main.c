@@ -26,7 +26,8 @@ void	exec_command(t_all *shell, t_input *cmd_line)
 	if ((!path) || (execve(path, cmd, envp) == -1))
 	{
 		ft_printf(2, "%s: command not found\n", cmd[0]);
-		set_clear_all(shell);
+		free_all(shell);
+		close_exec_fd();
 		free_mtx(envp);
 		exit(127);
 	}
@@ -42,6 +43,7 @@ void	child_exe(t_all *shell, t_input *current)
 		if (shell && shell->std_fd_out > 2)
 			close(shell->std_fd_out);
 		free_pipes(shell);
+		free_all(shell);
 		close_exec_fd();
     	exit(g_status_code);
 	}
@@ -145,6 +147,10 @@ void exec_main(t_all *shell)
 		else if (WIFSIGNALED(g_status_code))
 			handle_signal_child(WTERMSIG(g_status_code));
 	}
-	close_exec_fd();
 	free_pipes(shell);
+	dup2(shell->std_fd_in, STDIN_FILENO);
+    dup2(shell->std_fd_out, STDOUT_FILENO);
+    close(shell->std_fd_in);
+    close(shell->std_fd_out);
+	close_exec_fd();
 }

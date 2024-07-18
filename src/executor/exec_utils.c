@@ -30,6 +30,8 @@ void	exec_builtin(t_all *shell)
 		builtin_export(shell, shell->cmd_line->args);
 	dup2(shell->std_fd_in, STDIN_FILENO);
 	dup2(shell->std_fd_out, STDOUT_FILENO);
+	close(shell->std_fd_in);
+	close(shell->std_fd_out);
 }
 
 bool	is_builtin(t_input *cmd_line)

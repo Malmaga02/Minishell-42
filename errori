@@ -1,0 +1,13 @@
+unset $PATH; /usr/bin/ls (non lo trova ma dovrebbe)
+$
+$""
+""
+''
+$DKOADKAOS echo ciao
+< Makefile cat
+$W cao
+chmod 000 prova.txt; cat prova.txt
+echo $USER$CIAO$USER (expected : mgalmarimgalmari)
+> heredoc; cat << x (errore se ti creo un file che si chama gia "heredoc") 
+ << a << b | <<c << d cat >out| cat  segfault con ctrl-D
+

@@ -31,6 +31,12 @@ void	set_clear_all(t_all *all)
 		dll_input_clear(&(all->cmd_line));
 		all->cmd_line = NULL;
 	}
+	if (all && all->pipes)
+	{
+		close_pipes(all);
+		free_pipes(all);
+	}
+	close_exec_fd();
 }
 
 void	free_all(t_all *all)
@@ -45,12 +51,6 @@ void	free_all(t_all *all)
 		dll_input_clear(&(all->cmd_line));
 		all->cmd_line = NULL;
 	}
-	if (all && all->pipes)
-	{
-		close_pipes(all);
-		free_pipes(all);
-	}
-	close_exec_fd();
 }
 
 void	close_all(t_all *all)

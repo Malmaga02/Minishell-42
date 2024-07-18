@@ -37,8 +37,7 @@ void	builtin_env(t_all *shell)
 	av = shell->cmd_line->args;
 	if (av[1])
 	{
-		ft_printf(2, "env: '%s' : No such file or directory\n",
-			av[1]);
+		ft_printf(2, "env: '%s' : No such file or directory\n", av[1]);
 		g_status_code = 127;
 		return ;
 	}

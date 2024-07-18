@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 17:44:34 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/10 11:38:03 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:49:02 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	cd_home(t_all *shell, char *home_dir, char *old_pwd)
 	else
 	{
 		g_status_code = 1;
-		return (ft_printf(2, "minishell: cd: " "%s: Error home\n",
-				home_dir), 1);
+		return (ft_printf(2, "minishell: cd: "
+				"%s: Error home\n", home_dir), 1);
 	}
 }
 

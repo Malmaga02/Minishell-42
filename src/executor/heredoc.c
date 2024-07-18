@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/16 11:32:06 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:20:50 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 	int		fd;
 
 	file_name = open_file("heredoc", &fd);
-	while (g_status_code != 130)
+	while (1)
 	{
 		line = readline("> ");
 		if (line == NULL || strcmp(line, delimiter) == 0)
@@ -74,6 +74,8 @@ static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 			break ;
 		}
 		heredoc_putendl_fd(line, fd, shell);
+		if (g_status_code == 130)
+			break ;
 	}
 	close(fd);
 	fd = open(file_name, O_RDONLY);

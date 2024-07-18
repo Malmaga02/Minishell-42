@@ -39,6 +39,7 @@ int					equal_check(char *str);
 int					doppelganger_check(t_list *envp, char *str, int len);
 void				change_node_env(t_list **envp, char *key, int eq);
 int					char_check(char *str, int *error);
+void            	print_export_quotes(char *str);
 /*------------------EXEC_MAIN------------------*/
 void				exec_main(t_all *shell);
 void				exec_command(t_all *shell, t_input *cmd_line);

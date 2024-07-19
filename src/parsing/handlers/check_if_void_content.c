@@ -11,10 +11,6 @@ t_input	*organize_void_token(t_input *cmdline)
 	{
 		if ((!tmp->prev && tmp->next) && tmp->token == VOID)
 			tmp->next->token = CMD;
-		if (tmp->token == CMD)
-			cmd_flag = 1;
-		if (find_token_type(tmp->token) == OPERATORS)
-			cmd_flag = 0;
 		if (tmp->prev && tmp->token == VOID)
 		{
 			new_token = get_word_token(tmp->prev->token);
@@ -82,8 +78,14 @@ t_all   check_if_void_content(t_all all_info)
 	}
 	while (cmdline)
 	{
-		if (cmdline->content && !cmdline->content[0])
-			cmdline->token = VOID;
+		if (cmdline->token == CMD && (cmdline->next && find_token_type(cmdline->next->token) == WORDS))
+		{
+			if (cmdline->content && !cmdline->content[0])
+			{
+				cmdline->token = VOID;
+				cmdline->next->token = CMD;
+			}
+		}
 		cmdline = cmdline->next;
 	}
 	all_info.cmd_line = organize_void_token(all_info.cmd_line);

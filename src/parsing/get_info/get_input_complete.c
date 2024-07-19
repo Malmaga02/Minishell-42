@@ -39,6 +39,9 @@ t_all	get_final_input(char *line, t_all all_info)
 	all_info = handle_trim_special_char(all_info, DOLLAR_SIGN);
 	if (!all_info.cmd_line)
 		return ((t_all){0});
+	all_info = check_if_void_cmd(all_info);
+	if (all_info.cmd_line)
+		return ((t_all){0});
 	all_info.cmd_line = get_args_mtx(all_info.cmd_line);
 	if (!all_info.cmd_line)
 		return ((t_all){0});
@@ -56,6 +59,5 @@ t_all	get_input_complete(t_all all_info, char *line, char **envp)
 	all_info = get_final_input(line, all_info);
 	if (!all_info.cmd_line)
 		return ((t_all){0});
-	all_info = check_if_void_content(all_info);
 	return (all_info);
 }

@@ -59,7 +59,7 @@ void	free_mtx(char **mtx)
 	if (!mtx)
 		return ;
 	i = 0;
-	while (mtx[i])
+	while (mtx && mtx[i])
 	{
 		free(mtx[i]);
 		mtx[i] = NULL;

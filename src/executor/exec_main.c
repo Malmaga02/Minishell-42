@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/17 17:55:01 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/19 12:16:25 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,8 @@ void	exec_main(t_all *shell)
 			}
 			if (pid == 0)
 			{
-				pipe_init(shell, current, i, num_pipes);
-				child_exe(shell, current);
+				pipe_init(shell, cmd, i, num_pipes);
+				child_exe(shell, cmd);
 			}
 		}
 		current = find_next_block(current);

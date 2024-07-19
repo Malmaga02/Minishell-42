@@ -149,5 +149,8 @@ t_all		handle_trim_special_char(t_all all_info, int token);
 
 // Check_if_void_content
 t_all   	check_if_void_content(t_all all_info);
+int			no_cmd_after_pipe(t_input *cmdline);
+int			no_input_for_redirect(t_input *cmdline);
+int			handle_operators_error(t_input *cmdline);
 t_input		*organize_void_token(t_input *cmdline);
 #endif

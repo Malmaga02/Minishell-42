@@ -9,6 +9,8 @@ t_input	*organize_void_token(t_input *cmdline)
 	tmp = cmdline;
 	while (tmp)
 	{
+		if ((!tmp->prev && tmp->next) && tmp->token == VOID)
+			tmp->next->token = CMD;
 		if (tmp->token == CMD)
 			cmd_flag = 1;
 		if (find_token_type(tmp->token) == OPERATORS)
@@ -23,7 +25,46 @@ t_input	*organize_void_token(t_input *cmdline)
 		}
 		tmp = tmp->next;
 	}
+	if (!handle_operators_error(cmdline))
+		return (NULL);
 	return (cmdline);
+}
+
+int	no_cmd_after_pipe(t_input *cmdline)
+{
+	cmdline = cmdline->next;
+	while (cmdline && cmdline->token != PIPE)
+	{
+		if (cmdline->token == CMD)
+			return (0);
+		cmdline = cmdline->next;
+	}
+	return (1);
+}
+
+int	no_input_for_redirect(t_input *cmdline)
+{
+	cmdline = cmdline->next;
+	while (cmdline && find_token_type(cmdline->token) != OPERATORS)
+	{
+		if (find_token_type(cmdline->token) == WORDS)
+			return (0);
+		cmdline = cmdline->next;
+	}
+	return (1);
+}
+
+int	handle_operators_error(t_input *cmdline)
+{
+	while (cmdline)
+	{
+		if (cmdline->token == PIPE && no_cmd_after_pipe(cmdline))
+			return (ft_putendl_fd("No command found", 2), 0);
+		if (find_token_type(cmdline->token) == REDIRECTS && no_input_for_redirect(cmdline))
+			return (ft_putendl_fd("No command found", 2), 0);
+		cmdline = cmdline->next;
+	}
+	return (1);
 }
 
 t_all   check_if_void_content(t_all all_info)

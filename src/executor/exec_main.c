@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/19 13:00:50 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:31:50 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,14 @@ void	exec_command(t_all *shell, t_input *cmd_line)
 	signal(SIGQUIT, SIG_DFL);
 	cmd = cmd_line->args;
 	envp = lst_to_mtx(shell->envp);
-	path = get_path(shell, cmd[0]);
+	if (ft_strchr(cmd_line->content, '/') != NULL)
+		path = ft_strdup(cmd_line->content);
+	else
+		path = get_path(shell, cmd[0]);
 	if ((!path) || (execve(path, cmd, envp) == -1))
 	{
 		ft_printf(2, "%s: command not found\n", cmd[0]);
+		free(path);
 		free_all(shell);
 		close_exec_fd();
 		free_mtx(envp);

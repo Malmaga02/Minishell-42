@@ -1,4 +1,4 @@
-unset $PATH; /usr/bin/ls (non lo trova ma dovrebbe)
+unset $PATH; /usr/bin/ls (non lo trova ma dovrebbe) #risolto
 $
 $""
 ""
@@ -8,6 +8,6 @@ $DKOADKAOS echo ciao #risolto
 $W cao #risolto
 chmod 000 prova.txt; cat prova.txt
 echo $USER$CIAO$USER (expected : mgalmarimgalmari) #risolto
-> heredoc; cat << x (errore se ti creo un file che si chama gia "heredoc") 
+> heredoc; cat << x (errore se ti creo un file che si chama gia "heredoc") #risolto
  << a << b | <<c << d cat >out| cat  segfault con ctrl-D
 

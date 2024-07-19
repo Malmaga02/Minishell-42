@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:07 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/19 12:59:40 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:39:30 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,22 @@ void	exec_builtin(t_all *shell)
 	t_input	*cmd;
 
 	cmd = find_cmd_in_block(shell->cmd_line);
-	if (cmd && (ft_strcmp(cmd->content, "exit") == 0))
-		builtin_exit(shell, cmd->args);
-	if (cmd && (ft_strcmp(cmd->content, "echo") == 0))
+	if (!cmd)
+		return ;
+	if (ft_strcmp(shell->cmd_line->content, "exit") == 0)
+		builtin_exit(shell, shell->cmd_line->args);
+	if (ft_strcmp(shell->cmd_line->content, "echo") == 0)
 		builtin_echo(cmd->args);
-	if (cmd && (ft_strcmp(cmd->content, "env") == 0))
+	if (ft_strcmp(shell->cmd_line->content, "env") == 0)
 		builtin_env(shell);
-	if (cmd && (ft_strcmp(cmd->content, "pwd") == 0))
+	if (ft_strcmp(shell->cmd_line->content, "pwd") == 0)
 		builtin_pwd();
-	if (cmd && (ft_strcmp(cmd->content, "cd") == 0))
-		builtin_cd(shell, cmd->args);
-	if (cmd && (ft_strcmp(cmd->content, "unset") == 0))
-		builtin_unset(cmd->args, shell->envp);
-	if (cmd && (ft_strcmp(cmd->content, "export") == 0))
-		builtin_export(shell, cmd->args);
+	if (ft_strcmp(shell->cmd_line->content, "cd") == 0)
+		builtin_cd(shell, shell->cmd_line->args);
+	if (ft_strcmp(shell->cmd_line->content, "unset") == 0)
+		builtin_unset(shell->cmd_line->args, shell->envp);
+	if (ft_strcmp(shell->cmd_line->content, "export") == 0)
+		builtin_export(shell, shell->cmd_line->args);
 	dup2(shell->std_fd_in, STDIN_FILENO);
 	dup2(shell->std_fd_out, STDOUT_FILENO);
 	close(shell->std_fd_in);
@@ -42,19 +44,21 @@ bool	is_builtin(t_all *shell)
 	t_input	*cmd;
 
 	cmd = find_cmd_in_block(shell->cmd_line);
-	if (cmd && (ft_strcmp(cmd->content, "exit") == 0))
+	if (!cmd)
+		return (false);
+	if (ft_strcmp(cmd->content, "exit") == 0)
 		return (true);
-	if (cmd && (ft_strcmp(cmd->content, "echo") == 0))
+	if (ft_strcmp(cmd->content, "echo") == 0)
 		return (true);
-	if (cmd && (ft_strcmp(cmd->content, "env") == 0))
+	if (ft_strcmp(cmd->content, "env") == 0)
 		return (true);
-	if (cmd && (ft_strcmp(cmd->content, "pwd") == 0))
+	if (ft_strcmp(cmd->content, "pwd") == 0)
 		return (true);
-	if (cmd && (ft_strcmp(cmd->content, "cd") == 0))
+	if (ft_strcmp(cmd->content, "cd") == 0)
 		return (true);
-	if (cmd && (ft_strcmp(cmd->content, "unset") == 0))
+	if (ft_strcmp(cmd->content, "unset") == 0)
 		return (true);
-	if (cmd && (ft_strcmp(cmd->content, "export") == 0))
+	if (ft_strcmp(cmd->content, "export") == 0)
 		return (true);
 	return (false);
 }

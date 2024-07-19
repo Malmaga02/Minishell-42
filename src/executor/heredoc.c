@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/17 14:47:47 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/19 12:18:45 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	heredoc_putendl_fd(char *s, int fd, t_all *shell)
 		return ;
 	ft_putstr_fd(s, fd);
 	ft_putchar_fd('\n', fd);
+	free(s);
 }
 
 static char	*strjoin_heredoc(char *s1, const char *s2)
@@ -41,7 +42,7 @@ static char	*strjoin_heredoc(char *s1, const char *s2)
 	return (result);
 }
 
-static char *open_file(char *file_name, int *fd)
+static char	*open_file(char *file_name, int *fd)
 {
 	char	*new;
 
@@ -62,17 +63,21 @@ static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 	int		fd;
 
 	file_name = open_file("heredoc", &fd);
-	while (g_status_code != 130)
+	while (1)
 	{
 		line = readline("> ");
 		if (line == NULL || strcmp(line, delimiter) == 0)
 		{
 			if (line == NULL)
-				ft_printf(2, "minishello: warning: here-document delimited by end-of-file (wanted `%s')\n", delimiter);
+			{
+				ft_printf(2, "minishello: warning: here-document delimited");
+				ft_printf(2, "by end-of-file (wanted `%s')\n", delimiter);
+			}
 			free(line);
 			break ;
 		}
 		heredoc_putendl_fd(line, fd, shell);
+		free(line);
 	}
 	close(fd);
 	fd = open(file_name, O_RDONLY);
@@ -83,8 +88,8 @@ static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 
 static int	open_heredoc(t_input *block, t_all *shell)
 {
-	t_input		*cmd;
-	int			*last;
+	t_input	*cmd;
+	int		*last;
 
 	last = NULL;
 	cmd = find_cmd_in_block(block);

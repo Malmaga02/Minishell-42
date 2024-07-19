@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/16 11:40:31 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:34:05 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,16 @@ int					equal_check(char *str);
 int					doppelganger_check(t_list *envp, char *str, int len);
 void				change_node_env(t_list **envp, char *key, int eq);
 int					char_check(char *str, int *error);
+void            	print_export_quotes(char *str);
 /*------------------EXEC_MAIN------------------*/
 void				exec_main(t_all *shell);
 void				exec_command(t_all *shell, t_input *cmd_line);
 void				pipe_init(t_all *shell, t_input *current, int i, int cmd_num);
 /*------------------EXEC_UTILS------------------*/
 void				exec_builtin(t_all *shell);
-bool				is_builtin(t_all *shell);
+bool				is_builtin(t_input *cmd_line);
 int	                count_commands(t_input *cmd_line);
-t_all           	*init_pipe(t_all *shell, int cmd_num);
+t_all           	*create_pipe(t_all *shell, int cmd_num);
 void				wait_cmd(int cmd_num);
 /*------------------EXEC_FREE------------------*/
 void				close_pipes(t_all *shell);

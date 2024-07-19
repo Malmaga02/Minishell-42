@@ -23,9 +23,12 @@ void	*expand_env(char *content, t_all all_info)
 	new_content = ft_strdup(env);
 	if (!new_content)
 		return (free(content), NULL);
+	if (len_escaped_char(new_content) == (int)ft_strlen(new_content))
+		return (free(env), free(content), (void *)new_content);
 	new_content = handle_escaped_char(new_content);
 	if (!new_content)
 		return (free(content), NULL);
+	free(env);
 	free(content);
 	return ((void *)new_content);
 }
@@ -44,6 +47,7 @@ void	*expand_env_with_quotes(char *content, t_all all_info)
 		if (!env || !content)
 			return (NULL);
 		dollar_signs--;
+		free(env);
 	}
 	new_content = ft_strdup(content);
 	free(content);

@@ -41,14 +41,16 @@ static int	export_syntax(char *str, int *error)
 void	print_export(t_list *envp)
 {
 	t_list	*tmp;
+	int		i;
 
 	tmp = envp;
 	while (tmp != NULL)
 	{
-		if (tmp->content != NULL)
-			ft_printf(1, "declare -x %s\n", tmp->content);
+		i = equal_check(tmp->content);
+		if (i > 0)
+			print_export_quotes(tmp->content);
 		else
-			ft_printf(1, "(null)\n");
+			ft_printf(1, "declare -x %s\n", tmp->content);
 		tmp = tmp->next;
 	}
 }

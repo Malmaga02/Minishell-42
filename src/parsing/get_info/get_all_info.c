@@ -21,11 +21,11 @@ t_parsing	*parse_input(t_parsing *parsing)
 		return (NULL);
 	parsing->mtx_from_input = get_mtx_from_input(parsing);
 	if (!parsing->mtx_from_input)
-		return (NULL);
+		return (free_parsing(parsing), NULL);
 	parsing->size = count_rows(parsing->mtx_from_input);
 	parsing->arr_token = get_arr_token(parsing->mtx_from_input, parsing->size);
 	if (!parsing->arr_token)
-		return (NULL);
+		return (free_parsing(parsing), NULL);
 	return (parsing);
 }
 
@@ -70,7 +70,7 @@ t_list	*create_list_from_envp(char **envp)
 	{
 		node = ft_lstnew(envp_cpy[i]);
 		if (!node)
-			return (ft_lstclear(&envp_list, free), NULL);
+			return (ft_lstclear(&envp_list, free), free(envp_cpy), NULL);
 		ft_lstadd_back(&envp_list, node);
 		i++;
 	}
@@ -93,7 +93,7 @@ t_all	get_all_info(t_all all_info, char *line, char **envp)
 		return (free_parsing(parsing), (t_all){0});
 	parsing = parse_input(parsing);
 	if (!parsing)
-		return (free_parsing(parsing), (t_all){0});
+		return ((t_all){0});
 	all_info.cmd_line = create_list_from_input(parsing);
 	if (!all_info.envp)
 		all_info.envp = create_list_from_envp(envp);

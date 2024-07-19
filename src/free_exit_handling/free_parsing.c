@@ -31,21 +31,27 @@ void	set_clear_all(t_all *all)
 		dll_input_clear(&(all->cmd_line));
 		all->cmd_line = NULL;
 	}
+	if (all && all->pipes)
+	{
+		close_pipes(all);
+		free_pipes(all);
+	}
+	close_exec_fd();
 }
 
 void	free_all(t_all *all)
 {
-	if (all && all->envp)
+	if (all->envp)
 	{
 		ft_lstclear(&(all->envp), free);
 		all->envp = NULL;
 	}
-	if (all && all->cmd_line)
+	if (all->cmd_line)
 	{
 		dll_input_clear(&(all->cmd_line));
 		all->cmd_line = NULL;
 	}
-	if (all && all->pipes)
+	if (all->pipes)
 	{
 		close_pipes(all);
 		free_pipes(all);

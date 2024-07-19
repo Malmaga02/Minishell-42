@@ -50,7 +50,7 @@ char	*find_expansion_env(t_list *envp, char *name_env)
 			return (&content[len]);
 		tmp = tmp->next;
 	}
-	return (ft_strdup(""));
+	return (NULL);
 }
 
 int	len_escaped_char(char *env)
@@ -62,6 +62,8 @@ int	len_escaped_char(char *env)
 	i = 0;
 	res = 0;
 	token = 0;
+	if (env && !env[0])
+		return (1);
 	while (env && env[i])
 	{
 		token = check_spaces(env[i]);
@@ -86,6 +88,8 @@ char	*handle_escaped_char(char *env)
 	new_content = ft_calloc(len_escaped_char(env) + 1, sizeof(char));
 	if (!new_content)
 		return (NULL);
+	if (env && !env[0])
+		new_content[j] = '$';
 	while (env && env[i])
 	{
 		token = check_spaces(env[i]);

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:07 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/16 10:45:46 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:34:05 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,25 @@ void	exec_builtin(t_all *shell)
 		builtin_export(shell, shell->cmd_line->args);
 	dup2(shell->std_fd_in, STDIN_FILENO);
 	dup2(shell->std_fd_out, STDOUT_FILENO);
+	close(shell->std_fd_in);
+	close(shell->std_fd_out);
 }
 
-bool	is_builtin(t_all *shell)
+bool	is_builtin(t_input *cmd_line)
 {
-	if (ft_strcmp(shell->cmd_line->content, "exit") == 0)
+	if (ft_strcmp(cmd_line->content, "exit") == 0)
 		return (true);
-	if (ft_strcmp(shell->cmd_line->content, "echo") == 0)
+	if (ft_strcmp(cmd_line->content, "echo") == 0)
 		return (true);
-	if (ft_strcmp(shell->cmd_line->content, "env") == 0)
+	if (ft_strcmp(cmd_line->content, "env") == 0)
 		return (true);
-	if (ft_strcmp(shell->cmd_line->content, "pwd") == 0)
+	if (ft_strcmp(cmd_line->content, "pwd") == 0)
 		return (true);
-	if (ft_strcmp(shell->cmd_line->content, "cd") == 0)
+	if (ft_strcmp(cmd_line->content, "cd") == 0)
 		return (true);
-	if (ft_strcmp(shell->cmd_line->content, "unset") == 0)
+	if (ft_strcmp(cmd_line->content, "unset") == 0)
 		return (true);
-	if (ft_strcmp(shell->cmd_line->content, "export") == 0)
+	if (ft_strcmp(cmd_line->content, "export") == 0)
 		return (true);
 	return (false);
 }
@@ -67,26 +69,27 @@ int	count_commands(t_input *cmd_line)
 	return (i);
 }
 
-t_all	*init_pipe(t_all *shell, int cmd_num)
+t_all	*create_pipe(t_all *shell, int pipe_num)
 {
 	int	i;
 
 	i = 0;
-	if (cmd_num == 1)
+	if (pipe_num == 0)
 	{
 		shell->pipes = NULL;
 		return (shell);
 	}
-	shell->pipes = ft_calloc((cmd_num + 1), sizeof(int *));
-    while (i < cmd_num - 1)
+	shell->pipes = ft_calloc(pipe_num + 1, sizeof(int *));
+	while (i < pipe_num)
 	{
-        shell->pipes[i] = ft_calloc(2, sizeof(int));
-        if (pipe(shell->pipes[i]) == -1) {
-            ft_printf(2, "Error: pipe\n");
-            exit(1);
-        }
+		shell->pipes[i] = ft_calloc(2, sizeof(int));
+		if (pipe(shell->pipes[i]) == -1)
+		{
+			ft_printf(2, "Error: pipe\n");
+			exit(1);
+		}
 		i++;
-    }
+	}
 	return (shell);
 }
 /* 

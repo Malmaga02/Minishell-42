@@ -25,9 +25,9 @@ int	count_words(char *s)
 		return (0);
 	while (s && s[i])
 	{
-		while (s[i] && check_spaces(s[i]) == 1)
+		while (s && s[i] && check_spaces(s[i]) == 1)
 			i++;
-		if (s[i])
+		if (s && s[i])
 			word_num++;
 		if (s[i] && (check_spaces(s[i]) != 1))
 			tmp = handle_not_spaces(&s[i]);

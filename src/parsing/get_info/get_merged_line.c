@@ -58,6 +58,13 @@ int	count_merge_next(int *merge_arr, int i, int size)
 	return (res - 1);
 }
 
+char	*delete_empty_env(char	*mtx_cmdline)
+{
+	if (ft_strlen(mtx_cmdline) == 1 && !ft_strncmp(mtx_cmdline, "$", 2))
+		return (free(mtx_cmdline), ft_strdup(""));
+	return (mtx_cmdline);
+}
+
 char	*handle_merge_next(char	**mtx_cmdline, int *merge_arr, int *index)
 {
 	int		i;
@@ -69,9 +76,12 @@ char	*handle_merge_next(char	**mtx_cmdline, int *merge_arr, int *index)
 	size = count_rows(mtx_cmdline);
 	content = NULL;
 	quote = NULL;
+	if (mtx_cmdline && mtx_cmdline[i])
+		mtx_cmdline[i] = delete_empty_env(mtx_cmdline[i]);
 	while (mtx_cmdline && mtx_cmdline[i])
 	{
 		quote = ft_strdup("\"");
+		mtx_cmdline[i + 1] = delete_empty_env(mtx_cmdline[i + 1]);
 		if (i == *index)
 			content = strjoin_gnl(&quote, mtx_cmdline[i]);
 		if (mtx_cmdline[i + 1] && (i < size && merge_arr[i] == MERGE_NEXT))
@@ -83,6 +93,8 @@ char	*handle_merge_next(char	**mtx_cmdline, int *merge_arr, int *index)
 		}
 		i++;
 	}
+	if (quote)
+		free(quote);
 	index = &i;
 	return (content);
 }
@@ -107,7 +119,7 @@ char	*get_new_input(char	**mtx_cmdline, int *merge_arr, int size)
 			content = handle_merge_next(mtx_cmdline, merge_arr, &i);
 			i += count_merge_next(merge_arr, i, size);
 		}
-		if (!content)
+		if (!content || !content[0])
 			return (NULL);
 		new_input = strjoin_gnl(&new_input, content);
 		free(content);

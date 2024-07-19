@@ -102,6 +102,7 @@ int			count_merge_next(int *merge_arr, int i, int size);
 char		*handle_merge_next(char	**mtx_cmdline, int *merge_arr, int *index);
 char		*get_new_input(char	**mtx_cmdline, int *merge_arr, int size);
 char		*get_merged_line(t_input *cmd_line, int *merge_arr);
+char		*delete_empty_env(char	*mtx_cmdline);
 
 // Get_mtx_input
 int			count_words(char *s);
@@ -114,6 +115,7 @@ char		**get_mtx_from_input(t_parsing *parsing);
 int			check_spaces(char c);
 int			handle_quotes(char *s);
 int			handle_operators(char *s);
+int			handle_dollar_signs(char *s);
 int			handle_not_spaces(char *s);
 int			get_len_word(char *str, int	index);
 int			get_index_special_char(char *str, char c);
@@ -145,4 +147,7 @@ char		*trim_dollar_signs(char *content);
 char		*trim(char *content, int token);
 t_all		handle_trim_special_char(t_all all_info, int token);
 
+// Check_if_void_content
+t_all   	check_if_void_content(t_all all_info);
+t_input		*organize_void_token(t_input *cmdline);
 #endif

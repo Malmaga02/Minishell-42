@@ -57,6 +57,21 @@ int	handle_quotes(char *s)
 	return (++i);
 }
 
+int	handle_dollar_signs(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s && s[i])
+	{
+		if (check_spaces(s[i]) == 1 || check_spaces(s[i]) == DOLLAR_SIGN ||
+		check_spaces(s[i]) == D_QUOTE || check_spaces(s[i]) == S_QUOTE)
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
 int	handle_operators(char *s)
 {
 	int	i;
@@ -80,8 +95,7 @@ int	handle_operators(char *s)
 	}
 	else if (s[i] && check_spaces(s[i++]) == DOLLAR_SIGN)
 	{
-		while (s[i] && check_spaces(s[i]) != 1)
-			i++;
+		i += handle_dollar_signs(&s[i]);
 	}
 	return (i);
 }

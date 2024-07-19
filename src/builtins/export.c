@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:03:12 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/16 11:29:32 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:49:40 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,15 @@ void	export_add(t_all *shell, char *str)
 {
 	int		i;
 	t_list	*tmp;
+	int		check;
 
 	i = equal_check(str);
+	check = doppelganger_check(shell->envp, str, i);
+	if (check == 2)
+		return ;
 	if ((i > 0 && str[i - 1] == '+'))
 		change_node_env(&shell->envp, str, i);
-	else if (doppelganger_check(shell->envp, str, i))
+	else if (check == 1)
 	{
 		tmp = find_node_in_env(shell->envp, str, i);
 		free(tmp->content);

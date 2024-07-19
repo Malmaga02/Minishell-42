@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/19 16:22:18 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:43:20 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*open_file(char *file_name, int *fd)
 	return (file_name);
 }
 
-static void	display_heredoc(char *delimiter, int *last, t_all *shell)
+static int	display_heredoc(char *delimiter, int *last, t_all *shell)
 {
 	char	*line;
 	char	*file_name;
@@ -77,7 +77,7 @@ static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 			break ;
 		}
 		if (g_status_code == 130)
-			break ;
+			return (unlink(file_name), 0);
 		heredoc_putendl_fd(line, fd, shell);
 	}
 	if (fd > 0)
@@ -86,6 +86,7 @@ static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 	if (last != NULL)
 		*last = fd;
 	unlink(file_name);
+	return (1);
 }
 
 static int	open_heredoc(t_input *block, t_all *shell)
@@ -100,7 +101,10 @@ static int	open_heredoc(t_input *block, t_all *shell)
 	while (block && block->token != PIPE)
 	{
 		if (block->token == HEREDOC)
-			display_heredoc(block->args[1], last, shell);
+		{
+			if (!display_heredoc(block->args[1], last, shell))
+				return (0);
+		}
 		block = block->next;
 	}
 	return (1);

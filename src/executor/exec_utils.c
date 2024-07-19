@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:07 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/19 12:38:43 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/19 12:59:40 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	exec_builtin(t_all *shell)
 	t_input	*cmd;
 
 	cmd = find_cmd_in_block(shell->cmd_line);
-	// printf("cmd: %s\n", cmd->content);
 	if (cmd && (ft_strcmp(cmd->content, "exit") == 0))
 		builtin_exit(shell, cmd->args);
 	if (cmd && (ft_strcmp(cmd->content, "echo") == 0))
@@ -69,7 +68,6 @@ int	count_commands(t_input *cmd_line)
 	tmp = cmd_line;
 	while (tmp)
 	{
-		printf("str: %s\ntoken: %d\n", tmp->content, tmp->token);
 		if (tmp->token == CMD)
 			i++;
 		tmp = tmp->next;

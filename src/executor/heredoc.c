@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/19 12:18:45 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/19 12:57:39 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	heredoc_putendl_fd(char *s, int fd, t_all *shell)
 	if (!s || fd < 0)
 		return ;
 	s = expand_env_with_quotes(s, *shell);
-	if (!s)
+	if (!s || g_status_code == 130)
 		return ;
 	ft_putstr_fd(s, fd);
 	ft_putchar_fd('\n', fd);
@@ -51,7 +51,7 @@ static char	*open_file(char *file_name, int *fd)
 	if (fd < 0)
 	{
 		new = strjoin_heredoc(file_name, "_daje");
-		return (open_file(new, fd));
+		return (unlink(file_name), open_file(new, fd));
 	}
 	return (file_name);
 }
@@ -76,10 +76,12 @@ static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 			free(line);
 			break ;
 		}
+		if (g_status_code == 130)
+			break ;
 		heredoc_putendl_fd(line, fd, shell);
-		free(line);
 	}
-	close(fd);
+	if (fd > 0)
+		close(fd);
 	fd = open(file_name, O_RDONLY);
 	if (last != NULL)
 		*last = fd;

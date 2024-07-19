@@ -3,11 +3,11 @@ $
 $""
 ""
 ''
-$DKOADKAOS echo ciao
+$DKOADKAOS echo ciao #risolto
 < Makefile cat
-$W cao
+$W cao #risolto
 chmod 000 prova.txt; cat prova.txt
-echo $USER$CIAO$USER (expected : mgalmarimgalmari)
+echo $USER$CIAO$USER (expected : mgalmarimgalmari) #risolto
 > heredoc; cat << x (errore se ti creo un file che si chama gia "heredoc") 
  << a << b | <<c << d cat >out| cat  segfault con ctrl-D
 

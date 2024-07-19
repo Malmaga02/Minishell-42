@@ -131,7 +131,7 @@ void	exec_main(t_all *shell)
 			}
 			if (pid == 0)
 			{
-				pipe_init(shell, current, i, num_pipes);
+				pipe_init(shell, current, i, num_pipes); //forse qui?
 				child_exe(shell, current);
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/19 12:20:31 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/19 12:36:46 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	exec_command(t_all *shell, t_input *cmd_line)
 
 void	child_exe(t_all *shell, t_input *current)
 {
-	if (is_builtin(current))
+	if (is_builtin(shell))
 	{
 		exec_builtin(shell);
 		if (shell && shell->std_fd_in > 2)
@@ -114,7 +114,8 @@ void	exec_main(t_all *shell)
 	shell->std_fd_out = dup(STDOUT_FILENO);
 	handle_redirect(shell);
 	shell = create_pipe(shell, num_pipes);
-	if (cmd_num == 1 && is_builtin(current))
+	printf("%d\n", cmd_num);
+	if (cmd_num == 1 && is_builtin(shell))
 		return (pipe_init(shell, current, i, num_pipes),
 				exec_builtin(shell));
 	signal(SIGINT, handle_sigint_exec);
@@ -123,6 +124,7 @@ void	exec_main(t_all *shell)
 		cmd = find_cmd_in_block(current);
 		if (cmd)
 		{
+			// printf("cmd: %s\n", cmd->content);
 			pid = fork();
 			if (pid == -1)
 			{

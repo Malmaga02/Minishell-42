@@ -6,13 +6,10 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/07/19 16:43:20 by lotrapan         ###   ########.fr       */
-=======
-/*   Updated: 2024/07/20 18:15:43 by lotrapan         ###   ########.fr       */
->>>>>>> ad31b90e8c1b4800a82a8fb8ff06313b19c75da8
+/*   Updated: 2024/07/20 18:29:39 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -50,17 +47,7 @@ static int	display_heredoc(char *delimiter, int *last, t_all *shell)
 			return (unlink(file_name), 0);
 		heredoc_putendl_fd(line, fd, shell);
 	}
-<<<<<<< HEAD
-	if (fd > 0)
-		close(fd);
-	fd = open(file_name, O_RDONLY);
-	if (last != NULL)
-		*last = fd;
-	unlink(file_name);
-	return (1);
-=======
 	finish_heredoc(file_name, fd, last);
->>>>>>> ad31b90e8c1b4800a82a8fb8ff06313b19c75da8
 }
 
 static int	open_heredoc(t_input *block, t_all *shell)

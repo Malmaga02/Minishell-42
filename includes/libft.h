@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 17:42:47 by chsassi           #+#    #+#             */
-/*   Updated: 2024/07/20 18:19:03 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:32:21 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,5 +138,6 @@ int					ft_putunsigned_fd(unsigned int n, int fd);
 int					ft_puthex_fd(unsigned int num, char format, int fd);
 
 int					ft_putptr_fd(uintptr_t ptr, int fd);
+void				free_mtx(char **mtx);
 
 #endif

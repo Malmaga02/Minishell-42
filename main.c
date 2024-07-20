@@ -14,20 +14,6 @@
 
 int	g_status_code;
 
-
-void print_mtx(char **mtx)
-{
-	int	i;
-
-	i = 0;
-	printf("print_mtx\n");
-	while (mtx && mtx[i])
-	{
-		ft_printf(1, "mtx[%d]: %s\n", i, mtx[i]);
-		i++;
-	}
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	t_all		all_info;
@@ -58,13 +44,6 @@ int	main(int ac, char **av, char **envp)
 		all_info = get_input_complete(all_info, line, envp);
 		if (!all_info.cmd_line)
 			continue ;
-		/* while (all_info.cmd_line)
-		{
-			if (all_info.cmd_line->token == CMD)
-				print_mtx(all_info.cmd_line->args);
-			printf("token: %d\n", all_info.cmd_line->token);
-			all_info.cmd_line = all_info.cmd_line->next;
-		} */
 		exec_main(&all_info);
 		set_clear_all(&all_info);
 	}

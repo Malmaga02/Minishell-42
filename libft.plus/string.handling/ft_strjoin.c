@@ -9,6 +9,7 @@
 /*   Updated: 2024/06/18 14:33:10 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 static void	ft_strcat(char *s, char *s2, char *fin)
@@ -39,8 +40,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	t1 = (char *)s1;
 	t2 = (char *)s2;
-/* 	if (s1 == NULL || s2 == NULL)
-		return (NULL); */
 	fin = ft_calloc((ft_strlen(s1) + ft_strlen(s2)) + 1, sizeof(char));
 	if (!fin)
 		return (NULL);

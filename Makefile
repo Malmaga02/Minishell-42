@@ -56,7 +56,9 @@ SRC =	./main.c \
 		./src/executor/redirect.c \
 		./src/executor/redirect_utils.c \
 		./src/executor/heredoc.c \
-		./src/executor/signal.c 
+		./src/executor/signal.c \
+		./src/executor/heredoc_utils.c \
+		./src/executor/handle_child.c 
 
 all: $(NAME)
 

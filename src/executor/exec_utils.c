@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:07 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/19 14:39:30 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:06:37 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,21 @@ t_all	*create_pipe(t_all *shell, int pipe_num)
 	}
 	return (shell);
 }
-/* 
-void	wait_cmd(int cmd_num)
-{
-	int	i;
 
-	i = 0;
-    while (i < cmd_num)
+void	finish_exec(t_all *shell)
+{
+	close_pipes(shell);
+	while (wait(&g_status_code) != -1)
 	{
-		wait(NULL);
-		i++;
+		if (WIFEXITED(g_status_code))
+			g_status_code = WEXITSTATUS(g_status_code);
+		else if (WIFSIGNALED(g_status_code))
+			handle_signal_child(WTERMSIG(g_status_code));
 	}
-} */
+	free_pipes(shell);
+	dup2(shell->std_fd_in, STDIN_FILENO);
+	dup2(shell->std_fd_out, STDOUT_FILENO);
+	close(shell->std_fd_in);
+	close(shell->std_fd_out);
+	close_exec_fd();
+}

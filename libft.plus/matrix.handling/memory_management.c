@@ -6,11 +6,27 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 15:05:40 by chsassi           #+#    #+#             */
-/*   Updated: 2024/07/13 18:13:51 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:30:48 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+void	free_mtx(char **mtx)
+{
+	int	i;
+
+	if (!mtx)
+		return ;
+	i = 0;
+	while (mtx && mtx[i])
+	{
+		free(mtx[i]);
+		mtx[i] = NULL;
+		i++;
+	}
+	free(mtx);
+}
 
 char	**mtx_alloc(int rows, int cols)
 {
@@ -50,20 +66,4 @@ char	**copy_mtx(char **mtx)
 		i++;
 	}
 	return (mtx_cpy);
-}
-
-void	free_mtx(char **mtx)
-{
-	int	i;
-
-	if (!mtx)
-		return ;
-	i = 0;
-	while (mtx && mtx[i])
-	{
-		free(mtx[i]);
-		mtx[i] = NULL;
-		i++;
-	}
-	free(mtx);
 }

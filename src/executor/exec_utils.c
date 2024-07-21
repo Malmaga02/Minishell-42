@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:07 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/17 17:34:05 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:06:37 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 
 void	exec_builtin(t_all *shell)
 {
+	t_input	*cmd;
+
+	cmd = find_cmd_in_block(shell->cmd_line);
+	if (!cmd)
+		return ;
 	if (ft_strcmp(shell->cmd_line->content, "exit") == 0)
 		builtin_exit(shell, shell->cmd_line->args);
 	if (ft_strcmp(shell->cmd_line->content, "echo") == 0)
-		builtin_echo(shell->cmd_line->args);
+		builtin_echo(cmd->args);
 	if (ft_strcmp(shell->cmd_line->content, "env") == 0)
 		builtin_env(shell);
 	if (ft_strcmp(shell->cmd_line->content, "pwd") == 0)
@@ -34,21 +39,26 @@ void	exec_builtin(t_all *shell)
 	close(shell->std_fd_out);
 }
 
-bool	is_builtin(t_input *cmd_line)
+bool	is_builtin(t_all *shell)
 {
-	if (ft_strcmp(cmd_line->content, "exit") == 0)
+	t_input	*cmd;
+
+	cmd = find_cmd_in_block(shell->cmd_line);
+	if (!cmd)
+		return (false);
+	if (ft_strcmp(cmd->content, "exit") == 0)
 		return (true);
-	if (ft_strcmp(cmd_line->content, "echo") == 0)
+	if (ft_strcmp(cmd->content, "echo") == 0)
 		return (true);
-	if (ft_strcmp(cmd_line->content, "env") == 0)
+	if (ft_strcmp(cmd->content, "env") == 0)
 		return (true);
-	if (ft_strcmp(cmd_line->content, "pwd") == 0)
+	if (ft_strcmp(cmd->content, "pwd") == 0)
 		return (true);
-	if (ft_strcmp(cmd_line->content, "cd") == 0)
+	if (ft_strcmp(cmd->content, "cd") == 0)
 		return (true);
-	if (ft_strcmp(cmd_line->content, "unset") == 0)
+	if (ft_strcmp(cmd->content, "unset") == 0)
 		return (true);
-	if (ft_strcmp(cmd_line->content, "export") == 0)
+	if (ft_strcmp(cmd->content, "export") == 0)
 		return (true);
 	return (false);
 }
@@ -92,15 +102,21 @@ t_all	*create_pipe(t_all *shell, int pipe_num)
 	}
 	return (shell);
 }
-/* 
-void	wait_cmd(int cmd_num)
-{
-	int	i;
 
-	i = 0;
-    while (i < cmd_num)
+void	finish_exec(t_all *shell)
+{
+	close_pipes(shell);
+	while (wait(&g_status_code) != -1)
 	{
-		wait(NULL);
-		i++;
+		if (WIFEXITED(g_status_code))
+			g_status_code = WEXITSTATUS(g_status_code);
+		else if (WIFSIGNALED(g_status_code))
+			handle_signal_child(WTERMSIG(g_status_code));
 	}
-} */
+	free_pipes(shell);
+	dup2(shell->std_fd_in, STDIN_FILENO);
+	dup2(shell->std_fd_out, STDOUT_FILENO);
+	close(shell->std_fd_in);
+	close(shell->std_fd_out);
+	close_exec_fd();
+}

@@ -6,54 +6,20 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/18 15:57:43 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:15:43 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	heredoc_putendl_fd(char *s, int fd, t_all *shell)
+static void	finish_heredoc(char *file_name, int fd, int *last)
 {
-	if (!s || fd < 0)
-		return ;
-	s = expand_env_with_quotes(s, *shell);
-	if (!s)
-		return ;
-	ft_putstr_fd(s, fd);
-	ft_putchar_fd('\n', fd);
-	free(s);
-}
-
-static char	*strjoin_heredoc(char *s1, const char *s2)
-{
-	size_t	len_s1;
-	size_t	len_s2;
-	char	*result;
-
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	result = (char *)malloc(len_s1 + len_s2 + 1);
-	if (result == NULL)
-		return (NULL);
-	ft_strlcpy(result, s1, len_s1 + 1);
-	ft_strlcat(result, s2, len_s1 + len_s2 + 1);
-	return (result);
-}
-
-static char	*open_file(char *file_name, int *fd)
-{
-	char	*new;
-
-	new = NULL;
-	*fd = open(file_name, O_WRONLY | O_CREAT | O_EXCL, 0644);
-	if (fd < 0)
-	{
-		new = strjoin_heredoc(file_name, "_daje");
-		return (open_file(new, fd));
-	}
-	return (file_name);
+	if (fd > 0)
+		close(fd);
+	fd = open(file_name, O_RDONLY);
+	if (last != NULL)
+		*last = fd;
+	unlink(file_name);
 }
 
 static void	display_heredoc(char *delimiter, int *last, t_all *shell)
@@ -76,15 +42,11 @@ static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 			free(line);
 			break ;
 		}
-		heredoc_putendl_fd(line, fd, shell);
 		if (g_status_code == 130)
 			break ;
+		heredoc_putendl_fd(line, fd, shell);
 	}
-	close(fd);
-	fd = open(file_name, O_RDONLY);
-	if (last != NULL)
-		*last = fd;
-	unlink(file_name);
+	finish_heredoc(file_name, fd, last);
 }
 
 static int	open_heredoc(t_input *block, t_all *shell)

@@ -84,6 +84,7 @@ char		**create_args_mtx(int *arr_token, char **mtx_cmdline, int *index);
 t_input		*get_args_mtx(t_input *cmd_line);
 
 // Get_arr_token
+int			handle_dollar_sign_with_heredoc(int *arr_token, int index);
 int			get_word_token(int token);
 int			find_token(char *str);
 int			first_token_check(int *arr_token, int size);
@@ -133,7 +134,7 @@ t_input		*check_if_need_merge(t_parsing *parsing, t_input *cmd_line);
 char    	**parsing_list_in_mtx(t_input *cmd_line);
 
 // Handling_quotes_as_word_token
-t_all	assign_token_as_words_token(t_all all_info, int token);
+t_all		assign_token_as_words_token(t_all all_info, int token);
 
 // Handling_token ..
 int			find_token_type(int token);
@@ -147,10 +148,9 @@ char		*trim_dollar_signs(char *content);
 char		*trim(char *content, int token);
 t_all		handle_trim_special_char(t_all all_info, int token);
 
-// Check_if_void_content
-t_all   	check_if_void_content(t_all all_info);
-int			no_cmd_after_pipe(t_input *cmdline);
-int			no_input_for_redirect(t_input *cmdline);
-int			handle_operators_error(t_input *cmdline);
+// Check_if_void_cmd
+int			check_if_redirect_before(t_input *head, int current);
 t_input		*organize_void_token(t_input *cmdline);
+t_input		*set_void_token(t_input *cmdline);
+t_all   	check_if_void_cmd(t_all all_info);
 #endif

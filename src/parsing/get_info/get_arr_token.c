@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+int	handle_dollar_sign_with_heredoc(int *arr_token, int index)
+{
+	int	i;
+
+	i = 0;
+	while (i < index)
+	{
+		if (arr_token[i] == HEREDOC)
+			return (EOF_DEL);
+		i++;
+	}
+	return (DOLLAR_SIGN);
+}
+
 int	get_word_token(int token)
 {
 	if (!token || token == PIPE)
@@ -82,6 +96,8 @@ int	*analyse_words_token(int *arr_token, int size)
 			arr_token[i] = get_word_token(0);
 		if ((i != 0 && i < size) && arr_token[i] == WORDS)
 			arr_token[i] = get_word_token(arr_token[i - 1]);
+		if (i < size && arr_token[i] == DOLLAR_SIGN)
+			arr_token[i] = handle_dollar_sign_with_heredoc(arr_token, i);
 		i++;
 	}
 	return (arr_token);

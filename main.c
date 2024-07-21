@@ -31,6 +31,7 @@ void print_mtx(char **mtx)
 int	main(int ac, char **av, char **envp)
 {
 	t_all		all_info;
+	t_input		*cmdline;
 	char		*line;
 
 	line = NULL;
@@ -58,13 +59,14 @@ int	main(int ac, char **av, char **envp)
 		all_info = get_input_complete(all_info, line, envp);
 		if (!all_info.cmd_line)
 			continue ;
-		/* while (all_info.cmd_line)
+		cmdline = all_info.cmd_line;
+		while (cmdline)
 		{
-			if (all_info.cmd_line->token == CMD)
-				print_mtx(all_info.cmd_line->args);
-			printf("token: %d\n", all_info.cmd_line->token);
-			all_info.cmd_line = all_info.cmd_line->next;
-		} */
+			if (cmdline->token == CMD)
+				print_mtx(cmdline->args);
+			printf("token: %d\n", cmdline->token);
+			cmdline = cmdline->next;
+		}
 		exec_main(&all_info);
 		set_clear_all(&all_info);
 	}

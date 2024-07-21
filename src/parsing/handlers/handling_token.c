@@ -44,11 +44,12 @@ int	count_rows_args(char **mtx_cmdline, int *arr_token)
 
 int	check_which_operator(int token)
 {
-	if (token == R_INPUT || token == R_OUTPUT || token == HEREDOC
-		|| token == D_RED_OUTPUT)
+	if (token == R_INPUT || token == R_OUTPUT || token == D_RED_OUTPUT)
 		return (REDIRECTS);
 	if (token == D_QUOTE || token == S_QUOTE)
 		return (QUOTES);
+	if (token == HEREDOC)
+		return (HEREDOC);
 	else
 		return (token);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/22 11:55:19 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:21:30 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,10 @@ t_input	*find_next_block(t_input *current)
 	return (NULL);
 }
 
-int	exec_init(t_all *shell, t_input *current, int num_pipes)
+int	exec_init(t_all *shell, t_input *current)
 {
-	int	cmd_num;
+	const int	num_pipes = count_pipe(shell->cmd_line);
+	int			cmd_num;
 
 	cmd_num = count_commands(current);
 	shell->std_fd_in = dup(STDIN_FILENO);
@@ -74,7 +75,7 @@ int	exec_init(t_all *shell, t_input *current, int num_pipes)
 	handle_redirect(shell);
 	shell = create_pipe(shell, num_pipes);
 	if (cmd_num == 1 && is_builtin(shell))
-		return (pipe_init(shell, shell->cmd_line, 0, num_pipes),
+		return (pipe_init(shell, shell->cmd_line, 0),
 			exec_builtin(shell), 0);
 	return (1);
 }
@@ -85,15 +86,13 @@ void	exec_main(t_all *shell)
 	pid_t	pid;
 	t_input	*cmd;
 	t_input	*current;
-	int		num_pipes;
 
-	i = 0;
-	num_pipes = count_pipe(shell->cmd_line);
-	if (!exec_init(shell, shell->cmd_line, num_pipes))
+	i = -1;
+	if (!exec_init(shell, shell->cmd_line))
 		return ;
 	signal(SIGINT, handle_sigint_exec);
 	current = shell->cmd_line;
-	while (current)
+	while (current && ++i > -1)
 	{
 		cmd = find_cmd_in_block(current);
 		if (cmd)
@@ -102,11 +101,9 @@ void	exec_main(t_all *shell)
 			if (pid == -1)
 				exit(1);
 			if (pid == 0)
-				handle_child(shell, cmd, i, num_pipes);
+				handle_child(shell, cmd, i);
 		}
 		current = find_next_block(current);
-		num_pipes--;
-		i++;
 	}
 	finish_exec(shell);
 }

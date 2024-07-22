@@ -50,7 +50,6 @@ void	free_all(t_all *all)
 	}
 	if (all->cmd_line)
 	{
-		//printf("free_all: freeing cmd_line\n");
 		dll_input_clear(&(all->cmd_line));
 		all->cmd_line = NULL;
 	}

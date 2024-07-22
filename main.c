@@ -6,15 +6,13 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:32:15 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/22 12:04:28 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:57:51 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_status_code;
-
-
 
 int	main(int ac, char **av, char **envp)
 {

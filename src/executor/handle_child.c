@@ -6,17 +6,19 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:55:40 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/22 11:52:53 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:21:39 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pipe_init(t_all *shell, t_input *current, int i, int num_pipes)
+void	pipe_init(t_all *shell, t_input *current, int i)
 {
+	const int	num_pipes = count_pipe(shell->cmd_line);
+
 	if (i > 0 && shell->pipes)
 		dup2(shell->pipes[i - 1][0], STDIN_FILENO);
-	if (num_pipes > 0 && shell->pipes)
+	if (i < num_pipes && shell->pipes)
 		dup2(shell->pipes[i][1], STDOUT_FILENO);
 	if (current->fd_in > 2)
 	{
@@ -49,8 +51,8 @@ void	child_exe(t_all *shell, t_input *current)
 		exec_command(shell, current);
 }
 
-void	handle_child(t_all *shell, t_input *cmd, int i, int num_pipes)
+void	handle_child(t_all *shell, t_input *cmd, int i)
 {
-	pipe_init(shell, cmd, i, num_pipes);
+	pipe_init(shell, cmd, i);
 	child_exe(shell, cmd);
 }

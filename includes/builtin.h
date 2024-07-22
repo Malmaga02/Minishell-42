@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/20 18:11:46 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:20:28 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,15 @@ void					print_export_quotes(char *str);
 /*------------------EXEC_MAIN------------------*/
 void					exec_main(t_all *shell);
 void					exec_command(t_all *shell, t_input *cmd_line);
-void					pipe_init(t_all *shell, t_input *current, int i,
-							int cmd_num);
+void					pipe_init(t_all *shell, t_input *current, int i);
+int						count_pipe(t_input *cmd_line);
 /*------------------EXEC_UTILS------------------*/
 void					exec_builtin(t_all *shell);
 bool					is_builtin(t_all *shell);
 int						count_commands(t_input *cmd_line);
 t_all					*create_pipe(t_all *shell, int cmd_num);
 void					finish_exec(t_all *shell);
-void					handle_child(t_all *shell, t_input *cmd, int i,
-							int num_pipes);
+void					handle_child(t_all *shell, t_input *cmd, int i);
 /*------------------EXEC_FREE------------------*/
 void					close_pipes(t_all *shell);
 void					free_pipes(t_all *shell);

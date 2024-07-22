@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 15:53:43 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/18 15:53:47 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:03:09 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_list	*change_env_variable(t_list *envp, char *var, char *new)
 	t_list	*tmp;
 	int		len_var;
 	int		len_new;
-	char 	*env;
+	char	*env;
 
 	tmp = envp;
 	len_var = ft_strlen(var);
@@ -48,7 +48,7 @@ t_list	*change_env_variable(t_list *envp, char *var, char *new)
 		}
 		tmp = tmp->next;
 	}
-	env = ft_strjoin(var, new); // TODO check malloc failure
+	env = ft_strjoin(var, new);
 	free(new);
 	add_node_env(&envp, env);
 	return (envp);

@@ -84,7 +84,7 @@ char		**create_args_mtx(int *arr_token, char **mtx_cmdline, int *index);
 t_input		*get_args_mtx(t_input *cmd_line);
 
 // Get_arr_token
-int			handle_dollar_sign_with_heredoc(int *arr_token, int index);
+int			handle_expansion_with_heredoc(int *arr_token, int index, int token);
 int			get_word_token(int token);
 int			find_token(char *str);
 int			first_token_check(int *arr_token, int size);

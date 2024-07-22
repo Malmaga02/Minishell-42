@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:32:15 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/22 11:50:18 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:04:28 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 int	g_status_code;
 
+
+
 int	main(int ac, char **av, char **envp)
 {
 	t_all		all_info;
+	t_input		*cmd_line;
 	char		*line;
 
 	line = NULL;
@@ -44,6 +47,7 @@ int	main(int ac, char **av, char **envp)
 		all_info = get_input_complete(all_info, line, envp);
 		if (!all_info.cmd_line)
 			continue ;
+		cmd_line = all_info.cmd_line;
 		exec_main(&all_info);
 		set_clear_all(&all_info);
 	}

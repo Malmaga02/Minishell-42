@@ -28,9 +28,6 @@ t_input	*organize_token(t_input *cmdline)
 			&& (cmdline->next && find_token_type(cmdline->next->token) == WORDS))
 			cmdline->next->token = CMD;
 		else if (cmdline->token == VOID
-			&& (!cmdline->next || cmdline->next->token == PIPE))
-			return (ft_putendl_fd("No command found", 2), NULL);
-		else if (cmdline->token == VOID
 		&& check_if_redirect_before(head, i))
 			return (ft_putendl_fd("Ambiguous redirect", 2), NULL);
 		cmdline = cmdline->next;

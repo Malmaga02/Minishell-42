@@ -6,13 +6,13 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:23:33 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_dollar_sign_with_heredoc(int *arr_token, int index)
+int	handle_expansion_with_heredoc(int *arr_token, int index, int token)
 {
 	int	i;
 
@@ -23,7 +23,7 @@ int	handle_dollar_sign_with_heredoc(int *arr_token, int index)
 			return (EOF_DEL);
 		i++;
 	}
-	return (DOLLAR_SIGN);
+	return (token);
 }
 
 int	get_word_token(int token)
@@ -96,8 +96,8 @@ int	*analyse_words_token(int *arr_token, int size)
 			arr_token[i] = get_word_token(0);
 		if ((i != 0 && i < size) && arr_token[i] == WORDS)
 			arr_token[i] = get_word_token(arr_token[i - 1]);
-		if (i < size && arr_token[i] == DOLLAR_SIGN)
-			arr_token[i] = handle_dollar_sign_with_heredoc(arr_token, i);
+		if (i < size && (arr_token[i] == DOLLAR_SIGN || arr_token[i] == D_QUOTE))
+			arr_token[i] = handle_expansion_with_heredoc(arr_token, i, arr_token[i]);
 		i++;
 	}
 	return (arr_token);

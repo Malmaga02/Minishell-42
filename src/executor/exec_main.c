@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/22 11:48:55 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:55:19 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_input	*find_next_block(t_input *current)
 	return (NULL);
 }
 
-void	exec_init(t_all *shell, t_input *current, int num_pipes)
+int	exec_init(t_all *shell, t_input *current, int num_pipes)
 {
 	int	cmd_num;
 
@@ -75,7 +75,8 @@ void	exec_init(t_all *shell, t_input *current, int num_pipes)
 	shell = create_pipe(shell, num_pipes);
 	if (cmd_num == 1 && is_builtin(shell))
 		return (pipe_init(shell, shell->cmd_line, 0, num_pipes),
-			exec_builtin(shell));
+			exec_builtin(shell), 0);
+	return (1);
 }
 
 void	exec_main(t_all *shell)
@@ -87,7 +88,8 @@ void	exec_main(t_all *shell)
 
 	i = 0;
 	num_pipes = count_pipe(shell->cmd_line);
-	exec_init(shell, shell->cmd_line, num_pipes);
+	if (!exec_init(shell, shell->cmd_line, num_pipes))
+		return ;
 	signal(SIGINT, handle_sigint_exec);
 	while (shell->cmd_line)
 	{

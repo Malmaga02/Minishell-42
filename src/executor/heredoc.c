@@ -6,9 +6,10 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/20 18:15:43 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:29:39 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -22,7 +23,7 @@ static void	finish_heredoc(char *file_name, int fd, int *last)
 	unlink(file_name);
 }
 
-static void	display_heredoc(char *delimiter, int *last, t_all *shell)
+static int	display_heredoc(char *delimiter, int *last, t_all *shell)
 {
 	char	*line;
 	char	*file_name;
@@ -43,7 +44,7 @@ static void	display_heredoc(char *delimiter, int *last, t_all *shell)
 			break ;
 		}
 		if (g_status_code == 130)
-			break ;
+			return (unlink(file_name), 0);
 		heredoc_putendl_fd(line, fd, shell);
 	}
 	finish_heredoc(file_name, fd, last);
@@ -61,7 +62,10 @@ static int	open_heredoc(t_input *block, t_all *shell)
 	while (block && block->token != PIPE)
 	{
 		if (block->token == HEREDOC)
-			display_heredoc(block->args[1], last, shell);
+		{
+			if (!display_heredoc(block->args[1], last, shell))
+				return (0);
+		}
 		block = block->next;
 	}
 	return (1);

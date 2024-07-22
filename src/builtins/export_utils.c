@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:29:13 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/18 15:50:39 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/19 18:51:51 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	doppelganger_check(t_list *envp, char *all, int len)
 		if (strncmp(str, key, len) == 0
 			&& (str[len] == '=' || str[len] == '+' || str[len] == '\0'))
 			return (free(key), 1);
+		if (len == 0 && (ft_strncmp(str, all, ft_strlen(all)) == 0))
+			return (free(key), 2);
 		envp = envp->next;
 	}
 	return (free(key), 0);
@@ -89,11 +91,13 @@ void	print_export_quotes(char *str)
 
 	i = 0;
 	write(1, "declare -x ", 12);
-	while (str && str[i - 1] != '=')
+	while (str && str[i] != '=')
 	{
 		write(1, &str[i], 1);
 		i++;
 	}
+	i++;
+	write(1, "=", 1);
 	write(1, "\"", 1);
 	while (str && str[i])
 	{

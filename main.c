@@ -14,7 +14,7 @@
 
 int	g_status_code;
 
-
+// controllare get_args_mtx && get_arr_token
 
 int	main(int ac, char **av, char **envp)
 {

@@ -28,7 +28,7 @@ int	find_token_type(int token)
 	return (0);
 }
 
-int	count_rows_args(char **mtx_cmdline, int *arr_token)
+int	count_rows_args(char **mtx_cmdline, int *arr_token, int	token_need_args)
 {
 	int	i;
 	int	size;
@@ -37,8 +37,13 @@ int	count_rows_args(char **mtx_cmdline, int *arr_token)
 	i = 0;
 	res = 1;
 	size = count_rows(mtx_cmdline);
-	while (i++ < size - 1 && arr_token[i] == ARG)
-		res++;
+	if (token_need_args == CMD)
+	{
+		while (i++ < size && arr_token[i] == ARG)
+			res++;
+		return (res);
+	}
+	if (presence_of_cmd_for_redirects(arr_token, size))
 	return (res);
 }
 

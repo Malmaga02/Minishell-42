@@ -82,7 +82,8 @@ int	first_token_check(int *arr_token, int size)
 	}
 	return (1);
 }
-
+//attenzione alle redirect. possono avere dopo file i comandi! 
+//se prima non ho comandi per la redirect allora devo gestirla
 int	*analyse_words_token(int *arr_token, int size)
 {
 	int	i;

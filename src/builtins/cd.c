@@ -36,11 +36,9 @@ int	cd_home(t_all *shell, char *home_dir, char *old_pwd)
 
 int	builtin_cd(t_all *shell, char **av)
 {
-	char	*dir;
 	char	*old_pwd;
 
 	g_status_code = 0;
-	dir = NULL;
 	old_pwd = getcwd(NULL, 0);
 	if (!av[1])
 		return (cd_home(shell, find_word_in_env(shell->envp, "HOME="),

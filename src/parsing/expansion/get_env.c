@@ -14,7 +14,6 @@
 
 char	*get_expansion(t_list *envp, char *name_env)
 {
-	int		start;
 	char	*env;
 	char	*tmp_env;
 
@@ -22,7 +21,6 @@ char	*get_expansion(t_list *envp, char *name_env)
 		return (NULL);
 	if (!ft_strncmp(name_env, "?=", 2))
 		return (ft_itoa(g_status_code));
-	start = ft_strlen(name_env) + 1;
 	tmp_env = find_expansion_env(envp, name_env);
 	if (!tmp_env)
 		return (ft_strdup(""));

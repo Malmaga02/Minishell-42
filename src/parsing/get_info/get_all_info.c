@@ -14,9 +14,6 @@
 
 t_parsing	*parse_input(t_parsing *parsing)
 {
-	int		i;
-
-	i = 0;
 	if (!parsing)
 		return (NULL);
 	parsing->mtx_from_input = get_mtx_from_input(parsing);
@@ -35,6 +32,7 @@ t_input	*create_list_from_input(t_parsing *parsing)
 	t_input	*node;
 	int		size;
 	int		i;
+	char	*value;
 
 	i = 0;
 	size = parsing->size;
@@ -42,9 +40,10 @@ t_input	*create_list_from_input(t_parsing *parsing)
 	node = NULL;
 	while (i < size)
 	{
-		node = dll_input_new(ft_strdup(parsing->mtx_from_input[i]));
-		if (!node)
-			return (dll_input_clear(&cmd_line), NULL);
+		value = ft_strdup(parsing->mtx_from_input[i]);
+		node = dll_input_new(value);
+		if (!value || !node)
+			return (free(value), dll_input_clear(&cmd_line), free(node), NULL);
 		node->fd_in = -1;
 		node->fd_out = -1;
 		node->token = parsing->arr_token[i];

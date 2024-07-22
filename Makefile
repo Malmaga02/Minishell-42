@@ -58,7 +58,7 @@ SRC =	./main.c \
 		./src/executor/heredoc.c \
 		./src/executor/signal.c \
 		./src/executor/heredoc_utils.c \
-		./src/executor/handle_child.c 
+		./src/executor/handle_child.c
 
 all: $(NAME)
 
@@ -69,7 +69,7 @@ $(NAME): $(SRC)
 
 
 valgrind: $(NAME)
-	valgrind --leak-check=full --track-fds=yes -s --show-reachable=yes --suppressions=readline.supp ./$(NAME)
+	valgrind --quiet --leak-check=full --track-fds=yes -s --show-reachable=yes --suppressions=readline.supp ./$(NAME)
 
 clean:
 	make clean -C $(LIBFT_DIR)

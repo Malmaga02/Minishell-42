@@ -24,6 +24,7 @@
 # include <stdlib.h>
 # include <strings.h>
 # include <unistd.h>
+# include <stdarg.h>
 
 # define FD_MAX 4096
 

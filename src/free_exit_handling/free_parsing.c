@@ -26,6 +26,8 @@ void	free_parsing(t_parsing *parsing)
 
 void	set_clear_all(t_all *all)
 {
+	if (!all->cmd_line)
+		return ;
 	if (all && all->cmd_line)
 	{
 		dll_input_clear(&(all->cmd_line));
@@ -48,7 +50,7 @@ void	free_all(t_all *all)
 	}
 	if (all->cmd_line)
 	{
-		printf("free_all: freeing cmd_line\n");
+		//printf("free_all: freeing cmd_line\n");
 		dll_input_clear(&(all->cmd_line));
 		all->cmd_line = NULL;
 	}

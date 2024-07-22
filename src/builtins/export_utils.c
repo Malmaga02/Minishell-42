@@ -57,16 +57,18 @@ void	change_node_env(t_list **envp, char *str, int eq)
 
 	value = malloc(sizeof(char) * len);
 	ft_strlcpy(value, str + eq, len);
-	key = malloc(sizeof(char) * eq);
-	ft_strlcpy(key, str, eq);
+	key = ft_substr(str, 0, eq - 1);
 	tmp = find_node_in_env(*envp, key, ft_strlen(key));
 	if (!tmp)
 	{
 		key = strjoin_gnl(&key, value);
 		ft_lstadd_back(envp, ft_lstnew(key));
+		free(value);
 		return ;
 	}
+	free(key);
 	tmp->content = strjoin_gnl((char **)&tmp->content, value + 1);
+	free(value);
 }
 
 int	char_check(char *str, int *error)

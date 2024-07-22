@@ -31,6 +31,7 @@ t_list	*change_env_variable(t_list *envp, char *var, char *new)
 	t_list	*tmp;
 	int		len_var;
 	int		len_new;
+	char 	*env;
 
 	tmp = envp;
 	len_var = ft_strlen(var);
@@ -42,11 +43,14 @@ t_list	*change_env_variable(t_list *envp, char *var, char *new)
 			free(tmp->content);
 			tmp->content = malloc(sizeof(char) * (len_var + len_new + 1));
 			ft_strlcpy(tmp->content, var, len_var + 1);
-			ft_strlcpy(tmp->content + len_var, new, len_new + 1);
-			return (envp);
+			ft_strlcpy(tmp->content + len_var, new, len_var + len_new + 1);
+			return (free(new), envp);
 		}
 		tmp = tmp->next;
 	}
+	env = ft_strjoin(var, new); // TODO check malloc failure
+	free(new);
+	add_node_env(&envp, env);
 	return (envp);
 }
 

@@ -84,6 +84,7 @@ void	exec_main(t_all *shell)
 	int		i;
 	pid_t	pid;
 	t_input	*cmd;
+	t_input	*current;
 	int		num_pipes;
 
 	i = 0;
@@ -91,9 +92,10 @@ void	exec_main(t_all *shell)
 	if (!exec_init(shell, shell->cmd_line, num_pipes))
 		return ;
 	signal(SIGINT, handle_sigint_exec);
-	while (shell->cmd_line)
+	current = shell->cmd_line;
+	while (current)
 	{
-		cmd = find_cmd_in_block(shell->cmd_line);
+		cmd = find_cmd_in_block(current);
 		if (cmd)
 		{
 			pid = fork();
@@ -102,7 +104,7 @@ void	exec_main(t_all *shell)
 			if (pid == 0)
 				handle_child(shell, cmd, i, num_pipes);
 		}
-		shell->cmd_line = find_next_block(shell->cmd_line);
+		current = find_next_block(current);
 		num_pipes--;
 		i++;
 	}

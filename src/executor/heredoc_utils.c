@@ -36,7 +36,7 @@ char	*open_file(char *file_name, int *fd)
 
 	new = NULL;
 	*fd = open(file_name, O_WRONLY | O_CREAT | O_EXCL, 0644);
-	if (fd < 0)
+	if (*fd < 0)
 	{
 		new = strjoin_heredoc(file_name, "_daje");
 		return (unlink(file_name), open_file(new, fd));

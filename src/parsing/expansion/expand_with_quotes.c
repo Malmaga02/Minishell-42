@@ -59,12 +59,10 @@ void	new_content_copy(char *new_content, char *content, char *env, int len)
 char	*get_content_with_quotes(char *content, char *env)
 {
 	char	*new_content;
-	int		i;
 	int		len;
 	int		index;
 	int		len_word;
 
-	i = 0;
 	index = (get_index_special_char(content, '$') + 1);
 	len_word = get_len_word(content, index) + 1;
 	if (len_word == -1 || !env)

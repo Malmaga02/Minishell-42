@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:55:40 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/20 18:06:50 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:41:32 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	pipe_init(t_all *shell, t_input *current, int i, int num_pipes)
 		dup2(shell->pipes[i - 1][0], STDIN_FILENO);
 	if (num_pipes > 0 && shell->pipes)
 		dup2(shell->pipes[i][1], STDOUT_FILENO);
+	printf("fd_in: %d\n", current->fd_in);
 	if (current->fd_in > 2)
 	{
 		dup2(current->fd_in, STDIN_FILENO);

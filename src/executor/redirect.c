@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 21:30:01 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/18 15:54:07 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:49:48 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_input	*find_cmd_in_block(t_input *block)
 {
 	while (block && block->token != PIPE)
 	{
-		if (block->token == CMD)
+		if (block->token == CMD && block->prevent == false)
 			return (block);
 		block = block->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/22 18:21:30 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/23 18:10:25 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ void	exec_main(t_all *shell)
 	t_input	*current;
 
 	i = -1;
-	if (!exec_init(shell, shell->cmd_line))
+	current = shell->cmd_line;
+	if (!exec_init(shell, current))
 		return ;
 	signal(SIGINT, handle_sigint_exec);
-	current = shell->cmd_line;
 	while (current && ++i > -1)
 	{
 		cmd = find_cmd_in_block(current);

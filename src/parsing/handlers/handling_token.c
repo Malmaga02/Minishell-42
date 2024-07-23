@@ -30,12 +30,11 @@ int	find_token_type(int token)
 
 int	check_which_operator(int token)
 {
-	if (token == R_INPUT || token == R_OUTPUT || token == D_RED_OUTPUT)
+	if (token == R_INPUT || token == R_OUTPUT || token == D_RED_OUTPUT ||
+		token == HEREDOC)
 		return (REDIRECTS);
 	if (token == D_QUOTE || token == S_QUOTE)
 		return (QUOTES);
-	if (token == HEREDOC)
-		return (HEREDOC);
 	else
 		return (token);
 	return (0);

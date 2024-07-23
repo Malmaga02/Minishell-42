@@ -26,7 +26,8 @@ int	*handle_redirect_word_token(int *arr_token, int size)
 		if (check_which_operator(arr_token[i]) == REDIRECTS && cmd == 0)
 		{
 			i++;
-			if (i + 1 < size && arr_token[i] == FILE_W)
+			if (i + 1 < size && ((arr_token[i] == FILE_W || arr_token[i] == EOF_DEL)
+				&& find_token_type(arr_token[i + 1]) == WORDS))
 				arr_token[++i] = CMD;
 			cmd = 0;
 		}

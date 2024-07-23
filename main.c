@@ -14,6 +14,11 @@
 
 int	g_status_code;
 
+<<<<<<< HEAD
+=======
+// controllare get_arr_token
+
+>>>>>>> Parsing
 int	main(int ac, char **av, char **envp)
 {
 	t_all		all_info;
@@ -50,6 +55,15 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			free(trimmed);
 		}
+<<<<<<< HEAD
+=======
+		add_history(line);
+		all_info = get_input_complete(all_info, line, envp);
+		if (!all_info.cmd_line)
+			continue ;
+		exec_main(&all_info);
+		set_clear_all(&all_info);
+>>>>>>> Parsing
 	}
 	ft_printf(2, "exit\n");
 	rl_clear_history();

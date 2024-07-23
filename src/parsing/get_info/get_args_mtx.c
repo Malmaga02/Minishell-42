@@ -1,106 +1,165 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_args_mtx.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
-int	if_token_needs_arg(int token)
+int	find_if_cmd_before_red(t_input *head, t_input *cmdline)
 {
-	if (token == CMD || token == R_INPUT || token == HEREDOC
-		|| token == R_OUTPUT || token == D_RED_OUTPUT)
-		return (1);
-	else if (token == ARG || token == FILE_W || token == EOF_DEL)
-		return (0);
-	return (-1);
+	int	cmd;
+
+	cmd = 0;
+	while (head != cmdline)
+	{
+		if (head->token == CMD)
+			cmd = 1;
+		if (find_token_type(head->token) == OPERATORS && cmd)
+			cmd = 0;
+		head = head->next;
+	}
+	return (cmd);
 }
 
-int	*get_token_cmdline(t_input *cmdline, int size)
+int	count_args(t_input *cmdline, int token, int if_cmd_before_red)
 {
-	t_input	*tmp;
-	int		*arr_token;
-	int		i;
+	int len;
+
+	len = 1;
+	if (token == CMD)
+	{
+		cmdline = cmdline->next;
+		while (cmdline && cmdline->token == ARG)
+		{
+			cmdline = cmdline->next;
+			len++;
+		}
+	}
+	else if (check_which_operator(token) == REDIRECTS)
+	{
+		if (if_cmd_before_red)
+		{
+			while (cmdline && (cmdline->token == FILE_W || cmdline->token == ARG))
+			{
+				cmdline = cmdline->next;
+				len++;
+			}
+			return (len);
+		}
+		while (cmdline && (cmdline->token != CMD))
+		{
+			cmdline = cmdline->next;
+			len++;
+		}
+	}
+	return (len);
+}
+
+
+char	**handle_args_redirects(t_input *cmdline, char **args, int if_cmd_before_red)
+{
+	int	i;
 
 	i = 0;
-	tmp = cmdline;
-	arr_token = ft_calloc(size, sizeof(int));
-	if (!arr_token)
+	if (cmdline && check_which_operator(cmdline->token) == REDIRECTS)
+	{
+		args[i] = cmdline->content;
+		if (!args[i])
+			return (free(args), NULL);
+		cmdline = cmdline->next;
+		i++;
+	}
+	while (cmdline)
+	{
+		if (if_cmd_before_red && !(cmdline->token == FILE_W || cmdline->token == ARG))
+			break ;
+		else if (!if_cmd_before_red && cmdline->token == CMD)
+		{
+			args[i] = cmdline->content;
+			if (!args[i])
+				return (free(args), NULL);
+			break ;
+		}
+		args[i] = cmdline->content;
+		if (!args[i])
+			return (free(args), NULL);
+		cmdline = cmdline->next;
+		i++;
+	}
+	return (args);
+}
+
+char	**get_args_cmds(t_input *cmdline)
+{
+	int     len;
+	int		i;
+	char    **args;
+
+	i = 0;
+	len = count_args(cmdline, cmdline->token, 0);
+	args = ft_calloc(len + 1, sizeof(char *));
+	if (!args)
 		return (NULL);
-	while (tmp && i < size)
+	if (cmdline && cmdline->token == CMD)
 	{
-		arr_token[i++] = tmp->token;
-		tmp = tmp->next;
+		args[i] = cmdline->content;
+		if (!args[i])
+			return (free(args), NULL);
+		cmdline = cmdline->next;
+		i++;
 	}
-	return (arr_token);
-}
-
-char	**get_args(int *arr_token, char **mtx_cmdline, int index, char **args)
-{
-	int		j;
-	int		size;
-
-	j = 0;
-	size = count_rows(mtx_cmdline);
-	if ((index < size && if_token_needs_arg(arr_token[index]))
-		&& (mtx_cmdline && mtx_cmdline[index]))
-		args[j++] = ft_strdup(mtx_cmdline[(index)++]);
-	while ((index < size && !if_token_needs_arg(arr_token[index]))
-		&& (mtx_cmdline && mtx_cmdline[index]))
-		args[j++] = ft_strdup(mtx_cmdline[(index)++]);
+	while (cmdline && cmdline->token == ARG)
+	{
+		args[i] = cmdline->content;
+		if (!args[i])
+			return (free(args), NULL);
+		cmdline = cmdline->next;
+		i++;
+	}
 	return (args);
 }
 
-char	**create_args_mtx(int *arr_token, char **mtx_cmdline, int *index)
+char	**get_args_redirects(t_input *cmdline, t_input *head)
 {
-	char	**args;
-	int		size;
+	int     len;
+	int		i;
+	int     if_cmd_before_red;
+	char    **args;
 
-	args = NULL;
-	size = 0;
-	if (if_token_needs_arg(arr_token[*index]))
-	{
-		size = count_rows_args(&mtx_cmdline[*index], &arr_token[*index]);
-		if (!size)
-			return (free(arr_token), free_mtx(mtx_cmdline), NULL);
-		args = ft_calloc(size + 2, sizeof(char *));
-		if (!args)
-			return (free(arr_token), free_mtx(mtx_cmdline), NULL);
-		args = get_args(arr_token, mtx_cmdline, *index, args);
-	}
-	(*index)++;
+	i = 0;
+	if_cmd_before_red = find_if_cmd_before_red(head, cmdline);
+	len = count_args(cmdline, cmdline->token, if_cmd_before_red);
+	args = ft_calloc(len + 1, sizeof(char *));
+	if (!args)
+		return (NULL);
+	args = handle_args_redirects(cmdline, args, if_cmd_before_red);
+	if (!args)
+		return (NULL);
 	return (args);
+}
+
+t_input	*create_args_mtx(t_input *cmdline, t_input *head)
+{
+	cmdline->args = NULL;
+	if (!(cmdline->token == CMD || check_which_operator(cmdline->token) == REDIRECTS))
+		return (cmdline);
+	if (cmdline->token == CMD)
+		cmdline->args = get_args_cmds(cmdline);
+	else if (check_which_operator(cmdline->token) == REDIRECTS)
+		cmdline->args = get_args_redirects(cmdline, head);
+	if (!cmdline->args)
+		return (NULL);
+	return (cmdline);    
 }
 
 t_input	*get_args_mtx(t_input *cmd_line)
 {
-	int		*arr_token;
-	char	**mtx_cmdline;
-	int		size;
-	int		i;
-	t_input	*tmp;
+	t_input *cmdline;
+	t_input *current;
 
-	i = 0;
-	size = dll_input_size(cmd_line);
-	mtx_cmdline = parsing_list_in_mtx(cmd_line);
-	tmp = cmd_line;
-	if (!mtx_cmdline || !size)
-		return (dll_input_clear(&cmd_line), NULL);
-	arr_token = get_token_cmdline(cmd_line, size);
-	while (tmp)
+	current = NULL;
+	cmdline = cmd_line;
+	while (cmdline)
 	{
-		tmp->args = create_args_mtx(arr_token, mtx_cmdline, &i);
-		if (!arr_token)
+		cmdline = create_args_mtx(cmdline, cmd_line);
+		if (!cmdline)
 			return (dll_input_clear(&cmd_line), NULL);
-		tmp = tmp->next;
+		cmdline = cmdline->next;
 	}
-	free(arr_token);
-	free_mtx(mtx_cmdline);
 	return (cmd_line);
 }

@@ -28,20 +28,6 @@ int	find_token_type(int token)
 	return (0);
 }
 
-int	count_rows_args(char **mtx_cmdline, int *arr_token)
-{
-	int	i;
-	int	size;
-	int	res;
-
-	i = 0;
-	res = 1;
-	size = count_rows(mtx_cmdline);
-	while (i++ < size - 1 && arr_token[i] == ARG)
-		res++;
-	return (res);
-}
-
 int	check_which_operator(int token)
 {
 	if (token == R_INPUT || token == R_OUTPUT || token == D_RED_OUTPUT)

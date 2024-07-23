@@ -83,7 +83,7 @@ t_all	get_all_info(t_all all_info, char *line, char **envp)
 
 	if (!line)
 		return ((t_all){0});
-	parsing = (t_parsing *)malloc(sizeof(t_parsing));
+	parsing = (t_parsing *)ft_calloc(1, sizeof(t_parsing));
 	if (!parsing)
 		return ((t_all){0});
 	*parsing = (t_parsing){0};

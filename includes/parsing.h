@@ -77,13 +77,16 @@ t_list		*create_list_from_envp(char **envp);
 t_all		get_all_info(t_all all_info, char *line, char **envp);
 
 // Get_args_mtx
-int			if_token_needs_arg(int token);
-int			*get_token_cmdline(t_input *cmdline, int size);
-char		**get_args(int *arr_token, char **mtx_cmdline, int index, char **args);
-char		**create_args_mtx(int *arr_token, char **mtx_cmdline, int *index);
+int			find_if_cmd_before_red(t_input *head, t_input *cmdline);
+int			count_args(t_input *cmdline, int token, int if_cmd_before_red);
+char		**handle_args_redirects(t_input *cmdline, char **args, int if_cmd_before_red);
+char		**get_args_cmds(t_input *cmdline);
+char		**get_args_redirects(t_input *cmdline, t_input *head);
+t_input		*create_args_mtx(t_input *cmdline, t_input *head);
 t_input		*get_args_mtx(t_input *cmd_line);
 
 // Get_arr_token
+int			*handle_redirect_word_token(int *arr_token, int size);
 int			handle_expansion_with_heredoc(int *arr_token, int index, int token);
 int			get_word_token(int token);
 int			find_token(char *str);

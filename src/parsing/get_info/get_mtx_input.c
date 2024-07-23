@@ -29,7 +29,7 @@ int	count_words(char *s)
 			i++;
 		if (s && s[i])
 			word_num++;
-		if (s[i] && (check_spaces(s[i]) != 1))
+		if ((s && s[i]) && (check_spaces(s[i]) != 1))
 			tmp = handle_not_spaces(&s[i]);
 		if (tmp == -1)
 			return (-1);

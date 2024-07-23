@@ -2,26 +2,14 @@
 
 void	free_parsing(t_parsing *parsing)
 {
-	if (parsing && parsing->arr_token)
-	{
-		free(parsing->arr_token);
-		parsing->arr_token = NULL;
-	}
-	if (parsing && parsing->mtx_from_input)
-	{
-		free_mtx(parsing->mtx_from_input);
-		parsing->mtx_from_input = NULL;
-	}
-	if (parsing && parsing->input)
-	{
-		free(parsing->input);
-		parsing->input = NULL;
-	}
-	if (parsing)
-	{
-		free(parsing);
-		parsing = NULL;
-	}
+	free(parsing->arr_token);
+	parsing->arr_token = NULL;
+	free_mtx(parsing->mtx_from_input);
+	parsing->mtx_from_input = NULL;
+	free(parsing->input);
+	parsing->input = NULL;
+	free(parsing);
+	parsing = NULL;
 }
 
 void	set_clear_all(t_all *all)
@@ -38,6 +26,11 @@ void	set_clear_all(t_all *all)
 		close_pipes(all);
 		free_pipes(all);
 	}
+{
+	dll_input_clear(&(all->cmd_line));
+	all->cmd_line = NULL;
+	close_pipes(all);
+	free_pipes(all);
 	close_exec_fd();
 }
 
@@ -58,15 +51,19 @@ void	free_all(t_all *all)
 		close_pipes(all);
 		free_pipes(all);
 	}
+{
+	ft_lstclear(&(all->envp), free);
+	all->envp = NULL;
+	dll_input_clear(&(all->cmd_line));
+	all->cmd_line = NULL;
+	close_pipes(all);
+	free_pipes(all);
 	close_exec_fd();
 }
 
 void	close_all(t_all *all)
 {
-	if (all)
-	{
-		free_all(all);
-		all = NULL;
-	}
+	free_all(all);
+	all = NULL;
 	exit(0);
 }

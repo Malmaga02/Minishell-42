@@ -14,11 +14,6 @@
 
 int	g_status_code;
 
-<<<<<<< HEAD
-=======
-// controllare get_arr_token
-
->>>>>>> Parsing
 int	main(int ac, char **av, char **envp)
 {
 	t_all		all_info;

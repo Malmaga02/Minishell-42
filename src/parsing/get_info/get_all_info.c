@@ -43,7 +43,7 @@ t_input	*create_list_from_input(t_parsing *parsing)
 		value = ft_strdup(parsing->mtx_from_input[i]);
 		node = dll_input_new(value);
 		if (!value || !node)
-			return (free(value), dll_input_clear(&cmd_line), free(node), NULL);
+			return (dll_input_clear(&cmd_line), free(node), NULL);
 		node->fd_in = -1;
 		node->fd_out = -1;
 		node->token = parsing->arr_token[i];

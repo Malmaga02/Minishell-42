@@ -12,6 +12,29 @@
 
 #include "minishell.h"
 
+int	*handle_redirect_word_token(int *arr_token, int size)
+{
+	int	i;
+	int	cmd;
+
+	i = 0;
+	cmd = 0;
+	while (i < size)
+	{
+		if (arr_token[i] == CMD)
+			cmd = 1;
+		if (check_which_operator(arr_token[i]) == REDIRECTS && cmd == 0)
+		{
+			i++;
+			if (i + 1 < size && arr_token[i] == FILE_W)
+				arr_token[++i] = CMD;
+			cmd = 0;
+		}
+		i++;
+	}
+	return (arr_token);
+}
+
 int	handle_expansion_with_heredoc(int *arr_token, int index, int token)
 {
 	int	i;
@@ -101,6 +124,7 @@ int	*analyse_words_token(int *arr_token, int size)
 			arr_token[i] = handle_expansion_with_heredoc(arr_token, i, arr_token[i]);
 		i++;
 	}
+	arr_token = handle_redirect_word_token(arr_token, size);
 	return (arr_token);
 }
 

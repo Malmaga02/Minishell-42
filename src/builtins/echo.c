@@ -45,7 +45,7 @@ void	builtin_echo(char **av)
 	i = 1;
 	g_status_code = 0;
 	flag = false;
-	if (!av[i])
+	if (av && !av[i])
 	{
 		ft_printf(1, "\n");
 		return ;

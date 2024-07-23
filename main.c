@@ -14,12 +14,11 @@
 
 int	g_status_code;
 
-// controllare get_args_mtx && get_arr_token
+// controllare get_arr_token
 
 int	main(int ac, char **av, char **envp)
 {
 	t_all		all_info;
-	t_input		*cmd_line;
 	char		*line;
 
 	line = NULL;
@@ -47,7 +46,6 @@ int	main(int ac, char **av, char **envp)
 		all_info = get_input_complete(all_info, line, envp);
 		if (!all_info.cmd_line)
 			continue ;
-		cmd_line = all_info.cmd_line;
 		exec_main(&all_info);
 		set_clear_all(&all_info);
 	}

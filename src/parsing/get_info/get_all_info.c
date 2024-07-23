@@ -35,6 +35,7 @@ t_input	*create_list_from_input(t_parsing *parsing)
 	t_input	*node;
 	int		size;
 	int		i;
+	char *str; 
 
 	i = 0;
 	size = parsing->size;
@@ -42,7 +43,8 @@ t_input	*create_list_from_input(t_parsing *parsing)
 	node = NULL;
 	while (i < size)
 	{
-		node = dll_input_new(ft_strdup(parsing->mtx_from_input[i]));
+		str = ft_strdup(parsing->mtx_from_input[i]);
+		node = dll_input_new(str);
 		if (!node)
 			return (dll_input_clear(&cmd_line), NULL);
 		node->fd_in = -1;
@@ -84,7 +86,7 @@ t_all	get_all_info(t_all all_info, char *line, char **envp)
 
 	if (!line)
 		return ((t_all){0});
-	parsing = (t_parsing *)malloc(sizeof(t_parsing));
+	parsing = (t_parsing *)ft_calloc(1, sizeof(t_parsing));
 	if (!parsing)
 		return ((t_all){0});
 	*parsing = (t_parsing){0};

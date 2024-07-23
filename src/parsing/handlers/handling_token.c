@@ -28,25 +28,6 @@ int	find_token_type(int token)
 	return (0);
 }
 
-int	count_rows_args(char **mtx_cmdline, int *arr_token, int	token_need_args)
-{
-	int	i;
-	int	size;
-	int	res;
-
-	i = 0;
-	res = 1;
-	size = count_rows(mtx_cmdline);
-	if (token_need_args == CMD)
-	{
-		while (i++ < size && arr_token[i] == ARG)
-			res++;
-		return (res);
-	}
-	if (presence_of_cmd_for_redirects(arr_token, size))
-	return (res);
-}
-
 int	check_which_operator(int token)
 {
 	if (token == R_INPUT || token == R_OUTPUT || token == D_RED_OUTPUT)

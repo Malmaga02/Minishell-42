@@ -26,11 +26,6 @@ void	set_clear_all(t_all *all)
 		close_pipes(all);
 		free_pipes(all);
 	}
-{
-	dll_input_clear(&(all->cmd_line));
-	all->cmd_line = NULL;
-	close_pipes(all);
-	free_pipes(all);
 	close_exec_fd();
 }
 
@@ -51,13 +46,6 @@ void	free_all(t_all *all)
 		close_pipes(all);
 		free_pipes(all);
 	}
-{
-	ft_lstclear(&(all->envp), free);
-	all->envp = NULL;
-	dll_input_clear(&(all->cmd_line));
-	all->cmd_line = NULL;
-	close_pipes(all);
-	free_pipes(all);
 	close_exec_fd();
 }
 

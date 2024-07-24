@@ -6,13 +6,13 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:07:47 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/24 14:36:26 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:48:01 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*strjoin_heredoc(char *s1, const char *s2)
+char	*strjoin_heredoc(char *s1, const char *s2)
 {
 	size_t	len_s1;
 	size_t	len_s2;
@@ -34,16 +34,20 @@ char	*open_file(char *file_name, int *fd)
 {
 	char	*new;
 
-	new = NULL;
-	*fd = open(file_name, O_WRONLY | O_CREAT | O_EXCL, 0644);
-	if (*fd < 0)
+	new = ft_strdup(file_name);
+	while (1)
 	{
-		new = strjoin_heredoc(file_name, "_daje");
-		if (!new)
-			return (NULL);
-		return (open_file(new, fd));
+		*fd = open(new, O_WRONLY | O_CREAT | O_EXCL, 0644);
+		if (*fd < 0)
+		{
+			new = strjoin_gnl(new, "_daje");
+			if (!new)
+				return (NULL);
+		}
+		else
+			break ;
 	}
-	return (file_name);
+	return (new);
 }
 
 void	heredoc_putendl_fd(char *s, int fd, t_all *shell)

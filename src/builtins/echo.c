@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 14:02:57 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/22 12:07:55 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:02:27 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	builtin_echo(char **av)
 		ft_printf(1, "\n");
 		return ;
 	}
-	while (av && av[i][0] == '-' && (ft_strlen(av[i]) > 1))
+	while (av && (av[i][0] == '-') && (ft_strlen(av[i]) > 1))
 	{
 		if (char_rep_check(av[i], 'n'))
 			flag = true;

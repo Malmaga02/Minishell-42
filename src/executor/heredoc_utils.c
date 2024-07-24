@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:07:47 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/20 18:15:46 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:36:26 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ char	*open_file(char *file_name, int *fd)
 	if (*fd < 0)
 	{
 		new = strjoin_heredoc(file_name, "_daje");
-		return (unlink(file_name), open_file(new, fd));
+		if (!new)
+			return (NULL);
+		return (open_file(new, fd));
 	}
 	return (file_name);
 }

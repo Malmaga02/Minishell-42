@@ -18,7 +18,7 @@ int	find_if_cmd_before_red(t_input *head, t_input *cmdline)
 
 int	count_args(t_input *cmdline, int token, int if_cmd_before_red)
 {
-	int len;
+	int	len;
 
 	len = 1;
 	if (token == CMD)
@@ -34,7 +34,8 @@ int	count_args(t_input *cmdline, int token, int if_cmd_before_red)
 	{
 		if (if_cmd_before_red)
 		{
-			while (cmdline && (cmdline->token == FILE_W || cmdline->token == ARG))
+			while (cmdline && (cmdline->token == FILE_W 
+				|| cmdline->token == ARG))
 			{
 				cmdline = cmdline->next;
 				len++;

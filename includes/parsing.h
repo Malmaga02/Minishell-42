@@ -3,6 +3,8 @@
 
 # include "libft.h"
 
+# define SYNTAX_ERROR "syntax error near unexpected token\n"
+
 typedef struct	s_all	t_all;
 
 typedef struct	s_input t_input;
@@ -87,7 +89,7 @@ t_input		*get_args_mtx(t_input *cmd_line);
 
 // Get_arr_token
 int			*handle_redirect_word_token(int *arr_token, int size);
-int			handle_expansion_with_heredoc(int *arr_token, int index, int token);
+int			handle_exp_with_heredoc(int *arr_token, int index, int token);
 int			get_word_token(int token);
 int			find_token(char *str);
 int			first_token_check(int *arr_token, int size);
@@ -116,7 +118,7 @@ char		**get_mtx_from_input(t_parsing *parsing);
 
 // -Handlers- //
 // Handling_char
-int			check_spaces(char c);
+int			char_type(char c);
 int			handle_quotes(char *s);
 int			handle_operators(char *s);
 int			handle_dollar_signs(char *s);
@@ -126,6 +128,7 @@ int			get_index_special_char(char *str, char c);
 
 // Handling_merge_flag
 int			check_if_need_reorganize_cmdline(t_input *cmdline);
+int			check_cases_for_merge_with_quotes(char current, char before);
 int			find_merge_flag_quote(char *input, int i);
 int			find_merge_flag_dollar_sign(char *input, int i);
 int			find_which_merge_flag(char *input, int i, int token);

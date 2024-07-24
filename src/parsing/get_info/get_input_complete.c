@@ -50,7 +50,7 @@ t_all	get_final_input(char *line, t_all all_info)
 
 t_all	get_input_complete(t_all all_info, char *line, char **envp)
 {
-	all_info = get_all_info(all_info, line, envp);	
+	all_info = get_all_info(all_info, line, envp);
 	if (!all_info.cmd_line)
 		return ((t_all){0});
 	all_info = expand_dollar_sign(all_info);

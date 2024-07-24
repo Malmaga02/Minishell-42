@@ -25,11 +25,11 @@ int	count_words(char *s)
 		return (0);
 	while (s && s[i])
 	{
-		while (s && s[i] && check_spaces(s[i]) == 1)
+		while (s && s[i] && char_type(s[i]) == 1)
 			i++;
 		if (s && s[i])
 			word_num++;
-		if ((s && s[i]) && (check_spaces(s[i]) != 1))
+		if ((s && s[i]) && (char_type(s[i]) != 1))
 			tmp = handle_not_spaces(&s[i]);
 		if (tmp == -1)
 			return (-1);
@@ -45,12 +45,12 @@ int	word_len(char *s)
 	i = 0;
 	if (!s || !s[i])
 		return (0);
-	if (find_token_type(check_spaces(s[i])) == OPERATORS
-		|| find_token_type(check_spaces(s[i])) == DOLLAR_SIGN)
+	if (find_token_type(char_type(s[i])) == OPERATORS
+		|| find_token_type(char_type(s[i])) == DOLLAR_SIGN)
 		return (handle_operators(&s[i]));
-	if (s[i] && find_token_type(check_spaces(s[i])) == QUOTES)
+	if (s[i] && find_token_type(char_type(s[i])) == QUOTES)
 		return (handle_quotes(s));
-	while (s[i] && !check_spaces(s[i]))
+	while (s[i] && !char_type(s[i]))
 		i++;
 	return (i);
 }
@@ -63,11 +63,11 @@ char	**new_string(char **mtx, char *s)
 	i = 0;
 	while (*s)
 	{
-		while (*s && check_spaces(*s) == 1)
+		while (*s && char_type(*s) == 1)
 			s++;
 		if (*s)
 		{
-			if (*s && check_spaces(*s) != 1)
+			if (*s && char_type(*s) != 1)
 				len = word_len(s);
 			mtx[i] = ft_substr(s, 0, len);
 			if (!mtx[i])

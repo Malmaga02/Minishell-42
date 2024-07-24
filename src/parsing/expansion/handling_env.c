@@ -66,7 +66,7 @@ int	len_escaped_char(char *env)
 		return (1);
 	while (env && env[i])
 	{
-		token = check_spaces(env[i]);
+		token = char_type(env[i]);
 		if (find_token_type(token) == OPERATORS
 			|| find_token_type(token) == QUOTES)
 			res++;
@@ -92,7 +92,7 @@ char	*handle_escaped_char(char *env)
 		new_content[j] = '$';
 	while (env && env[i])
 	{
-		token = check_spaces(env[i]);
+		token = char_type(env[i]);
 		if (find_token_type(token) == OPERATORS
 			|| find_token_type(token) == QUOTES)
 			new_content[j++] = '$';

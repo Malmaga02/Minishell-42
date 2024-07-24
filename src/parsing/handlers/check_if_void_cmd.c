@@ -24,11 +24,11 @@ t_input	*organize_token(t_input *cmdline)
 	head = cmdline;
 	while (cmdline)
 	{
-		if (cmdline->token == VOID
-			&& (cmdline->next && find_token_type(cmdline->next->token) == WORDS))
+		if (cmdline->token == VOID && (cmdline->next
+				&& find_token_type(cmdline->next->token) == WORDS))
 			cmdline->next->token = CMD;
 		else if (cmdline->token == VOID
-		&& check_if_redirect_before(head, i))
+			&& check_if_redirect_before(head, i))
 			return (ft_putendl_fd("Ambiguous redirect", 2), NULL);
 		cmdline = cmdline->next;
 		i++;
@@ -43,8 +43,8 @@ t_input	*set_void_token(t_input *cmdline)
 	head = cmdline;
 	while (cmdline)
 	{
-		if ((cmdline->content && !cmdline->content[0]) &&
-			(cmdline->token == CMD || cmdline->token == FILE_W))
+		if ((cmdline->content && !cmdline->content[0])
+			&& (cmdline->token == CMD || cmdline->token == FILE_W))
 			cmdline->token = VOID;
 		cmdline = cmdline->next;
 	}

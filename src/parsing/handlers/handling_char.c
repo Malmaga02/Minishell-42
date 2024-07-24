@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	check_spaces(char c)
+int	char_type(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\n')
 		return (1);
@@ -38,18 +38,18 @@ int	handle_quotes(char *s)
 	i = 0;
 	if (!s || !s[i])
 		return (0);
-	if (check_spaces(s[i]) == D_QUOTE)
+	if (char_type(s[i]) == D_QUOTE)
 	{
-		if (s[++i] && check_spaces(s[i]) == D_QUOTE)
+		if (s[++i] && char_type(s[i]) == D_QUOTE)
 			return (++i);
-		while ((s && s[i]) && check_spaces(s[i]) != D_QUOTE)
+		while ((s && s[i]) && char_type(s[i]) != D_QUOTE)
 			i++;
 	}
-	else if (check_spaces(s[i]) == S_QUOTE)
+	else if (char_type(s[i]) == S_QUOTE)
 	{
-		if (s[++i] && check_spaces(s[i]) == S_QUOTE)
+		if (s[++i] && char_type(s[i]) == S_QUOTE)
 			return (++i);
-		while ((s && s[i]) && check_spaces(s[i]) != S_QUOTE)
+		while ((s && s[i]) && char_type(s[i]) != S_QUOTE)
 			i++;
 	}
 	if (!s[i])
@@ -64,8 +64,8 @@ int	handle_dollar_signs(char *s)
 	i = 0;
 	while (s && s[i])
 	{
-		if (check_spaces(s[i]) == 1 || check_spaces(s[i]) == DOLLAR_SIGN ||
-		check_spaces(s[i]) == D_QUOTE || check_spaces(s[i]) == S_QUOTE)
+		if (char_type(s[i]) == 1 || char_type(s[i]) == DOLLAR_SIGN
+			|| char_type(s[i]) == D_QUOTE || char_type(s[i]) == S_QUOTE)
 			return (i);
 		i++;
 	}
@@ -79,21 +79,21 @@ int	handle_operators(char *s)
 	i = 0;
 	if (!s || !s[i])
 		return (0);
-	if (s[i] && check_spaces(s[i]) == PIPE)
+	if (s[i] && char_type(s[i]) == PIPE)
 		return (++i);
-	else if (s[i] && check_spaces(s[i]) == R_INPUT)
+	else if (s[i] && char_type(s[i]) == R_INPUT)
 	{
-		if (s[i + 1] && check_spaces(s[i + 1]) == R_INPUT)
+		if (s[i + 1] && char_type(s[i + 1]) == R_INPUT)
 			return (2);
 		return (++i);
 	}
-	else if (s[i] && check_spaces(s[i]) == R_OUTPUT)
+	else if (s[i] && char_type(s[i]) == R_OUTPUT)
 	{
-		if (s[i + 1] && check_spaces(s[i + 1]) == R_OUTPUT)
+		if (s[i + 1] && char_type(s[i + 1]) == R_OUTPUT)
 			return (2);
 		return (++i);
 	}
-	else if (s[i] && check_spaces(s[i++]) == DOLLAR_SIGN)
+	else if (s[i] && char_type(s[i++]) == DOLLAR_SIGN)
 	{
 		i += handle_dollar_signs(&s[i]);
 	}
@@ -109,19 +109,19 @@ int	handle_not_spaces(char *s)
 	i = 0;
 	if (!s || !s[i])
 		return (0);
-	if (s[i] && find_token_type(check_spaces(s[i])) == QUOTES)
+	if (s[i] && find_token_type(char_type(s[i])) == QUOTES)
 		tmp = handle_quotes(&s[i]);
-	if (s[i] && (find_token_type(check_spaces(s[i])) == OPERATORS
-		|| find_token_type(check_spaces(s[i])) == DOLLAR_SIGN))
+	if (s[i] && (find_token_type(char_type(s[i])) == OPERATORS
+			|| find_token_type(char_type(s[i])) == DOLLAR_SIGN))
 		tmp = handle_operators(&s[i]);
-	while (s[i] && !check_spaces(s[i]))
+	while (s[i] && !char_type(s[i]))
 		i++;
 	if (tmp == -1)
 		return (-1);
 	i += tmp;
 	return (i);
 }
-
+// due funzioni di tropppo
 int	get_len_word(char *str, int index)
 {
 	int	len;
@@ -131,7 +131,7 @@ int	get_len_word(char *str, int index)
 		return (-1);
 	if (!str || !str[index])
 		return (0);
-	while ((str && str[index]) && !check_spaces(str[index++]))
+	while ((str && str[index]) && !char_type(str[index++]))
 		len++;
 	return (len);
 }

@@ -47,13 +47,15 @@ int	numeric_check(char **av)
 	int	j;
 
 	i = 1;
-	j = 0;
 	while (av && av[i])
 	{
-		while (av[i][j])
+		j = 0;
+		if (av[i][j] == '-' || av[i][j] == '+')
+			j++;
+		if (av[i][j] == '\0')
+			return (0);
+		while (av && av[i][j])
 		{
-			if (av[i][j] == '-' || av[i][j] == '+')
-				j++;
 			if (!ft_isdigit(av[i][j]))
 				return (0);
 			j++;

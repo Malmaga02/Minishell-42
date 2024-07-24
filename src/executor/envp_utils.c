@@ -51,6 +51,7 @@ t_list	*change_env_variable(t_list *envp, char *var, char *new)
 	env = ft_strjoin(var, new);
 	free(new);
 	add_node_env(&envp, env);
+	free(env);
 	return (envp);
 }
 

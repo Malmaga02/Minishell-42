@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 21:30:01 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/22 11:49:48 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:53:56 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,24 @@ t_input	*find_cmd_in_block(t_input *block)
 	return (NULL);
 }
 
+static int	last_in_block(t_input *block)
+{
+	t_input	*tmp;
+	t_input	*last;
+
+	last = NULL;
+	tmp = block;
+	while (tmp && tmp->token != PIPE)
+	{
+		if (tmp->token == R_INPUT || tmp->token == HEREDOC)
+			last = tmp;
+		tmp = tmp->next;
+	}
+	if (last->token == HEREDOC)
+		return (0);
+	return (1);
+}
+
 bool	handle_block(t_input *block)
 {
 	t_input	*cmd;
@@ -56,7 +74,7 @@ bool	handle_block(t_input *block)
 	last_in = NULL;
 	last_out = NULL;
 	cmd = find_cmd_in_block(block);
-	if (cmd)
+	if (cmd && last_in_block(block))
 		last_in = &cmd->fd_in;
 	if (cmd)
 		last_out = &cmd->fd_out;

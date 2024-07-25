@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:07 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/24 15:41:10 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:36:32 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,23 @@ t_all	*create_pipe(t_all *shell, int pipe_num)
 	return (shell);
 }
 
+static void	free_heredoc(t_all *shell)
+{
+	t_input	*current;
+
+	current = shell->cmd_line;
+	while (current)
+	{
+		if (current->heredoc_file != NULL)
+		{
+			unlink(current->heredoc_file);
+			free(current->heredoc_file);
+			current->heredoc_file = NULL;
+		}
+		current = current->next;
+	}
+}
+
 void	finish_exec(t_all *shell)
 {
 	close_pipes(shell);
@@ -117,4 +134,5 @@ void	finish_exec(t_all *shell)
 	close(shell->std_fd_in);
 	close(shell->std_fd_out);
 	close_exec_fd();
+	free_heredoc(shell);
 }

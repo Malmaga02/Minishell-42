@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/25 16:28:13 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:51:53 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,6 @@ static int	display_heredoc(char *delimiter, t_all *shell, int *fd)
 	return (1);
 }
 
-/* static int	set_file_h(t_input *cmd, char *file_name)
-{
-	cmd->heredoc_file = ft_calloc(ft_strlen(file_name) + 1, sizeof(char));
-	if (!cmd->heredoc_file)
-		return (free(file_name), 0);
-	ft_strlcpy(cmd->heredoc_file, file_name, ft_strlen(file_name) + 1);
-	free(file_name);
-	return (1);
-} */
-
 static int	open_heredoc(t_input *block, t_all *shell)
 {
 	t_input	*cmd;
@@ -81,14 +71,6 @@ static int	open_heredoc(t_input *block, t_all *shell)
 	}
 	if (node_h)
 		finish_heredoc(node_h->heredoc_file, fd, last);
-	// if (cmd)
-		// set_file_h(cmd, file_name);
-	// else
-	// {
-		// unlink(file_name);
-		// free(file_name);
-		// close(fd);
-	// } 
 	return (1);
 }
 

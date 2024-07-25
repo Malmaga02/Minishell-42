@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 21:30:01 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/25 16:53:56 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:58:07 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	last_in_block(t_input *block)
 			last = tmp;
 		tmp = tmp->next;
 	}
-	if (last->token == HEREDOC)
+	if (last && last->token == HEREDOC)
 		return (0);
 	return (1);
 }

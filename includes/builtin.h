@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/24 15:40:56 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:55:38 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void					handle_child(t_all *shell, t_input *cmd, int i);
 /*------------------EXEC_FREE------------------*/
 void					close_pipes(t_all *shell);
 void					free_pipes(t_all *shell);
+void					free_heredoc(t_all *shell);
 /*------------------REDIRECT------------------*/
 int						handle_redirect(t_all *shell);
 t_input					*find_cmd_in_block(t_input *block);

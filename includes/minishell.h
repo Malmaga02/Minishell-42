@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:33:51 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/22 18:24:59 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:32:30 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_all	t_all;
 typedef struct s_input
 {
 	char			*content;
+	char			*heredoc_file;
 	char			**args;
 	int				token;
 	int				merge;

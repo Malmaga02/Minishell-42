@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 11:24:46 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/22 18:20:28 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:40:56 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void					exec_command(t_all *shell, t_input *cmd_line);
 void					pipe_init(t_all *shell, t_input *current, int i);
 int						count_pipe(t_input *cmd_line);
 /*------------------EXEC_UTILS------------------*/
-void					exec_builtin(t_all *shell);
-bool					is_builtin(t_all *shell);
+void					exec_builtin(t_all *shell, t_input *current);
+bool					is_builtin(t_input *current);
 int						count_commands(t_input *cmd_line);
 t_all					*create_pipe(t_all *shell, int cmd_num);
 void					finish_exec(t_all *shell);

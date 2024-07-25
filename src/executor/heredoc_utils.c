@@ -6,13 +6,13 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 18:07:47 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/20 18:15:46 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:17:51 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*strjoin_heredoc(char *s1, const char *s2)
+char	*strjoin_heredoc(char *s1, const char *s2)
 {
 	size_t	len_s1;
 	size_t	len_s2;
@@ -30,18 +30,34 @@ static char	*strjoin_heredoc(char *s1, const char *s2)
 	return (result);
 }
 
-char	*open_file(char *file_name, int *fd)
+char *open_file(char *file_name, int *fd)
 {
-	char	*new;
+    char *new;
+    char *temp;
 
-	new = NULL;
-	*fd = open(file_name, O_WRONLY | O_CREAT | O_EXCL, 0644);
-	if (*fd < 0)
-	{
-		new = strjoin_heredoc(file_name, "_daje");
-		return (unlink(file_name), open_file(new, fd));
-	}
-	return (file_name);
+	temp = NULL;
+    new = ft_strdup(file_name);
+    if (!new)
+        return (NULL);
+    while (1)
+    {
+        *fd = open(new, O_WRONLY | O_CREAT | O_EXCL, 0644);
+        if (*fd < 0)
+        {
+            temp = strjoin_gnl(&new, "_daje");
+            if (!temp)
+            {
+                free(new);
+                return (NULL);
+            }
+            free(new);
+            new = ft_strdup(temp);
+			free(temp);
+        }
+        else
+            break;
+    }
+    return (new);
 }
 
 void	heredoc_putendl_fd(char *s, int fd, t_all *shell)

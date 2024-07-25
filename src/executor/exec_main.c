@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:18:28 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/23 18:10:25 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:41:05 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ int	exec_init(t_all *shell, t_input *current)
 	shell->std_fd_out = dup(STDOUT_FILENO);
 	handle_redirect(shell);
 	shell = create_pipe(shell, num_pipes);
-	if (cmd_num == 1 && is_builtin(shell))
+	if (cmd_num == 1 && is_builtin(current))
 		return (pipe_init(shell, shell->cmd_line, 0),
-			exec_builtin(shell), 0);
+			exec_builtin(shell, current), 0);
 	return (1);
 }
 

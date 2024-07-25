@@ -6,21 +6,21 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:51:07 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/22 18:03:25 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:36:32 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_builtin(t_all *shell)
+void	exec_builtin(t_all *shell, t_input *current)
 {
 	t_input	*cmd;
 
-	cmd = find_cmd_in_block(shell->cmd_line);
+	cmd = find_cmd_in_block(current);
 	if (!cmd)
 		return ;
 	if (ft_strcmp(cmd->content, "exit") == 0)
-		builtin_exit(shell, shell->cmd_line->args);
+		builtin_exit(shell, cmd->args);
 	if (ft_strcmp(cmd->content, "echo") == 0)
 		builtin_echo(cmd->args);
 	if (ft_strcmp(cmd->content, "env") == 0)
@@ -28,22 +28,20 @@ void	exec_builtin(t_all *shell)
 	if (ft_strcmp(cmd->content, "pwd") == 0)
 		builtin_pwd();
 	if (ft_strcmp(cmd->content, "cd") == 0)
-		builtin_cd(shell, shell->cmd_line->args);
+		builtin_cd(shell, cmd->args);
 	if (ft_strcmp(cmd->content, "unset") == 0)
 		builtin_unset(cmd->args, shell->envp);
 	if (ft_strcmp(cmd->content, "export") == 0)
-		builtin_export(shell, shell->cmd_line->args);
+		builtin_export(shell, cmd->args);
 	dup2(shell->std_fd_in, STDIN_FILENO);
 	dup2(shell->std_fd_out, STDOUT_FILENO);
-	close(shell->std_fd_in);
-	close(shell->std_fd_out);
 }
 
-bool	is_builtin(t_all *shell)
+bool	is_builtin(t_input *current)
 {
 	t_input	*cmd;
 
-	cmd = find_cmd_in_block(shell->cmd_line);
+	cmd = find_cmd_in_block(current);
 	if (!cmd)
 		return (false);
 	if (ft_strcmp(cmd->content, "exit") == 0)
@@ -103,6 +101,23 @@ t_all	*create_pipe(t_all *shell, int pipe_num)
 	return (shell);
 }
 
+static void	free_heredoc(t_all *shell)
+{
+	t_input	*current;
+
+	current = shell->cmd_line;
+	while (current)
+	{
+		if (current->heredoc_file != NULL)
+		{
+			unlink(current->heredoc_file);
+			free(current->heredoc_file);
+			current->heredoc_file = NULL;
+		}
+		current = current->next;
+	}
+}
+
 void	finish_exec(t_all *shell)
 {
 	close_pipes(shell);
@@ -119,4 +134,5 @@ void	finish_exec(t_all *shell)
 	close(shell->std_fd_in);
 	close(shell->std_fd_out);
 	close_exec_fd();
+	free_heredoc(shell);
 }

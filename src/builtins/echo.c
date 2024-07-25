@@ -50,7 +50,7 @@ void	builtin_echo(char **av)
 		ft_printf(1, "\n");
 		return ;
 	}
-	while (av && av[i][0] == '-' && (ft_strlen(av[i]) > 1))
+	while ((av && av[i]) && (av[i][0] == '-' && (ft_strlen(av[i]) > 1)))
 	{
 		if (char_rep_check(av[i], 'n'))
 			flag = true;

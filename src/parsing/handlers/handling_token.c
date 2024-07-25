@@ -6,11 +6,46 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:17:28 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	find_token(char *str)
+{
+	if (*str == '\"')
+		return (D_QUOTE);
+	else if (*str == '\'')
+		return (S_QUOTE);
+	else if (*str == '|')
+		return (PIPE);
+	else if (*str == '<' && ft_strlen(str) == 1)
+		return (R_INPUT);
+	else if (*str == '>' && ft_strlen(str) == 1)
+		return (R_OUTPUT);
+	else if (*str == '<' && (*str++) == '<')
+		return (HEREDOC);
+	else if (*str == '>' && (*str++) == '>')
+		return (D_RED_OUTPUT);
+	else if (*str == '$')
+		return (DOLLAR_SIGN);
+	return (WORDS);
+}
+
+int	get_word_token(int token)
+{
+	if (!token || token == PIPE)
+		return (CMD);
+	else if (token == R_INPUT || token == R_OUTPUT
+		|| token == D_RED_OUTPUT)
+		return (FILE_W);
+	else if (token == HEREDOC)
+		return (EOF_DEL);
+	else
+		return (ARG);
+	return (-1);
+}
 
 int	find_token_type(int token)
 {

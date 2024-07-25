@@ -79,19 +79,14 @@ t_list		*create_list_from_envp(char **envp);
 t_all		get_all_info(t_all all_info, char *line, char **envp);
 
 // Get_args_mtx
-int			find_if_cmd_before_red(t_input *head, t_input *cmdline);
-int			count_args(t_input *cmdline, int token, int if_cmd_before_red);
-char		**handle_args_redirects(t_input *cmdline, char **args, int if_cmd_before_red);
+char		**handle_args_red(t_input *cmdline, char **args, int if_cmd_before_red);
 char		**get_args_cmds(t_input *cmdline);
 char		**get_args_redirects(t_input *cmdline, t_input *head);
-t_input		*create_args_mtx(t_input *cmdline, t_input *head);
 t_input		*get_args_mtx(t_input *cmd_line);
 
 // Get_arr_token
 int			*handle_redirect_word_token(int *arr_token, int size);
 int			handle_exp_with_heredoc(int *arr_token, int index, int token);
-int			get_word_token(int token);
-int			find_token(char *str);
 int			first_token_check(int *arr_token, int size);
 int			*analyse_words_token(int *arr_token, int size);
 int			*get_arr_token(char **mtx, int size);
@@ -101,14 +96,17 @@ t_all		reorganize_cmdline(char *line, t_all all_info);
 t_all		get_final_input(char *line, t_all all_info);
 t_all		get_input_complete(t_all all_info, char *line, char **envp);
 
+// Get_merge_flags
+int			check_cases_for_merge_with_quotes(char current, char before);
+t_input		*switch_merge_flag(t_input *cmd_line, int token_nbr, int which_merge);
+t_input		*handle_merge_flag(char *input, t_input *cmd_line, int token_nbr, int i);
+t_input		*check_if_need_merge(t_parsing *parsing, t_input *cmd_line);
+
 // Get_merged_line
-int			*get_merge_arr(t_input *cmd_line, int *merge_arr, int size);
-int			*organize_merge_arr(int *merge_arr, int size);
-int			count_merge_next(int *merge_arr, int i, int size);
+char		*get_content_merged(char **mtx, int *i, int *merge_arr, int size);
 char		*handle_merge_next(char	**mtx_cmdline, int *merge_arr, int *index);
 char		*get_new_input(char	**mtx_cmdline, int *merge_arr, int size);
 char		*get_merged_line(t_input *cmd_line, int *merge_arr);
-char		*delete_empty_env(char	*mtx_cmdline);
 
 // Get_mtx_input
 int			count_words(char *s);
@@ -116,25 +114,38 @@ int			word_len(char *s);
 char		**new_string(char **mtx, char *s);
 char		**get_mtx_from_input(t_parsing *parsing);
 
+// Get_void_cmd
+int			check_if_redirect_before(t_input *head, int current);
+t_input		*organize_token(t_input *cmdline);
+t_input		*set_void_token(t_input *cmdline);
+t_all		check_if_void_cmd(t_all all_info);
+
 // -Handlers- //
+// Handling_args_mtx
+int			find_if_cmd_before_red(t_input *head, t_input *cmdline);
+int			count_args_redirect(t_input *cmdline, int if_cmd_before_red);
+int			count_args(t_input *cmdline, int token, int if_cmd_before_red);
+char		**complete_args(t_input *cmdline, int flag, char **args, int index);
+
 // Handling_char
 int			char_type(char c);
 int			handle_quotes(char *s);
 int			handle_operators(char *s);
 int			handle_dollar_signs(char *s);
 int			handle_not_spaces(char *s);
-int			get_len_word(char *str, int	index);
-int			get_index_special_char(char *str, char c);
 
 // Handling_merge_flag
 int			check_if_need_reorganize_cmdline(t_input *cmdline);
-int			check_cases_for_merge_with_quotes(char current, char before);
 int			find_merge_flag_quote(char *input, int i);
 int			find_merge_flag_dollar_sign(char *input, int i);
 int			find_which_merge_flag(char *input, int i, int token);
-t_input		*switch_merge_flag(t_input *cmd_line, int token_nbr, int which_merge);
-t_input		*handle_merge_flag(char *input, t_input *cmd_line, int token_nbr, int i);
-t_input		*check_if_need_merge(t_parsing *parsing, t_input *cmd_line);
+
+// Handling_merged_line
+int			count_merge_next(int *merge_arr, int i, int size);
+char		*delete_empty_env(char	*mtx_cmdline);
+int			*get_merge_arr(t_input *cmd_line, int *merge_arr, int size);
+int			*organize_merge_arr(int *arr, int size);
+char		*find_index(int index, int *merge_arr, int size);
 
 // Handling_mtx_and_lists
 char    	**parsing_list_in_mtx(t_input *cmd_line);
@@ -143,8 +154,9 @@ char    	**parsing_list_in_mtx(t_input *cmd_line);
 t_all		assign_token_as_words_token(t_all all_info, int token);
 
 // Handling_token ..
+int			find_token(char *str);
+int			get_word_token(int token);
 int			find_token_type(int token);
-int			count_rows_args(char **mtx_cmdline, int *arr_token);
 int			check_which_operator(int token);
 int			handle_syntax_error_operators(int *arr_token, int i, int size);
 
@@ -154,9 +166,4 @@ char		*trim_dollar_signs(char *content);
 char		*trim(char *content, int token);
 t_all		handle_trim_special_char(t_all all_info, int token);
 
-// Check_if_void_cmd
-int			check_if_redirect_before(t_input *head, int current);
-t_input		*organize_void_token(t_input *cmdline);
-t_input		*set_void_token(t_input *cmdline);
-t_all   	check_if_void_cmd(t_all all_info);
 #endif

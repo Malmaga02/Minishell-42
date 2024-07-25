@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgalmari <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/25 15:59:20 by mgalmari          #+#    #+#             */
+/*   Updated: 2024/07/25 15:59:23 by mgalmari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PARSING_H
 # define PARSING_H
 
@@ -5,11 +17,11 @@
 
 # define SYNTAX_ERROR "syntax error near unexpected token\n"
 
-typedef struct	s_all	t_all;
+typedef struct s_all	t_all;
 
-typedef struct	s_input t_input;
+typedef struct s_input	t_input;
 
-typedef enum	e_quotes
+typedef enum e_quotes
 {
 	STAY,
 	MERGE_PREV,
@@ -17,7 +29,7 @@ typedef enum	e_quotes
 	MERGE_BOTH,
 }	t_quotes;
 
-typedef enum	e_token
+typedef enum e_token
 {
 	VOID,
 	WORDS,
@@ -38,7 +50,7 @@ typedef enum	e_token
 	QUOTES,
 }	t_token;
 
-typedef struct	s_parsing
+typedef struct s_parsing
 {
 	char	*input;
 	char	**mtx_from_input;
@@ -52,7 +64,8 @@ typedef struct	s_parsing
 // -Expansion- //
 //Expand_with_quotes
 int			check_dollar_sign(char *str);
-void    	new_content_copy(char *new_content, char *content, char *env, int len);
+void		new_content_copy(char *new_content,
+				char *content, char *env, int len);
 char		*get_content_with_quotes(char *content, char *env);
 
 //Expand
@@ -64,6 +77,9 @@ t_all		expand_dollar_sign(t_all all_info);
 char		*get_expansion(t_list *envp, char *name_env);
 char		*get_name_env(char *str);
 char		*get_env(char *str, t_all all_info);
+int			get_index_special_char(char *str, char c);
+int			get_len_word(char *str, int index);
+
 
 //Handling_env
 int			find_len_env(t_list *envp, char *name_env);
@@ -79,7 +95,8 @@ t_list		*create_list_from_envp(char **envp);
 t_all		get_all_info(t_all all_info, char *line, char **envp);
 
 // Get_args_mtx
-char		**handle_args_red(t_input *cmdline, char **args, int if_cmd_before_red);
+char		**handle_args_red(t_input *cmdline,
+				char **args, int if_cmd_before_red);
 char		**get_args_cmds(t_input *cmdline);
 char		**get_args_redirects(t_input *cmdline, t_input *head);
 t_input		*get_args_mtx(t_input *cmd_line);
@@ -97,9 +114,12 @@ t_all		get_final_input(char *line, t_all all_info);
 t_all		get_input_complete(t_all all_info, char *line, char **envp);
 
 // Get_merge_flags
-int			check_cases_for_merge_with_quotes(char current, char before);
-t_input		*switch_merge_flag(t_input *cmd_line, int token_nbr, int which_merge);
-t_input		*handle_merge_flag(char *input, t_input *cmd_line, int token_nbr, int i);
+int			check_cases_for_merge_with_quotes(char current,
+				char before);
+t_input		*switch_merge_flag(t_input *cmd_line,
+				int token_nbr, int which_merge);
+t_input		*handle_merge_flag(char *input,
+				t_input *cmd_line, int token_nbr, int i);
 t_input		*check_if_need_merge(t_parsing *parsing, t_input *cmd_line);
 
 // Get_merged_line
@@ -145,10 +165,10 @@ int			count_merge_next(int *merge_arr, int i, int size);
 char		*delete_empty_env(char	*mtx_cmdline);
 int			*get_merge_arr(t_input *cmd_line, int *merge_arr, int size);
 int			*organize_merge_arr(int *arr, int size);
-char		*find_index(int index, int *merge_arr, int size);
+int			*find_index(int index, int *merge_arr, int size);
 
 // Handling_mtx_and_lists
-char    	**parsing_list_in_mtx(t_input *cmd_line);
+char		**parsing_list_in_mtx(t_input *cmd_line);
 
 // Handling_quotes_as_word_token
 t_all		assign_token_as_words_token(t_all all_info, int token);

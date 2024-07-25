@@ -28,7 +28,7 @@
 # include <curses.h>
 # include <signal.h>
 
-extern int	g_status_code;
+extern int				g_status_code;
 
 typedef struct s_all	t_all;
 

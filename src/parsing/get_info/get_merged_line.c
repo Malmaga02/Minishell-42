@@ -50,7 +50,7 @@ char	*handle_merge_next(char	**mtx_cmdline, int *merge_arr, int *index)
 	if (mtx_cmdline && mtx_cmdline[*index])
 		mtx_cmdline[*index] = delete_empty_env(mtx_cmdline[*index]);
 	content = get_content_merged(mtx_cmdline, index, merge_arr, size);
-	index = find_index(mtx_cmdline, *index, merge_arr, size);
+	index = find_index(*index, merge_arr, size);
 	return (content);
 }
 

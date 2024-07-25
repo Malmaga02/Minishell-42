@@ -65,7 +65,7 @@ int	*organize_merge_arr(int *arr, int size)
 	return (arr);
 }
 
-char	*find_index(int index, int *merge_arr, int size)
+int	*find_index(int index, int *merge_arr, int size)
 {
 	int	*new_index;
 	int	i;

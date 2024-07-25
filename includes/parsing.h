@@ -80,7 +80,6 @@ char		*get_env(char *str, t_all all_info);
 int			get_index_special_char(char *str, char c);
 int			get_len_word(char *str, int index);
 
-
 //Handling_env
 int			find_len_env(t_list *envp, char *name_env);
 char		*find_expansion_env(t_list *envp, char *name_env);

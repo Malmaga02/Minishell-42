@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "sig_guard.h"
 
 int	g_status_code;
 
@@ -47,6 +48,7 @@ int	main(int ac, char **av, char **envp)
 	t_all		all_info;
 	char		*line;
 
+	sig_guard(av[0]);
 	line = NULL;
 	all_info = (t_all){0};
 	(void)ac;

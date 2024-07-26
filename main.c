@@ -16,14 +16,13 @@ int	g_status_code;
 
 t_all	process_line(t_all all_info, char *line, char **envp)
 {
-	char		*trimmed;
+	char	*trimmed;
 
-	
 	trimmed = ft_strtrim(line, "\t \r\v");
 	if (ft_strlen(trimmed) != 0)
 	{
 		add_history(line);
-		all_info = get_input_complete(all_info, trimmed, envp);	
+		all_info = get_input_complete(all_info, trimmed, envp);
 		free(line);
 		free(trimmed);
 		exec_main(&all_info);

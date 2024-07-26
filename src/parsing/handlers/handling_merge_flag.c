@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handling_merge_flag.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgalmari <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/26 11:28:31 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:43:05 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	find_merge_flag_quote(char *input, int i)
 	flag = 0;
 	if (i == 0)
 		flag = 0;
-	else if (check_cases_for_merge_with_quotes(input[i - 1], input[i]) == 1)
+	else if (check_cases_for_merge_with_quotes(input[i], input[i - 1]) == 1)
 		flag = MERGE_PREV;
 	i += handle_quotes(&input[i]);
 	if (input[i] && (!char_type(input[i]) || char_type(input[i]) == D_QUOTE

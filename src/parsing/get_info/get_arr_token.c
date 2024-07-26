@@ -112,7 +112,7 @@ int	*get_arr_token(char **mtx, int size)
 		i++;
 	}
 	if (!first_token_check(arr_token, size))
-		return (NULL);
+		return (free(arr_token), NULL);
 	arr_token = analyse_words_token(arr_token, size);
 	return (arr_token);
 }

@@ -18,12 +18,12 @@ t_all	reorganize_cmdline(char *line, t_all all_info)
 
 	merge_arr = ft_calloc(dll_input_size(all_info.cmd_line), sizeof(int));
 	line = get_merged_line(all_info.cmd_line, merge_arr);
-	if (!line)
-		return (free(line), (t_all){0});
 	set_clear_all(&all_info);
+	if (!line)
+		return (free(line), all_info);
 	all_info = get_all_info(all_info, line, NULL);
 	if (!all_info.cmd_line)
-		return (free(line), (t_all){0});
+		return (free(line), all_info);
 	free(line);
 	return (all_info);
 }
@@ -38,13 +38,13 @@ t_all	get_final_input(char *line, t_all all_info)
 	}
 	all_info = handle_trim_special_char(all_info, DOLLAR_SIGN);
 	if (!all_info.cmd_line)
-		return (free_all(&all_info), (t_all){0});
+		return (all_info);
 	all_info = check_if_void_cmd(all_info);
 	if (!all_info.cmd_line)
-		return (free_all(&all_info), (t_all){0});
+		return (all_info);
 	all_info.cmd_line = get_args_mtx(all_info.cmd_line);
 	if (!all_info.cmd_line)
-		return (free_all(&all_info), (t_all){0});
+		return (all_info);
 	return (all_info);
 }
 
@@ -52,12 +52,12 @@ t_all	get_input_complete(t_all all_info, char *line, char **envp)
 {
 	all_info = get_all_info(all_info, line, envp);
 	if (!all_info.cmd_line)
-		return ((t_all){0});
+		return (all_info);
 	all_info = expand_dollar_sign(all_info);
 	if (!all_info.cmd_line)
-		return ((t_all){0});
+		return (all_info);
 	all_info = get_final_input(line, all_info);
 	if (!all_info.cmd_line)
-		return ((t_all){0});
+		return (all_info);
 	return (all_info);
 }

@@ -65,7 +65,7 @@ t_all	handle_trim_special_char(t_all all_info, int token)
 		if (find_token_type(tmp->token) == token)
 			tmp->content = trim(tmp->content, token);
 		if (!tmp->content)
-			return (set_clear_all(&all_info), (t_all){0});
+			return (set_clear_all(&all_info), all_info);
 		tmp = tmp->next;
 	}
 	all_info = assign_token_as_words_token(all_info, token);

@@ -78,6 +78,6 @@ t_all	check_if_void_cmd(t_all all_info)
 	all_info.cmd_line = set_void_token(all_info.cmd_line);
 	all_info.cmd_line = organize_token(all_info.cmd_line);
 	if (!all_info.cmd_line)
-		return ((t_all){0});
+		return (set_clear_all(&all_info), all_info);
 	return (all_info);
 }

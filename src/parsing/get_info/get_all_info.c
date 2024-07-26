@@ -91,11 +91,11 @@ t_all	get_all_info(t_all all_info, char *line, char **envp)
 		return (free_parsing(parsing), (t_all){0});
 	parsing = parse_input(parsing);
 	if (!parsing)
-		return ((t_all){0});
+		return (set_clear_all(&all_info), all_info);
 	all_info.cmd_line = create_list_from_input(parsing);
 	if (!all_info.envp)
 		all_info.envp = create_list_from_envp(envp);
-	if (!all_info.cmd_line || !all_info.envp)
-		return (free_parsing(parsing), (t_all){0});
+	if (!all_info.cmd_line | !all_info.envp)
+		return (free_parsing(parsing), set_clear_all(&all_info), all_info);
 	return (free_parsing(parsing), all_info);
 }

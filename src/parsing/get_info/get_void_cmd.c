@@ -41,7 +41,7 @@ t_input	*organize_token(t_input *cmdline)
 			cmdline->next->token = CMD;
 		else if (cmdline->token == VOID
 			&& check_if_redirect_before(head, i))
-			return (ft_putendl_fd("Ambiguous redirect", 2), NULL);
+			return (ft_putendl_fd("Ambiguous redirect", 2), dll_input_clear(&head), NULL);
 		cmdline = cmdline->next;
 		i++;
 	}

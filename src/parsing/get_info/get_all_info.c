@@ -32,7 +32,6 @@ t_input	*create_list_from_input(t_parsing *parsing)
 	t_input	*node;
 	int		size;
 	int		i;
-	char	*value;
 
 	i = 0;
 	size = parsing->size;
@@ -40,9 +39,8 @@ t_input	*create_list_from_input(t_parsing *parsing)
 	node = NULL;
 	while (i < size)
 	{
-		value = ft_strdup(parsing->mtx_from_input[i]);
-		node = dll_input_new(value);
-		if (!value || !node)
+		node = dll_input_new(parsing->mtx_from_input[i]);
+		if (!node)
 			return (dll_input_clear(&cmd_line), free(node), NULL);
 		node->fd_in = -1;
 		node->fd_out = -1;

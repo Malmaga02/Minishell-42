@@ -19,7 +19,9 @@ t_input	*dll_input_new(char *content)
 	new = ft_calloc(1, sizeof(t_input));
 	if (!new)
 		return (NULL);
-	new->content = content;
+	new->content = ft_strdup(content);
+	if (!new->content)
+		return (dll_input_clear(&new), NULL);
 	new->args = NULL;
 	new->next = NULL;
 	new->prev = NULL;

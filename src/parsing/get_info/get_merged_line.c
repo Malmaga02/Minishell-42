@@ -35,9 +35,9 @@ char	*get_content_merged(char **mtx, int *i, int *merge_arr, int size)
 			break ;
 		}
 		(*i)++;
-	}
-	if (quote)
 		free(quote);
+	}
+	free(quote);
 	return (content);
 }
 

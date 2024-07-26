@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:55:40 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/26 11:49:46 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:14:05 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	child_exe(t_all *shell, t_input *current)
 	if (is_builtin(current))
 	{
 		exec_builtin(shell, current);
+		free_heredoc(shell);
 		free_all(shell);
 		close_exec_fd();
 		exit(g_status_code);

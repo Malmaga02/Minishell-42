@@ -69,7 +69,7 @@ t_list	*create_list_from_envp(char **envp)
 	{
 		node = ft_lstnew(envp_cpy[i]);
 		if (!node)
-			return (ft_lstclear(&envp_list, free), free(envp_cpy), NULL);
+			return (ft_lstclear(&envp_list, free), free(node), free(envp_cpy), NULL);
 		ft_lstadd_back(&envp_list, node);
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgalmari <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:29:13 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/24 12:29:15 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:46:14 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,8 @@ void	set_clear_all(t_all *all)
 
 void	free_all(t_all *all)
 {
-	if (all->envp)
-	{
-		ft_lstclear(&(all->envp), free);
-		all->envp = NULL;
-	}
+	ft_lstclear(&(all->envp), free);
+	all->envp = NULL;
 	if (all->cmd_line)
 	{
 		dll_input_clear(&(all->cmd_line));

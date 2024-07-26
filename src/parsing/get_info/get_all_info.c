@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/26 11:28:31 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/26 12:01:33 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ t_list	*create_list_from_envp(char **envp)
 	{
 		node = ft_lstnew(envp_cpy[i]);
 		if (!node)
-			return (ft_lstclear(&envp_list, free), free(node), free(envp_cpy), NULL);
+			return (ft_lstclear(&envp_list, free),
+				free(node), free(envp_cpy), NULL);
 		ft_lstadd_back(&envp_list, node);
 		i++;
 	}

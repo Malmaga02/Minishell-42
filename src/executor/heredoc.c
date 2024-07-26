@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 10:10:27 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/25 17:51:53 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/26 12:01:17 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	finish_heredoc(char *file_name, int fd, int *last)
 		*last = fd;
 }
 
-static int	display_heredoc(char *delimiter, t_all *shell, int *fd) //se delimiter non esiste
+static int	display_heredoc(char *delimiter, t_all *shell, int *fd)
 {
 	char	*line;
 

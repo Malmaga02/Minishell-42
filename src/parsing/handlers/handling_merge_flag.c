@@ -33,7 +33,7 @@ int	find_merge_flag_quote(char *input, int i)
 	flag = 0;
 	if (i == 0)
 		flag = 0;
-	else if (check_cases_for_merge_with_quotes(input[i - 1], input[i]) == 1)
+	else if (check_cases_for_merge_with_quotes(input[i], input[i - 1]) == 1)
 		flag = MERGE_PREV;
 	i += handle_quotes(&input[i]);
 	if (input[i] && (!char_type(input[i]) || char_type(input[i]) == D_QUOTE

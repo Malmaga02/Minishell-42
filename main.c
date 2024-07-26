@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 14:32:15 by lotrapan          #+#    #+#             */
-/*   Updated: 2024/07/26 12:00:47 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:39:34 by lotrapan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_all	process_line(t_all all_info, char *line, char **envp)
 
 	if (!line)
 		return (free_all(&all_info), (t_all){0});
+
 	trimmed = ft_strtrim(line, "\t \r\v");
 	if (ft_strlen(trimmed) != 0)
 	{

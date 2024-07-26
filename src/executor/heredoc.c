@@ -21,14 +21,14 @@ static void	finish_heredoc(char *file_name, int fd, int *last)
 		*last = fd;
 }
 
-static int	display_heredoc(char *delimiter, t_all *shell, int *fd)
+static int	display_heredoc(char *delimiter, t_all *shell, int *fd) //se delimiter non esiste
 {
 	char	*line;
 
 	while (1)
 	{
 		line = readline("> ");
-		if (line == NULL || strcmp(line, delimiter) == 0)
+		if (line == NULL || ft_strcmp(line, delimiter) == 0)
 		{
 			if (line == NULL)
 			{

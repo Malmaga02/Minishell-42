@@ -6,11 +6,41 @@
 /*   By: mgalmari <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:28:31 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	get_len_word(char *str, int index)
+{
+	int	len;
+
+	len = 0;
+	if (index < 0)
+		return (-1);
+	if (!str || !str[index])
+		return (0);
+	while ((str && str[index]) && !char_type(str[index++]))
+		len++;
+	return (len);
+}
+
+int	get_index_special_char(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	if (!str || !str[i])
+		return (-1);
+	while (str && str[i])
+	{
+		if (str[i] == c)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
 
 char	*get_expansion(t_list *envp, char *name_env)
 {

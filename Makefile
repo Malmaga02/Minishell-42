@@ -39,19 +39,22 @@ SRC =	./main.c \
 		./src/parsing/get_info/get_args_mtx.c \
 		./src/parsing/get_info/get_arr_token.c \
 		./src/parsing/get_info/get_input_complete.c \
+		./src/parsing/get_info/get_merge_flag.c \
 		./src/parsing/get_info/get_merged_line.c \
 		./src/parsing/get_info/get_mtx_input.c \
+		./src/parsing/get_info/get_void_cmd.c \
 		./src/parsing/handlers/handling_char.c \
+		./src/parsing/handlers/handling_args_mtx.c \
 		./src/parsing/handlers/handling_merge_flag.c \
+		./src/parsing/handlers/handling_merged_line.c \
 		./src/parsing/handlers/handling_mtx_and_lists.c \
 		./src/parsing/handlers/handling_quotes_as_word_token.c \
 		./src/parsing/handlers/handling_token.c \
 		./src/parsing/handlers/trim_quotes.c \
-		./src/parsing/handlers/check_if_void_cmd.c \
 		./src/executor/exec_main.c \
 		./src/executor/exec_utils.c \
 		./src/executor/exec_free.c \
-        ./src/executor/envp_utils.c \
+		./src/executor/envp_utils.c \
 		./src/executor/general_utils.c \
 		./src/executor/redirect.c \
 		./src/executor/redirect_utils.c \

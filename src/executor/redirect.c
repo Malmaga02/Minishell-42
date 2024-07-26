@@ -60,7 +60,7 @@ static int	last_in_block(t_input *block)
 			last = tmp;
 		tmp = tmp->next;
 	}
-	if (last->token == HEREDOC)
+	if (last && last->token == HEREDOC)
 		return (0);
 	return (1);
 }

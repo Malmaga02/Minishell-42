@@ -6,96 +6,51 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/16 19:03:19 by mgalmari         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:28:31 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	*get_merge_arr(t_input *cmd_line, int *merge_arr, int size)
+char	*get_content_merged(char **mtx, int *i, int *merge_arr, int size)
 {
-	t_input	*tmp;
-	int		i;
-
-	i = 0;
-	tmp = cmd_line;
-	while (tmp && i < size)
-	{
-		merge_arr[i] = tmp->merge;
-		i++;
-		tmp = tmp->next;
-	}
-	return (merge_arr);
-}
-
-int	*organize_merge_arr(int *arr, int size)
-{
-	int	i;
-
-	i = 0;
-	while (i < size)
-	{
-		if (i != 0 && (arr[i] == MERGE_PREV || arr[i] == MERGE_BOTH))
-		{
-			arr[i - 1] = MERGE_NEXT;
-			if (arr[i] == MERGE_PREV)
-				arr[i] = STAY;
-			else if (arr[i] == MERGE_BOTH)
-				arr[i] = MERGE_NEXT;
-		}
-		i++;
-	}
-	return (arr);
-}
-
-int	count_merge_next(int *merge_arr, int i, int size)
-{
-	int	res;
-
-	res = 1;
-	while (i < size && merge_arr[i++] == MERGE_NEXT)
-		res++;
-	return (res - 1);
-}
-
-char	*delete_empty_env(char	*mtx_cmdline)
-{
-	if (ft_strlen(mtx_cmdline) == 1 && !ft_strncmp(mtx_cmdline, "$", 2))
-		return (free(mtx_cmdline), ft_strdup(""));
-	return (mtx_cmdline);
-}
-
-char	*handle_merge_next(char	**mtx_cmdline, int *merge_arr, int *index)
-{
-	int		i;
-	int		size;
-	char	*content;
+	int		index;
 	char	*quote;
+	char	*content;
 
-	i = *index;
-	size = count_rows(mtx_cmdline);
-	content = NULL;
+	index = *i;
 	quote = NULL;
-	if (mtx_cmdline && mtx_cmdline[i])
-		mtx_cmdline[i] = delete_empty_env(mtx_cmdline[i]);
-	while (mtx_cmdline && mtx_cmdline[i])
+	content = NULL;
+	while (mtx && mtx[*i])
 	{
 		quote = ft_strdup("\"");
-		mtx_cmdline[i + 1] = delete_empty_env(mtx_cmdline[i + 1]);
-		if (i == *index)
-			content = strjoin_gnl(&quote, mtx_cmdline[i]);
-		if (mtx_cmdline[i + 1] && (i < size && merge_arr[i] == MERGE_NEXT))
-			content = strjoin_gnl(&content, mtx_cmdline[i + 1]);
-		if (i + 1 < size && merge_arr[i + 1] == STAY)
+		mtx[*i + 1] = delete_empty_env(mtx[*i + 1]);
+		if (*i == index)
+			content = strjoin_gnl(&quote, mtx[*i]);
+		if (mtx[*i + 1] && (*i < size && merge_arr[*i] == MERGE_NEXT))
+			content = strjoin_gnl(&content, mtx[*i + 1]);
+		if (*i + 1 < size && merge_arr[*i + 1] == STAY)
 		{
 			content = strjoin_gnl(&content, "\"");
 			break ;
 		}
-		i++;
+		(*i)++;
 	}
 	if (quote)
 		free(quote);
-	index = &i;
+	return (content);
+}
+
+char	*handle_merge_next(char	**mtx_cmdline, int *merge_arr, int *index)
+{
+	int		size;
+	char	*content;
+
+	size = count_rows(mtx_cmdline);
+	if (mtx_cmdline && mtx_cmdline[*index])
+		mtx_cmdline[*index] = delete_empty_env(mtx_cmdline[*index]);
+	content = get_content_merged(mtx_cmdline, index, merge_arr, size);
+	index = find_index(*index, merge_arr, size);
 	return (content);
 }
 

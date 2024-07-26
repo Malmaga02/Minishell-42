@@ -6,7 +6,7 @@
 /*   By: lotrapan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 14:34:50 by mgalmari          #+#    #+#             */
-/*   Updated: 2024/07/22 12:23:33 by lotrapan         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:28:31 by mgalmari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,16 @@ int	*handle_redirect_word_token(int *arr_token, int size)
 	cmd = 0;
 	while (i < size)
 	{
-		if (arr_token[i] == CMD)
+		if (i < size && arr_token[i] == CMD)
 			cmd = 1;
+		if (i < size && (arr_token[i] == PIPE && cmd == 1))
+			cmd = 0;
 		if (check_which_operator(arr_token[i]) == REDIRECTS && cmd == 0)
 		{
 			i++;
 			if (i + 1 < size
 				&& ((arr_token[i] == FILE_W || arr_token[i] == EOF_DEL)
-				&& find_token_type(arr_token[i + 1]) == WORDS))
+					&& find_token_type(arr_token[i + 1]) == WORDS))
 				arr_token[++i] = CMD;
 			cmd = 0;
 		}
@@ -49,41 +51,6 @@ int	handle_exp_with_heredoc(int *arr_token, int index, int token)
 		i++;
 	}
 	return (token);
-}
-
-int	get_word_token(int token)
-{
-	if (!token || token == PIPE)
-		return (CMD);
-	else if (token == R_INPUT || token == R_OUTPUT
-		|| token == D_RED_OUTPUT)
-		return (FILE_W);
-	else if (token == HEREDOC)
-		return (EOF_DEL);
-	else
-		return (ARG);
-	return (-1);
-}
-
-int	find_token(char *str)
-{
-	if (*str == '\"')
-		return (D_QUOTE);
-	else if (*str == '\'')
-		return (S_QUOTE);
-	else if (*str == '|')
-		return (PIPE);
-	else if (*str == '<' && ft_strlen(str) == 1)
-		return (R_INPUT);
-	else if (*str == '>' && ft_strlen(str) == 1)
-		return (R_OUTPUT);
-	else if (*str == '<' && (*str++) == '<')
-		return (HEREDOC);
-	else if (*str == '>' && (*str++) == '>')
-		return (D_RED_OUTPUT);
-	else if (*str == '$')
-		return (DOLLAR_SIGN);
-	return (WORDS);
 }
 
 int	first_token_check(int *arr_token, int size)

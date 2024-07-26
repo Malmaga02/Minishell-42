@@ -18,8 +18,7 @@ t_all	process_line(t_all all_info, char *line, char **envp)
 {
 	char		*trimmed;
 
-	if (!line)
-		return (free_all(&all_info), (t_all){0});
+	
 	trimmed = ft_strtrim(line, "\t \r\v");
 	if (ft_strlen(trimmed) != 0)
 	{
@@ -53,9 +52,9 @@ int	main(int ac, char **av, char **envp)
 		signal(SIGINT, handle_sigint);
 		signal(SIGQUIT, SIG_IGN);
 		line = readline("minishello$: ");
-		all_info = process_line(all_info, line, envp);
-		if (!all_info.envp)
+		if (!line)
 			break ;
+		all_info = process_line(all_info, line, envp);
 	}
 	ft_printf(2, "exit\n");
 	rl_clear_history();

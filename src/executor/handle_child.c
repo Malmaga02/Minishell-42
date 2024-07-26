@@ -38,7 +38,7 @@ void	child_exe(t_all *shell, t_input *current)
 	if (is_builtin(current))
 	{
 		exec_builtin(shell, current);
-		set_clear_all(shell);
+		free_all(shell);
 		close_exec_fd();
 		exit(g_status_code);
 	}

@@ -94,6 +94,7 @@ t_all	*create_pipe(t_all *shell, int pipe_num)
 		if (pipe(shell->pipes[i]) == -1)
 		{
 			ft_printf(2, "Error: pipe\n");
+			free_all(shell);
 			exit(1);
 		}
 		i++;
